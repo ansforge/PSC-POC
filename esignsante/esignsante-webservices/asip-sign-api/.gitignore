@@ -1,0 +1,18 @@
+
+# /
+/asip-sign-api.iml
+/.classpath
+/.project
+/.settings
+/test.pdf
+/test.txt
+
+# /src/main/resources/
+/src/main/resources/simplelogger.properties
+
+# /src/test/resources/
+/src/test/resources/ca-bundle.crl
+
+# /src/test/resources/certificates/
+/src/test/resources/certificates/ca-bundle.crl
+/target/

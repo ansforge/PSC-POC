@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>fr.asipsante.api.sign</groupId>
+	<artifactId>asip-sign-api</artifactId>
+	<version>3.0.0.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<properties>
+		<dss.version>5.5</dss.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+	</properties>
+	<scm>
+		<developerConnection>scm:git:https://github.com/prosanteconnect/proof-of-concept</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+
+	<dependencies>
+		<dependency>
+			<groupId>eu.europa.ec.joinup.sd-dss</groupId>
+			<artifactId>dss-xades</artifactId>
+			<version>${dss.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>eu.europa.ec.joinup.sd-dss</groupId>
+			<artifactId>dss-pades</artifactId>
+			<version>${dss.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>eu.europa.ec.joinup.sd-dss</groupId>
+			<artifactId>dss-pades-pdfbox</artifactId>
+			<version>${dss.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>eu.europa.ec.joinup.sd-dss</groupId>
+			<artifactId>dss-detailed-report-jaxb</artifactId>
+			<version>${dss.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>eu.europa.ec.joinup.sd-dss</groupId>
+			<artifactId>dss-policy-jaxb</artifactId>
+			<version>${dss.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>eu.europa.ec.joinup.sd-dss</groupId>
+			<artifactId>dss-service</artifactId>
+			<version>${dss.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>eu.europa.ec.joinup.sd-dss</groupId>
+			<artifactId>dss-crl-parser-x509crl</artifactId>
+			<version>${dss.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>eu.europa.ec.joinup.sd-dss</groupId>
+			<artifactId>dss-token</artifactId>
+			<version>${dss.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>eu.europa.ec.joinup.sd-dss</groupId>
+			<artifactId>dss-utils-apache-commons</artifactId>
+			<version>${dss.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.reflections</groupId>
+			<artifactId>reflections</artifactId>
+			<version>0.9.11</version>
+		</dependency>
+		<dependency>
+			<groupId>org.meanbean</groupId>
+			<artifactId>meanbean</artifactId>
+			<version>2.0.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>27.0.1-jre</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.10</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.7.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>3.23.1-GA</version>
+		</dependency>
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+			<version>2.3.28</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.albfernandez</groupId>
+			<artifactId>juniversalchardet</artifactId>
+			<version>2.3.2</version>
+		</dependency>
+		<!--		bouncy castle        -->
+	<!--	<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcprov-jdk15on</artifactId>
+			<version>1.60</version>
+		</dependency>
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcpkix-jdk15on</artifactId>
+			<version>1.60</version>
+		</dependency>-->
+		<dependency>
+    <groupId>org.bouncycastle</groupId>
+    <artifactId>bcprov-jdk15on</artifactId>
+    <version>1.60</version>
+	</dependency>
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcpkix-jdk15on</artifactId>
+			<version>1.60</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<includes>
+					<include>*.properties</include>
+					<include>*.sh</include>
+				</includes>
+				<filtering>true</filtering>
+			</testResource>
+			<testResource>
+				<directory>src/test/resources/certificates</directory>
+			</testResource>
+			<testResource>
+				<directory>src/test/resources/fichiers</directory>
+			</testResource>
+		</testResources>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.0</version>
+				<configuration>
+					<source>11</source>
+					<target>11</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.mycila</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+				<version>3.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>format</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<header>licence-header.txt</header>
+					<includes>
+						<include>**/*.java</include>
+						<include>**/*.properties</include>
+					</includes>
+					<strictCheck>true</strictCheck>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.googlecode.maven-download-plugin</groupId>
+				<artifactId>download-maven-plugin</artifactId>
+				<version>1.3.0</version>
+				<executions>
+					<execution>
+						<id>download-acr-crl</id>
+						<!-- the wget goal actually binds itself to this phase by default -->
+						<phase>generate-test-resources</phase>
+						<goals>
+							<goal>wget</goal>
+						</goals>
+						<configuration>
+							<url>http://igc-sante.esante.gouv.fr/CRL/ACR-EL-TEST.crl</url>
+							<outputFileName>ACR-EL-TEST.crl</outputFileName>
+							<!-- default target location, just to demonstrate the parameter -->
+							<outputDirecory>${project.build.testOutputDirectory}</outputDirecory>
+							<overwrite>true</overwrite>
+							<skipCache>true</skipCache>
+						</configuration>
+					</execution>
+					<execution>
+						<id>download-aci-crl</id>
+						<!-- the wget goal actually binds itself to this phase by default -->
+						<phase>generate-test-resources</phase>
+						<goals>
+							<goal>wget</goal>
+						</goals>
+						<configuration>
+							<url>http://igc-sante.esante.gouv.fr/CRL/ACI-EL-ORG-TEST.crl</url>
+							<outputFileName>ACI-EL-ORG-TEST.crl</outputFileName>
+							<!-- default target location, just to demonstrate the parameter -->
+							<outputDirectory>${project.build.testOutputDirectory}</outputDirectory>
+							<overwrite>true</overwrite>
+							<skipCache>true</skipCache>
+						</configuration>
+					</execution>
+					<execution>
+						<id>download-acr-crl-std</id>
+						<!-- the wget goal actually binds itself to this phase by default -->
+						<phase>generate-test-resources</phase>
+						<goals>
+							<goal>wget</goal>
+						</goals>
+						<configuration>
+							<url>http://igc-sante.esante.gouv.fr/CRL/ACR-ST-TEST.crl</url>
+							<outputFileName>ACR-ST-TEST.crl</outputFileName>
+							<!-- default target location, just to demonstrate the parameter -->
+							<outputDirectory>${project.build.testOutputDirectory}</outputDirectory>
+							<overwrite>true</overwrite>
+							<skipCache>true</skipCache>
+						</configuration>
+					</execution>
+
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>bundle-crl</id>
+						<phase>process-test-resources</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<exec osfamily="Windows" executable="cmd.exe" dir="${project.build.testOutputDirectory}/">
+									<arg value="/c openssl.exe crl -inform DER -in ACI-EL-ORG-TEST.crl -out ACI-EL-ORG-TEST.pem" />
+								</exec>
+								<exec osfamily="Windows" executable="cmd.exe" dir="${project.build.testOutputDirectory}/">
+									<arg value="/c openssl.exe crl -inform DER -in ACR-EL-TEST.crl -out ACR-EL-TEST.pem" />
+								</exec>
+								<exec osfamily="Windows" executable="cmd.exe" dir="${project.build.testOutputDirectory}/">
+									<arg value="/c openssl.exe crl -inform DER -in ACR-ST-TEST.crl -out ACR-ST-TEST.pem" />
+								</exec>
+								<!-- <exec osfamily="Windows" executable="cmd.exe" dir="${project.build.testOutputDirectory}/"> -->
+								<!-- <arg value="/c type ACI-EL-ORG-TEST.pem ACR-EL-TEST.pem&gt; ca-bundle.crl" /> -->
+								<!-- </exec> -->
+								<exec osfamily="Windows" executable="cmd.exe" dir="${project.build.testOutputDirectory}/">
+									<arg value="/c type ACI-EL-ORG-TEST.pem ACR-EL-TEST.pem ACR-ST-TEST.pem &gt; ca-bundle.crl" />
+								</exec>
+								<exec osfamily="unix" executable="/bin/bash" dir="${project.build.testOutputDirectory}/">
+									<arg value="${project.build.testOutputDirectory}/bundle-crl.sh" />
+								</exec>
+							</tasks>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+
+	</build>
+	<profiles>
+		<profile>
+			<activation>
+				<os>
+					<family>Windows</family>
+				</os>
+			</activation>
+			<id>dev</id>
+		</profile>
+	</profiles>
+	<repositories>
+		<repository>
+			<id>cefdigital</id>
+			<name>cefdigital</name>
+			<url>https://ec.europa.eu/cefdigital/artifact/content/repositories/esignaturedss/</url>
+			<!--<url>https://ec.europa.eu/digital-building-blocks/artifact/content/repositories/esignaturedss/</url>-->
+		</repository>
+	</repositories>
+</project>

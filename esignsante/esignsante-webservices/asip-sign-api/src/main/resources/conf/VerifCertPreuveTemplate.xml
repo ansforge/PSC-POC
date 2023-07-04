@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xns:ASIPProof
+	xmlns:xns="http://esante.gouv.fr/ASIP/Proof"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xml:id="ASIP_Proof">
+	<xns:ASIPProofInfo>
+		<xns:Version>
+			<xns:Name>${comp}</xns:Name>
+			<xns:Major>${compVersionMajor}.${compVersionMinor}</xns:Major>
+			<xns:Minor>${compVersionPatch}.${compVersionIteration}</xns:Minor>
+			<xns:Full>${compVersionFull}</xns:Full>
+		</xns:Version>
+		<xns:ProofId>${proofId}</xns:ProofId>
+		<xns:CreationTime>${createdDate}</xns:CreationTime>
+	</xns:ASIPProofInfo>
+	<xns:Configuration>${rulesConf}</xns:Configuration>
+	<xns:RequestInfo>
+		<xns:RequestType>${requesttype}</xns:RequestType>
+		<xns:RequestId>${requestid}</xns:RequestId>
+		<xns:Tag>${prooftag}</xns:Tag>
+		<xns:ApplicantId>${applicantId}</xns:ApplicantId>
+		<xns:Certificate>${object}</xns:Certificate>
+	</xns:RequestInfo>
+	<xns:Processing>
+		<xns:OpStatus>${responseStatus}</xns:OpStatus>
+		<xns:ASIPDetailedStatus>
+			<xns:Type>${type}</xns:Type>
+			<xns:X509SubjectName>${certSubject}</xns:X509SubjectName>
+		</xns:ASIPDetailedStatus>
+		<xns:ValidationData>
+			<xns:CompleteCertificateRefs>
+				<xns:CertRefs>
+					<#list CAs as CA>
+					<xns:Cert>
+						<xns:CertDigest>
+							<xns:DigestMethod Algorithm="${CA.digestAlgo}" />
+							<xns:DigestValue>${CA.digestValue}</xns:DigestValue>
+						</xns:CertDigest>
+						<xns:IssuerSerial>
+							<xns:X509IssuerName>${CA.issuerName}</xns:X509IssuerName>
+							<xns:X509SerialNumber>${CA.serialNumber}</xns:X509SerialNumber>
+						</xns:IssuerSerial>
+					</xns:Cert>
+					</#list>
+				</xns:CertRefs>
+			</xns:CompleteCertificateRefs>
+			<xns:CompleteRevocationRefs>
+				<xns:CRLRefs>
+					<#list CRLs as CRL>
+					<xns:CRLRef>
+						<xns:DigestAlgAndValue>
+							<xns:DigestMethod Algorithm="${CRL.digestAlgo}" />
+							<xns:DigestValue>${CRL.digestValue}</xns:DigestValue>
+						</xns:DigestAlgAndValue>
+						<xns:CRLIdentifier>
+							<xns:Issuer>${CRL.issuerName}</xns:Issuer>
+							<xns:IssueTime>${CRL.issueTime}</xns:IssueTime>
+						</xns:CRLIdentifier>
+					</xns:CRLRef>
+					</#list>
+				</xns:CRLRefs>
+			</xns:CompleteRevocationRefs>
+			<xns:CertificateValues>
+				<#list CAs as CA>
+				<xns:EncapsulatedX509Certificate>${CA.base64Encoded}
+				</xns:EncapsulatedX509Certificate>
+				</#list>
+			</xns:CertificateValues>
+			<xns:RevocationValues>
+				<xns:CRLValues>
+					<#list CRLs as CRL>
+					<xns:EncapsulatedCRLValue>${CRL.base64Encoded}
+					</xns:EncapsulatedCRLValue>
+					</#list>
+				</xns:CRLValues>
+			</xns:RevocationValues>
+		</xns:ValidationData>
+	</xns:Processing>
+</xns:ASIPProof>

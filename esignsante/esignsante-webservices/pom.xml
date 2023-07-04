@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>fr.asipsante.api.sign</groupId>
+	<artifactId>esignsante-webservices-root</artifactId>
+	<packaging>pom</packaging>
+	<name>esignsante-webservices-root</name>
+	<version>3.0.0.0-SNAPSHOT</version>	
+	<scm>
+		<developerConnection>${developperConnectionJenkinsfile}</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+	
+	
+	<modules>
+		<module>asip-sign-api</module>
+		<module>webservices</module>
+	</modules>
+	
+	<build>
+		
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>com.mycila</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+				<version>3.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>format</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<header>licence-header.txt</header>
+					<includes>
+						<include>**/*.java</include>
+						<include>**/*.properties</include>
+					</includes>
+					<strictCheck>true</strictCheck>
+				</configuration>
+			</plugin>
+		
+		</plugins>
+	</build>
+	
+	<dependencies>
+	
+	</dependencies>
+	
+	<profiles>
+	</profiles>
+	
+
+</project>

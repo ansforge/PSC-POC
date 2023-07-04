@@ -1,0 +1,61 @@
+openapi: 3.0.0
+servers:
+  - description: Remote Cache API
+    url: 'http://localhost:8080/remote-cache/api'
+info:
+  version: 1.0.0
+  title: Remote cache API
+  description: ''
+paths:
+  /cache:
+    put:
+      summary: Put Datas in cache
+      description: Put datas in cache
+      responses:
+        '200':
+          description: Json schema successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Datas'
+    get:
+      summary: Get Datas from cache
+      description: Get datas from cache
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Datas'
+        '404':
+          description: Not found
+    parameters: []
+components:
+  schemas:
+    Datas:
+      description: Datas wrapper
+      type: object
+      properties:
+        key:
+          type: string
+        schemaId:
+          type: string
+        bag:
+          type: object
+      required:
+        - schemaId
+        - bag
+    DataSchema:
+      description: datas bag json-schema
+      type: object
+      properties:
+        schemaId:
+          type: string
+        schema:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

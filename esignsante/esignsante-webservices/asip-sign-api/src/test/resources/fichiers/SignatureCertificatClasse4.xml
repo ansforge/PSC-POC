@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><TOMF xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" DateCreatFic="28082018" DemandesTests="0" HeureCreatFic="115626" IdEmettFic="18751275100020" IdLotEmett="6003" ReferenceCommandeClient="Test" SchemaVersion="1.0" TypeFic="TOMWS1" xsi:noNamespaceSchemaLocation="TOM_Flux_generique_v1.0.xsd">
+	<EtabEmetteur>
+		<TypeStructure>3</TypeStructure>
+		<IdentifiantStructure>18751275100020</IdentifiantStructure>
+	</EtabEmetteur>
+	<Demandeur>
+		<TypeIdentifiant>5</TypeIdentifiant>
+		<IdTitulaire>18751275100020A1000000017</IdTitulaire>
+	</Demandeur>
+	<EtabDestinataire>
+		<TypeStructure>3</TypeStructure>
+		<IdentifiantStructure>18751275100020</IdentifiantStructure>
+	</EtabDestinataire>
+	<DONNEES_COMMUNES>
+		<ADRESSE_CARTE>
+			<NomContact/>
+			<NomEtablissement>ASIP SANTE</NomEtablissement>
+			<ADRESSE>
+				<NumVoie>9</NumVoie>
+				<ComplVoie/>
+				<NomVoie>RUE</NomVoie>
+				<LibelleVoie>GEORGES PITARD</LibelleVoie>
+				<MentionComplementaire/>
+				<LieuDit/>
+				<CodePostal>75015</CodePostal>
+				<Commune>PARIS</Commune>
+				<Pays/>
+				<NumTel/>
+			</ADRESSE>
+		</ADRESSE_CARTE>
+		<ADRESSE_MAILER>
+			<NomContact/>
+			<NomEtablissement>ASIP SANTE</NomEtablissement>
+			<ADRESSE>
+				<NumVoie>9</NumVoie>
+				<ComplVoie/>
+				<NomVoie>RUE</NomVoie>
+				<LibelleVoie>GEORGES PITARD</LibelleVoie>
+				<MentionComplementaire/>
+				<LieuDit/>
+				<CodePostal>75015</CodePostal>
+				<Commune>PARIS</Commune>
+				<Pays/>
+				<NumTel/>
+			</ADRESSE>
+		</ADRESSE_MAILER>
+		<ImpressionSigle>1</ImpressionSigle>
+	</DONNEES_COMMUNES>
+	<DEMANDE CodeMouvement="D" NumeroDemande="1">
+		<ProduitTitulaire>
+			<Nominatif>
+				<ProfessionnelSante>
+					<TITULAIRE>
+						<TypeIdentifiant>0</TypeIdentifiant>
+						<IdTitulaire>928898162</IdTitulaire>
+					</TITULAIRE>
+					<ETAT_CIVIL>
+						<NomPatronymique>LABOULY</NomPatronymique>
+						<Prenom>MARIE</Prenom>
+					</ETAT_CIVIL>
+					<LANGUES>
+						<Langue>fr</Langue>
+					</LANGUES>
+					<DONNEES_PROFESSIONNELLES>
+						<Civilite>Mme</Civilite>
+						<PrenomUsuel>MARIE</PrenomUsuel>
+						<NomExercice>LABOULY</NomExercice>
+						<AuxiliaireDeSante>
+							<Profession>60</Profession>
+						</AuxiliaireDeSante>
+						<ACTIVITES>
+							<DONNEES_ACTIVITE NumeroActi="1">
+								<ModeExercice>1</ModeExercice>
+								<ID_LIEU_DE_TRAVAIL>
+									<TypeStructure>3</TypeStructure>
+									<IdentifiantStructure>18751275100020</IdentifiantStructure>
+								</ID_LIEU_DE_TRAVAIL>
+								<Fonction>000</Fonction>
+								<MandataireDelegue>0</MandataireDelegue>
+							</DONNEES_ACTIVITE>
+						</ACTIVITES>
+					</DONNEES_PROFESSIONNELLES>
+				</ProfessionnelSante>
+			</Nominatif>
+			<DONNEES_CARTE>
+				<ADRESSE_CARTE>
+					<NomContact/>
+					<NomEtablissement>ASIP Santé</NomEtablissement>
+					<ADRESSE>
+						<NumVoie>9</NumVoie>
+						<ComplVoie/>
+						<NomVoie>RUE</NomVoie>
+						<LibelleVoie>DE CHATEAUDUN</LibelleVoie>
+						<MentionComplementaire>Bureau FFO</MentionComplementaire>
+						<LieuDit/>
+						<CodePostal>75009</CodePostal>
+						<Commune>PARIS</Commune>
+						<Pays/>
+						<NumTel/>
+					</ADRESSE>
+				</ADRESSE_CARTE>
+			</DONNEES_CARTE>
+		</ProduitTitulaire>
+	</DEMANDE>
+	<DEMANDE CodeMouvement="D" NumeroDemande="2">
+		<ProduitTitulaire>
+			<Nominatif>
+				<ProfessionnelSante>
+					<TITULAIRE>
+						<TypeIdentifiant>0</TypeIdentifiant>
+						<IdTitulaire>755013018</IdTitulaire>
+					</TITULAIRE>
+					<ETAT_CIVIL>
+						<NomPatronymique>TRUC</NomPatronymique>
+						<Prenom>GEORGES</Prenom>
+						<Prenom>FRANCK</Prenom>
+					</ETAT_CIVIL>
+					<LANGUES>
+						<Langue>fr</Langue>
+					</LANGUES>
+					<DONNEES_PROFESSIONNELLES>
+						<Civilite>M</Civilite>
+						<PrenomUsuel>GEORGES</PrenomUsuel>
+						<NomExercice>TRUC</NomExercice>
+						<AuxiliaireDeSante>
+							<Profession>60</Profession>
+						</AuxiliaireDeSante>
+						<ACTIVITES>
+							<DONNEES_ACTIVITE NumeroActi="1">
+								<ModeExercice>1</ModeExercice>
+								<ID_LIEU_DE_TRAVAIL>
+									<TypeStructure>3</TypeStructure>
+									<IdentifiantStructure>18751275100020</IdentifiantStructure>
+								</ID_LIEU_DE_TRAVAIL>
+								<Fonction>000</Fonction>
+								<MandataireDelegue>0</MandataireDelegue>
+							</DONNEES_ACTIVITE>
+						</ACTIVITES>
+					</DONNEES_PROFESSIONNELLES>
+				</ProfessionnelSante>
+			</Nominatif>
+			<DONNEES_CARTE>
+				<ADRESSE_CARTE>
+					<NomContact/>
+					<NomEtablissement>ASIP Santé</NomEtablissement>
+					<ADRESSE>
+						<NumVoie>9</NumVoie>
+						<ComplVoie/>
+						<NomVoie>RUE</NomVoie>
+						<LibelleVoie>DE CHATEAUDUN</LibelleVoie>
+						<MentionComplementaire>Bureau FFO</MentionComplementaire>
+						<LieuDit/>
+						<CodePostal>75009</CodePostal>
+						<Commune>PARIS</Commune>
+						<Pays/>
+						<NumTel/>
+					</ADRESSE>
+				</ADRESSE_CARTE>
+			</DONNEES_CARTE>
+		</ProduitTitulaire>
+	</DEMANDE>
+	<INFO_TOMF NbrTotalDemandes="2"/>
+<ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#" Id="id-2f568dd9afe2ef328e24c7f66ce7a1c3"><ds:SignedInfo><ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/><ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/><ds:Reference Id="r-id-2f568dd9afe2ef328e24c7f66ce7a1c3-1" URI=""><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/TR/1999/REC-xpath-19991116"><ds:XPath>not(ancestor-or-self::ds:Signature)</ds:XPath></ds:Transform><ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><ds:DigestValue>xLX6mAa2PnUaBaLdX3eB7NZsX5p7xMpL+f2mpdC5QQc=</ds:DigestValue></ds:Reference><ds:Reference Type="http://uri.etsi.org/01903#SignedProperties" URI="#xades-id-2f568dd9afe2ef328e24c7f66ce7a1c3"><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><ds:DigestValue>vWc2jmxJ8z3lBkC9VbuFElVqAaliNlaWMesFkxPMeG4=</ds:DigestValue></ds:Reference></ds:SignedInfo><ds:SignatureValue Id="value-id-2f568dd9afe2ef328e24c7f66ce7a1c3">sUdYSGd+1uPfDgWU4fqd8a4zXtVsRtkw45fXsldYQTSCXNxbmiMzQBu9UialXKVitfHScfGHBeYTp56brrLMJmt0mh7sta0Ky+hCF/MPd5oUkkfxTAuTntNMjmE9GvgTafDdHVd2IsA5q/ZmKzRTNGkGk1pcHlEFqYIwk6A8p44=</ds:SignatureValue><ds:KeyInfo><ds:X509Data><ds:X509Certificate>MIIDDTCCAnagAwIBAgIQMDAwMTIwNzkwMEDdEk0OsjANBgkqhkiG9w0BAQUFADA/MQswCQYDVQQGEwJGUjEVMBMGA1UEChMMR0lQLUNQUy1URVNUMRkwFwYDVQQLExBBQy1DTEFTU0UtNC1URVNUMB4XDTE2MDkzMDA2NTkwMFoXDTE5MDkzMDA2NTkwMFowcjELMAkGA1UEBhMCRlIxDTALBgNVBAoTBFRFU1QxEzARBgNVBAcUClBhcmlzICg3NSkxGDAWBgNVBAsTDzMxODc1MTI3NTEwMDAyMDElMCMGA1UEAxMcc210cC5wc2lnLmhlbml4LmFzaXBzYW50ZS5mcjCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAtS12GyJmUg7a7x7q+j024XfWlkJ2LdAVeO3tEf2nIJOyomS4+pfI7JPgm7dTubI9J+iiqy5GvH9nFNF2xrK9MQZ+I9fD+LfXqNdlkehdjcbnTs5jEfwrwEYdG3E/8D34j4tRshYiXgtvjs2BWi4f/67e1qKxxwuEGTwR44gT0b8CAwEAAaOB1jCB0zAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMBEGCWCGSAGG+EIBAQQEAwIGwDAnBgNVHREEIDAeghxzbXRwLnBzaWcuaGVuaXguYXNpcHNhbnRlLmZyMBUGA1UdIAQOMAwwCgYIKoF6AUcDBwQwDwYIKoF6AUcBAgUEAwQBgjAdBgNVHQ4EFgQUa4v08R7zyiekKfhMlQnTlPW+yFYwHwYDVR0jBBgwFoAUwlbv7yDyWRe8QGxZs8z4m5O7aBowDQYJKoZIhvcNAQEFBQADgYEAOuuw7WeVxV0yaum9nSL3JspHYhMdcfQqy+NnpbnaNPTtPmom6m6ipgDCCT+5ou8fA3Y1R8EGxwUk3nMI5rXaBhLvpdiZnzp1ZeOShIJsapsrUEPmcC0+e+aGRwOYrYbc/lJFT9BQrV7eSdQXAIScb3bZA9nYqiNlCCCSgsz1q+s=</ds:X509Certificate></ds:X509Data></ds:KeyInfo><ds:Object><xades:QualifyingProperties xmlns:xades="http://uri.etsi.org/01903/v1.3.2#" Target="#id-2f568dd9afe2ef328e24c7f66ce7a1c3"><xades:SignedProperties Id="xades-id-2f568dd9afe2ef328e24c7f66ce7a1c3"><xades:SignedSignatureProperties><xades:SigningTime>2019-09-26T12:05:42Z</xades:SigningTime><xades:SigningCertificateV2><xades:Cert><xades:CertDigest><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha512"/><ds:DigestValue>oAzo6k+HX/GUzB85aLSCgDjVc2qeJk2MEw28Ai9WRFoxB8CGJKzm3VbykrtSG+RdvXmtvVr+Nf0aM56SPwCvbA==</ds:DigestValue></xades:CertDigest><xades:IssuerSerialV2>MFcwQ6RBMD8xCzAJBgNVBAYTAkZSMRUwEwYDVQQKEwxHSVAtQ1BTLVRFU1QxGTAXBgNVBAsTEEFDLUNMQVNTRS00LVRFU1QCEDAwMDEyMDc5MDBA3RJNDrI=</xades:IssuerSerialV2></xades:Cert></xades:SigningCertificateV2></xades:SignedSignatureProperties><xades:SignedDataObjectProperties><xades:DataObjectFormat ObjectReference="#r-id-2f568dd9afe2ef328e24c7f66ce7a1c3-1"><xades:MimeType>text/xml</xades:MimeType></xades:DataObjectFormat></xades:SignedDataObjectProperties></xades:SignedProperties></xades:QualifyingProperties></ds:Object></ds:Signature></TOMF>

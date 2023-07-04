@@ -1,0 +1,63 @@
+{
+  "type" : "object",
+  "id" : "urn:jsonschema:fr:ans:psc:GenerateVIHFPolicyConfiguration",
+  "properties" : {
+    "certificateDN" : {
+      "title": "API Proxy certificate DN",
+      "description": "Le DN des certificats d'authentification client et de signature présentés au DMP (ils doivent être identiques).",
+      "type" : "string"
+    },
+    "structureId" : {
+      "title": "API Proxy structure Id",
+      "description": "Identifiant de la structure API Proxy, enregistrée auprès du DMP."
+    },
+    "lpsName" : {
+      "title": "Nom du LPS",
+      "description": "Nom sous lequel l'API Proxy est enregistrée auprès du DMP.",
+      "type" : "string"
+    },
+    "lpsVersion" : {
+      "title": "Version du LPS",
+      "description": "Numéro de version de l'API Proxy enregistré auprès du DMP.",
+      "type" : "string"
+    },
+    "lpsHomologationNumber" : {
+      "title": "Numéro d'homologation du LPS",
+      "description": "Numéro d'homologation de l'API Proxy auprès du DMP.",
+      "type" : "string"
+    },
+    "digitalSigningEndpoint" : {
+      "title": "Endpoint de signature",
+      "description": "Endpoint du serveur de signature en XMLdsig",
+      "type" : "string",
+      "default": "http://localhost/signatures/xmldsig"
+    },
+    "useSystemProxy" : {
+      "title": "System proxy",
+      "description": "Utiliser le system proxy",
+      "type" : "boolean",
+      "default": false
+    },
+    "useSSL" : {
+      "title": "Use SSL",
+      "description": "Utiliser TLS",
+      "type" : "boolean",
+      "default": false
+    },
+    "signingConfigId" : {
+      "title": "Signing Config Id",
+      "description": "Id de la configuration du serveur de signature utilisée",
+      "type" : "string",
+      "default": "1"
+    },
+    "clientSecret" : {
+      "title": "client Secret",
+      "description": "Secret requis pour l'accès au serveur de signature",
+      "type": "string",
+      "default": " ",
+      "x-schema-form": {
+        "type": "password"
+      }
+    }
+  }
+}
