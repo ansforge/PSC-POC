@@ -42,7 +42,7 @@ job "copier-coller-demo-app-1" {
         env = true
         data = <<EOH
 PUBLIC_HOSTNAME={{ with secret "copier-coller/app" }}{{ .Data.data.demo_app_1_public_hostname }}{{ end }}
-JAVA_TOOL_OPTIONS="-Xms256m -Xmx1g -XX:+UseG1GC -Dspring.config.location=/secrets/application.properties -Dlogging.level.fr.ans.psc=${log_level}"
+JAVA_TOOL_OPTIONS="-Xms256m -Xmx1g -XX:+UseG1GC -Dspring.config.location=/secrets/application.properties -Dlogging.level.fr.ans.psc=${log_level} -Dhttp.proxyHost={{ range service "squid"}}{{ .Address }}{{ end }} -Dhttp.proxyPort={{ range service "squid"}}{{ .Port }}{{ end }}"
 EOH
       }
 
