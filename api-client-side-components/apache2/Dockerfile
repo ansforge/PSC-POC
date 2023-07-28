@@ -18,6 +18,8 @@ RUN set -eux \
 			gcc \
 			make \
 			vim \
+	#create VirtualHost folder
+	  && mkdir /usr/local/apache2/conf/sites \
 	# compile and install mod_auth_openidc
 		&& cd /usr/src \
 		&& curl -fLO https://github.com/OpenIDC/mod_auth_openidc/releases/download/v2.4.14.2/mod_auth_openidc-2.4.14.2.tar.gz \
@@ -50,19 +52,18 @@ RUN set -eux \
 		-e 's/^#\(LoadModule .*mod_ssl.so\)/\1/' \
 		-e 's/^#\(LoadModule .*mod_socache_shmcb.so\)/\1/' \
 		/usr/local/apache2/conf/httpd.conf \
-	#load necessary modules for our sites
+	#load necessary modules for our sites and define vhosts location
 		&& sed -i \
 		-e 's/^#\(LoadModule .*mod_rewrite.so\)/\1/' \
 		-e 's/^#\(LoadModule .*mod_proxy.so\)/\1/' \
 		-e 's/^#\(LoadModule .*mod_proxy_http.so\)/\1/' \
 		-e 's/^#\(LoadModule .*mod_http2.so\)/\1/' \
 		-e 's/^#\(LoadModule .*mod_proxy_http2.so\)/\1/' \
-	    /usr/local/apache2/conf/httpd.conf \
-	#create VirtualHost folder
-	    && mkdir /usr/local/apache2/sites \
+		-e 's/^#Include .*httpd-vhosts.conf/IncludeOptional conf\/sites\/\*\.conf/' \
+	     /usr/local/apache2/conf/httpd.conf \
 	#certificat(s) and virtualhost(s) will be injected by Nomad
 	#purge and security
-  	     && apt-get purge -y --no-install-recommends libjansson-dev \	
+  	     && apt-get purge -y --no-install-recommends libjansson-dev \
 			gcc \
 			make \
 	# smoke test
