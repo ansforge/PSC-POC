@@ -16,18 +16,9 @@ runner {
 
 app "keycloak-db" {
   build {
-    use "docker-pull" {
+    use "docker-ref" {
       image = "postgres"
       tag   = var.db_tag
-    }
-    registry {
-      use "docker" {
-        image    = "postgres"
-        tag      = var.db_tag
-        username = var.registry_username
-        password = var.registry_password
-        local    = true
-      }
     }
   }
 
@@ -35,8 +26,8 @@ app "keycloak-db" {
     use "nomad-jobspec" {
       jobspec = templatefile("${path.app}/keycloak-db/keycloak-db.nomad.tpl", {
         datacenter      = var.datacenter
-        image           = "postgres"
-        tag             = var.db_tag
+        image           = artifact.image
+        tag             = artifact.tag
       })
     }
   }
@@ -44,26 +35,18 @@ app "keycloak-db" {
 
 app "keycloak-server" {
   build {
-    use "docker-pull" {
+    use "docker-ref" {
       image = "bitnami/keycloak"
       tag   = var.server_tag
-    }
-    registry {
-      use "docker" {
-        image    = "bitnami/keycloak"
-        tag      = var.server_tag
-        username = var.registry_username
-        password = var.registry_password
-        local    = true
-      }
     }
   }
 
   deploy {
     use "nomad-jobspec" {
       jobspec = templatefile("${path.app}/keycloak-server/keycloak-server.nomad.tpl", {
-        datacenter = var.datacenter
-        log_level = var.log_level
+        datacenter 		= var.datacenter
+        image           = artifact.image
+        tag             = artifact.tag
       })
     }
   }
@@ -87,11 +70,6 @@ variable "registry_password" {
   default   = ""
   env       = ["REGISTRY_PASSWORD"]
   sensitive = true
-}
-
-variable "log_level" {
-  type    = string
-  default = "INFO"
 }
 
 variable "db_tag" {
