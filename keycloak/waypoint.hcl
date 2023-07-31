@@ -17,7 +17,7 @@ runner {
 app "keycloak-db" {
   build {
     use "docker-ref" {
-      image = "postgres"
+      image = var.db_image
       tag   = var.db_tag
     }
   }
@@ -26,8 +26,8 @@ app "keycloak-db" {
     use "nomad-jobspec" {
       jobspec = templatefile("${path.app}/keycloak-db/keycloak-db.nomad.tpl", {
         datacenter      = var.datacenter
-        image           = artifact.image
-        tag             = artifact.tag
+        image           = var.db_image
+        tag             = var.db_tag
       })
     }
   }
@@ -70,6 +70,11 @@ variable "registry_password" {
   default   = ""
   env       = ["REGISTRY_PASSWORD"]
   sensitive = true
+}
+
+variable "db_image" {
+  type    = string
+  default = "postgres"
 }
 
 variable "db_tag" {

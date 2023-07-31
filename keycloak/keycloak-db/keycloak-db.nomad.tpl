@@ -11,6 +11,11 @@ job "keycloak-db" {
         max_parallel = 1
     }
 	
+	vault {
+		policies = ["keycloak"]
+		change_mode = "restart"
+	}
+	
     group "keycloak-db" {
         count = 1
         network {
@@ -25,8 +30,18 @@ job "keycloak-db" {
             config {
                 image = "${image}:${tag}"				
                 ports = ["psql-port"]
-				
             }
+			
+			template {
+				data = <<EOH
+					POSTGRES_USER = {{ with secret "keycloak/keycloak-db" }}{{ .Data.data.pgsql_user }}{{ end }}
+					POSTGRES_PASSWORD = {{ with secret "keycloak/keycloak-db" }}{{ .Data.data.pgsql_password }}{{ end }}
+					POSTGRES_DB = {{ with secret "keycloak/keycloak-db" }}{{ .Data.data.pgsql_dbname }}{{ end }}
+				EOH
+				
+				destination = "secrets/file.env"
+				env         = true
+			}
 			
             resources {
                 cpu = 1000
