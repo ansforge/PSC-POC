@@ -36,7 +36,7 @@ app "keycloak-db" {
 app "keycloak-server" {
   build {
     use "docker-ref" {
-      image = "bitnami/keycloak"
+      image = var.server_image
       tag   = var.server_tag
     }
   }
@@ -45,8 +45,8 @@ app "keycloak-server" {
     use "nomad-jobspec" {
       jobspec = templatefile("${path.app}/keycloak-server/keycloak-server.nomad.tpl", {
         datacenter 		= var.datacenter
-        image           = artifact.image
-        tag             = artifact.tag
+        image           = var.server_image
+        tag             = var.server_tag
       })
     }
   }
@@ -80,6 +80,11 @@ variable "db_image" {
 variable "db_tag" {
   type    = string
   default = "15.3"
+}
+
+variable "server_image" {
+  type    = string
+  default = "bitnami/keycloak"
 }
 
 variable "server_tag" {
