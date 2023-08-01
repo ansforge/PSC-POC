@@ -22,12 +22,6 @@ job "copier-coller-api" {
       mode = "fail"
     }
 
-    volume "json-schemas" {
-      type      = "host"
-      read_only = false
-      source    = "json-schemas"
-    }
-
     network {
       port "http" {
         to = 8080

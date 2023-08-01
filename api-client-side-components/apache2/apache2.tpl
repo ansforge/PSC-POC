@@ -4,8 +4,7 @@ job "apache2" {
   type = "service"
 
   vault {
-    policies = [
-      "editeur"]
+    policies = ["editeur"]
     change_mode = "restart"
   }
 
@@ -129,7 +128,7 @@ SSLProtocol all
 EOH
         destination = "secrets/damenligne.conf"
         change_mode = "restart"
-        env = true
+        env = false
       }
 	  
 	  #######################################################
@@ -141,7 +140,7 @@ EOH
 EOH
         destination = "secrets/damenligne.pocs.henix.asipsante.fr.pem"
         change_mode = "restart"
-        env = true
+        env = false
       }
 	  
 	  template {
@@ -150,7 +149,7 @@ EOH
 EOH
         destination = "secrets/damenligne.pocs.henix.asipsante.fr.key"
         change_mode = "restart"
-        env = true
+        env = false
       }
 	  
 	  template {
@@ -159,7 +158,7 @@ EOH
 EOH
         destination = "secrets/client.pocs.henix.asipsante.fr.pem"
         change_mode = "restart"
-        env = true
+        env = false
       }
 	  
 	  
@@ -169,7 +168,7 @@ EOH
 EOH
         destination = "secrets/client.pocs.henix.asipsante.fr.key"
         change_mode = "restart"
-        env = true
+        env = false
       }
 	  
 	  #######################################################
@@ -193,7 +192,7 @@ EOH
           type = "bind"
           target = "/etc/ssl/certs/damenligne.pocs.henix.asipsante.fr.pem"
           source = "secrets/damenligne.pocs.henix.asipsante.fr.pem"
-          readonly = false
+          readonly = true
           bind_options {
             propagation = "rshared"
           }
@@ -203,7 +202,7 @@ EOH
           type = "bind"
           target = "/etc/ssl/private/damenligne.pocs.henix.asipsante.fr.key"
           source = "secrets/damenligne.pocs.henix.asipsante.fr.key"
-          readonly = false
+          readonly = true
           bind_options {
             propagation = "rshared"
           }
@@ -213,7 +212,7 @@ EOH
           type = "bind"
           target = "/etc/ssl/certs/client.pocs.henix.asipsante.fr.pem"
           source = "secrets/client.pocs.henix.asipsante.fr.pem"
-          readonly = false
+          readonly = true
           bind_options {
             propagation = "rshared"
           }
@@ -223,7 +222,7 @@ EOH
           type = "bind"
           target = "/etc/ssl/private/client.pocs.henix.asipsante.fr.key"
           source = "secrets/client.pocs.henix.asipsante.fr.key"
-          readonly = false
+          readonly = true
           bind_options {
             propagation = "rshared"
           }

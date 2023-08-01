@@ -12,9 +12,9 @@ job "gravitee-mongodb" {
     count = 1
     
     volume "gravitee-mongo" {
-      type      = "host"
+      type      = "csi"
       read_only = false
-      source    = "gravitee-mongo"
+      source    = "gravitee-mongodb"
     }
 
     restart {
