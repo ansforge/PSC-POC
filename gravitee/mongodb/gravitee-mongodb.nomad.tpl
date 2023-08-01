@@ -15,6 +15,8 @@ job "gravitee-mongodb" {
       type      = "csi"
       read_only = false
       source    = "gravitee-mongodb"
+      attachment_mode = "file-system"
+      access_mode     = "single-node-writer"
     }
 
     restart {
