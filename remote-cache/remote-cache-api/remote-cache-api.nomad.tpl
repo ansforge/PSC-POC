@@ -30,12 +30,7 @@ job "remote-cache-api" {
 
 	
     task "api" {
-      driver = "docker"
-      volume_mount {
-          volume      = "json-schemas"
-          destination = "/data"
-          read_only   = false
-      }	
+      driver = "docker"    
       artifact {
         source = "https://github.com/prosanteconnect/proof-of-concept/raw/main/remote-cache/resources/json-schemas.zip"
       }
