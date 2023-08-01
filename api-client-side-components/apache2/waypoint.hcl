@@ -24,7 +24,7 @@ app "editeur/apache2" {
     }
     registry {
       use "docker" {
-        image    = "${var.registry}/var.image"
+        image    = "${var.registry}/${var.image}"
         tag      = var.tag
         username = var.registry_username
         password = var.registry_password
@@ -46,7 +46,7 @@ app "editeur/apache2" {
 
 variable "image" {
   type    = string
-  default = "customised-httpd-2.4-bookworm"
+  default = "customised-httpd-2.4-bookworm-v1"
 }
 
 variable "tag" {
