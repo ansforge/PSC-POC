@@ -35,8 +35,13 @@ job "keycloak-server" {
 			
 			template {
 				data = <<EOH
+<<<<<<< HEAD
 					KEYCLOAK_ADMIN_USER = {{ with secret "keycloak/keycloak-db" }}{{ .Data.data.keycloak_admin_user }}{{ end }}
 					KEYCLOAK_ADMIN_PASSWORD = {{ with secret "keycloak/keycloak-db" }}{{ .Data.data.keycloak_admin_password }}{{ end }}
+=======
+					KEYCLOAK_ADMIN_USER = {{ with secret "keycloak/keycloak-server" }}{{ .Data.data.keycloak_admin_user }}{{ end }}
+					KEYCLOAK_ADMIN_PASSWORD = {{ with secret "keycloak/keycloak-server" }}{{ .Data.data.keycloak_admin_password }}{{ end }}
+>>>>>>> 63bc179fbdb2f4f414a4656c0da02ccc37ba819e
 					KEYCLOAK_DATABASE_HOST = {{ range service "keycloak-db"}}{{ .Address }}{{ end }}
 					KEYCLOAK_DATABASE_PORT = {{ range service "keycloak-db"}}{{ .Port }}{{ end }}
 					KEYCLOAK_DATABASE_USER = {{ with secret "keycloak/keycloak-db" }}{{ .Data.data.pgsql_user }}{{ end }}
