@@ -97,8 +97,8 @@ SSLProtocol all
   <Location /demo>
     AuthType openid-connect
     Require valid-user
-    ProxyPassMatch $"{"demo_client_dam_base_url"}"
-	ProxyPassReverse $"{"demo_client_dam_base_url"}"	
+    ProxyPassMatch ${demo_client_dam_base_url}
+	ProxyPassReverse ${demo_client_dam_base_url}	
 #    ProxyPassReverse $\u007Bdemo_client_dam_base_url\u007D
 #	ProxyPassReverse \u0024\u007Bdemo_client_dam_base_url\u007D
    </Location>
@@ -112,8 +112,8 @@ SSLProtocol all
 {{ end }}
 	 STSAcceptSourceTokenIn environment name=OIDC_access_token
 	 STSPassTargetTokenIn header
-     ProxyPassMatch $"{"demo_client_dam_base_url"}"
-     ProxyPassReverse $"{"demo_client_dam_base_url"}"
+     ProxyPassMatch ${demo_client_dam_base_url}
+     ProxyPassReverse ${demo_client_dam_base_url}
 
    </Location>
    
