@@ -12,9 +12,11 @@ job "gravitee-mongodb" {
     count = 1
     
     volume "gravitee-mongo" {
-      type      = "host"
+      type      = "csi"
       read_only = false
-      source    = "gravitee-mongo"
+      source    = "gravitee-mongodb"
+      attachment_mode = "file-system"
+      access_mode     = "single-node-writer"
     }
 
     restart {
@@ -44,7 +46,7 @@ job "gravitee-mongodb" {
       driver = "docker"
       volume_mount {
         volume      = "gravitee-mongo"
-        destination = "/data"
+        destination = "/data/db"
         read_only   = false
       }
     

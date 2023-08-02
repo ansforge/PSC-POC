@@ -22,12 +22,6 @@ job "copier-coller-api" {
       mode = "fail"
     }
 
-    volume "json-schemas" {
-      type      = "host"
-      read_only = false
-      source    = "json-schemas"
-    }
-
     network {
       port "http" {
         to = 8080
@@ -37,11 +31,6 @@ job "copier-coller-api" {
 	
     task "api" {
       driver = "docker"
-      volume_mount {
-          volume      = "json-schemas"
-          destination = "/data"
-          read_only   = false
-      }	
       artifact {
         source = "https://github.com/prosanteconnect/proof-of-concept/raw/main/copier-coller/resources/json-schemas.zip"
       }

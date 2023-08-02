@@ -45,7 +45,7 @@ job "rass-mongodb" {
       driver = "docker"
       volume_mount {
         volume      = "rass-mongo"
-        destination = "/data"
+        destination = "/data/db"
         read_only   = false
       }
       template {

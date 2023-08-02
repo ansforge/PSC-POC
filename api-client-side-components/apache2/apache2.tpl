@@ -4,8 +4,7 @@ job "apache2" {
   type = "service"
 
   vault {
-    policies = [
-      "editeur"]
+    policies = ["editeur"]
     change_mode = "restart"
   }
 
@@ -51,8 +50,8 @@ EOH
 	  #######################################################
 	   template {
         data = <<EOH
-{{ with secret "editeur/apache2/dam" }}
 <VirtualHost *:443>
+{{ with secret "editeur/apache2/dam" }}
 ErrorLogFormat "[%t] [%l] [pid %P] %F: %E: [client %a] %M"
 SSLProtocol all
    DocumentRoot /var/www/html
@@ -75,14 +74,14 @@ SSLProtocol all
    OIDCClientSecret {{ .Data.data.psc_client_secret}}
    OIDCAuthRequestParams acr_values=eidas1
 
-   OIDCRedirectURI https://{{ .Data.data.server_name }}/psc/redirect
+   OIDCRedirectURI https://{{ .Data.data.server_name }}/demo/psc/redirect
 
    OIDCCryptoPassphrase 0123456789
    OIDCScope "openid scope_all"
    OIDCSSLValidateServer Off
 
    OIDCStateTimeout 120
-   OIDCDefaultURL https://{{ .Data.data.server_name }}/psc
+   OIDCDefaultURL https://{{ .Data.data.server_name }}/demo/psc
    OIDCSessionInactivityTimeout 1200
    OIDCAuthNHeader X-Remote-User
    OIDCPassClaimsAs headers 
@@ -91,34 +90,31 @@ SSLProtocol all
     OIDCClientTokenEndpointCert /etc/ssl/certs/client.pocs.henix.asipsante.fr.pem
     OIDCClientTokenEndpointKey /etc/ssl/private/client.pocs.henix.asipsante.fr.key
 {{ end }}
-  <Location /psc>
+
+  <Location /demo>
     AuthType openid-connect
     Require valid-user
-    ProxyPassMatch {{ range service "keycloak" }}{{ .Address }}{{ end }}
-    ProxyPassReverse {{ range service "keycloak" }}{{ .Address }}{{ end }}
-
+    ProxyPassMatch http://localhost:8081 
+	ProxyPassReverse http://localhost:8081 
+#    ProxyPassReverse $\u007Bdemo_client_dam_base_url\u007D
+#	ProxyPassReverse \u0024\u007Bdemo_client_dam_base_url\u007D
    </Location>
 
-{{ with secret "editeur/apache2/dam" }}
-   <Location /exchange>
+
+   <Location /demo/exchange>
     AuthType openid-connect
     Require valid-user
+{{ with secret "editeur/apache2/dam" }}
      STSExchange otx https://keycloak:8443/realms/{{ .Data.data.keycloak_realm }}/protocol/openid-connect/token auth=client_cert&cert=/etc/ssl/certs/client.pocs.henix.asipsante.fr.pem&key=/etc/ssl/certs/client.pocs.henix.asipsante.fr.pem&ssl_verify=false&params=subject_issuer%3D{{ .Data.data.keycloak_otx_subjet_issuer }}%26audience%3D{{ .Data.data.keycloak_otx_audience }}%26client_id%3D{{ .Data.data.keycloak_otx_client_id }}%26scope%3Dopenid
 {{ end }}
 	 STSAcceptSourceTokenIn environment name=OIDC_access_token
 	 STSPassTargetTokenIn header
-     ProxyPassMatch {{ range service "keycloak" }}{{ .Address }}{{ end }}/exchange
-     ProxyPassReverse {{ range service "keycloak" }}{{ .Address }}{{ end }}/exchange
+     ProxyPassMatch  http://localhost:8081 
+     ProxyPassReverse  http://localhost:8081 
 
    </Location>
    
-   <Location /api>
-    AuthType openid-connect
-    Require valid-user
-    ProxyPassMatch {{ range service "keycloak" }}{{ .Address }}{{ end }}/api
-    ProxyPassReverse {{ range service "keycloak" }}{{ .Address }}{{ end }}/api
-
-   </Location>
+  
    # A partir de apache 2.2.24 ##########################
    SSLCompression off
 
@@ -127,9 +123,9 @@ SSLProtocol all
    SSLCipherSuite RSA:!EXP:!NULL:+HIGH:+MEDIUM:-LOW
 </VirtualHost>
 EOH
-        destination = "secrets/damenligne.conf"
+        destination = "local/damenligne.conf"
         change_mode = "restart"
-        env = true
+        env = false
       }
 	  
 	  #######################################################
@@ -141,7 +137,7 @@ EOH
 EOH
         destination = "secrets/damenligne.pocs.henix.asipsante.fr.pem"
         change_mode = "restart"
-        env = true
+        env = false
       }
 	  
 	  template {
@@ -150,7 +146,7 @@ EOH
 EOH
         destination = "secrets/damenligne.pocs.henix.asipsante.fr.key"
         change_mode = "restart"
-        env = true
+        env = false
       }
 	  
 	  template {
@@ -159,7 +155,7 @@ EOH
 EOH
         destination = "secrets/client.pocs.henix.asipsante.fr.pem"
         change_mode = "restart"
-        env = true
+        env = false
       }
 	  
 	  
@@ -169,20 +165,20 @@ EOH
 EOH
         destination = "secrets/client.pocs.henix.asipsante.fr.key"
         change_mode = "restart"
-        env = true
+        env = false
       }
 	  
 	  #######################################################
 	  # Conf, resources and service
 	  #######################################################
       config {
-        image = "${image}:${tag}"
+        image = "${artifact.image}:${artifact.tag}"
         ports = ["https"]     
 		# vhost dam
         mount {
           type = "bind"
           target = "/usr/local/apache2/conf/sites/damenligne.conf"
-          source = "secrets/damenligne.conf"
+          source = "local/damenligne.conf"
           readonly = false
           bind_options {
             propagation = "rshared"
@@ -193,7 +189,7 @@ EOH
           type = "bind"
           target = "/etc/ssl/certs/damenligne.pocs.henix.asipsante.fr.pem"
           source = "secrets/damenligne.pocs.henix.asipsante.fr.pem"
-          readonly = false
+          readonly = true
           bind_options {
             propagation = "rshared"
           }
@@ -203,7 +199,7 @@ EOH
           type = "bind"
           target = "/etc/ssl/private/damenligne.pocs.henix.asipsante.fr.key"
           source = "secrets/damenligne.pocs.henix.asipsante.fr.key"
-          readonly = false
+          readonly = true
           bind_options {
             propagation = "rshared"
           }
@@ -213,7 +209,7 @@ EOH
           type = "bind"
           target = "/etc/ssl/certs/client.pocs.henix.asipsante.fr.pem"
           source = "secrets/client.pocs.henix.asipsante.fr.pem"
-          readonly = false
+          readonly = true
           bind_options {
             propagation = "rshared"
           }
@@ -223,7 +219,7 @@ EOH
           type = "bind"
           target = "/etc/ssl/private/client.pocs.henix.asipsante.fr.key"
           source = "secrets/client.pocs.henix.asipsante.fr.key"
-          readonly = false
+          readonly = true
           bind_options {
             propagation = "rshared"
           }
