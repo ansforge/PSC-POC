@@ -126,7 +126,7 @@ SSLProtocol all
    SSLCipherSuite RSA:!EXP:!NULL:+HIGH:+MEDIUM:-LOW
 </VirtualHost>
 EOH
-        destination = "secrets/damenligne.conf"
+        destination = "local/damenligne.conf"
         change_mode = "restart"
         env = false
       }
@@ -181,7 +181,7 @@ EOH
         mount {
           type = "bind"
           target = "/usr/local/apache2/conf/sites/damenligne.conf"
-          source = "secrets/damenligne.conf"
+          source = "local/damenligne.conf"
           readonly = false
           bind_options {
             propagation = "rshared"
