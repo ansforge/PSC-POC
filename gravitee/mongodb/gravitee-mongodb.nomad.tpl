@@ -46,7 +46,7 @@ job "gravitee-mongodb" {
       driver = "docker"
       volume_mount {
         volume      = "gravitee-mongo"
-        destination = "/data"
+        destination = "/data/db"
         read_only   = false
       }
     

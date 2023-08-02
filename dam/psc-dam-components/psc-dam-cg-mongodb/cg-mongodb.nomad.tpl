@@ -45,7 +45,7 @@ job "cg-mongodb" {
       driver = "docker"
       volume_mount {
         volume      = "cg-mongo"
-        destination = "/data"
+        destination = "/data/db"
         read_only   = false
       }
 
