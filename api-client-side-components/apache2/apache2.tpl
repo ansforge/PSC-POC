@@ -52,6 +52,8 @@ EOH
         data = <<EOH
 {{ with secret "editeur/apache2/dam" }}
 <VirtualHost *:443>
+Define demo_client_dam_base_url {{ range service "demo-client-dam" }}{{ .Address }}{{ end }}
+Define keycloak_base_url {{ range service "keycloak-server-https" }}{{ .Address }}{{ end }}
 ErrorLogFormat "[%t] [%l] [pid %P] %F: %E: [client %a] %M"
 SSLProtocol all
    DocumentRoot /var/www/html
@@ -74,14 +76,14 @@ SSLProtocol all
    OIDCClientSecret {{ .Data.data.psc_client_secret}}
    OIDCAuthRequestParams acr_values=eidas1
 
-   OIDCRedirectURI https://{{ .Data.data.server_name }}/psc/redirect
+   OIDCRedirectURI https://{{ .Data.data.server_name }}/demo/psc/redirect
 
    OIDCCryptoPassphrase 0123456789
    OIDCScope "openid scope_all"
    OIDCSSLValidateServer Off
 
    OIDCStateTimeout 120
-   OIDCDefaultURL https://{{ .Data.data.server_name }}/psc
+   OIDCDefaultURL https://{{ .Data.data.server_name }}/demo/psc
    OIDCSessionInactivityTimeout 1200
    OIDCAuthNHeader X-Remote-User
    OIDCPassClaimsAs headers 
@@ -90,34 +92,28 @@ SSLProtocol all
     OIDCClientTokenEndpointCert /etc/ssl/certs/client.pocs.henix.asipsante.fr.pem
     OIDCClientTokenEndpointKey /etc/ssl/private/client.pocs.henix.asipsante.fr.key
 {{ end }}
-  <Location /psc>
+  <Location /demo>
     AuthType openid-connect
     Require valid-user
-    ProxyPassMatch {{ range service "keycloak" }}{{ .Address }}{{ end }}
-    ProxyPassReverse {{ range service "keycloak" }}{{ .Address }}{{ end }}
-
+    ProxyPassMatch ${demo_client_dam_base_url}
+    ProxyPassReverse ${demo_client_dam_base_url}
    </Location>
 
-{{ with secret "editeur/apache2/dam" }}
-   <Location /exchange>
+
+   <Location /demo/exchange>
     AuthType openid-connect
     Require valid-user
+{{ with secret "editeur/apache2/dam" }}
      STSExchange otx https://keycloak:8443/realms/{{ .Data.data.keycloak_realm }}/protocol/openid-connect/token auth=client_cert&cert=/etc/ssl/certs/client.pocs.henix.asipsante.fr.pem&key=/etc/ssl/certs/client.pocs.henix.asipsante.fr.pem&ssl_verify=false&params=subject_issuer%3D{{ .Data.data.keycloak_otx_subjet_issuer }}%26audience%3D{{ .Data.data.keycloak_otx_audience }}%26client_id%3D{{ .Data.data.keycloak_otx_client_id }}%26scope%3Dopenid
 {{ end }}
 	 STSAcceptSourceTokenIn environment name=OIDC_access_token
 	 STSPassTargetTokenIn header
-     ProxyPassMatch {{ range service "keycloak" }}{{ .Address }}{{ end }}/exchange
-     ProxyPassReverse {{ range service "keycloak" }}{{ .Address }}{{ end }}/exchange
+     ProxyPassMatch ${demo_client_dam_base_url}
+     ProxyPassReverse ${demo_client_dam_base_url}
 
    </Location>
    
-   <Location /api>
-    AuthType openid-connect
-    Require valid-user
-    ProxyPassMatch {{ range service "keycloak" }}{{ .Address }}{{ end }}/api
-    ProxyPassReverse {{ range service "keycloak" }}{{ .Address }}{{ end }}/api
-
-   </Location>
+  
    # A partir de apache 2.2.24 ##########################
    SSLCompression off
 
