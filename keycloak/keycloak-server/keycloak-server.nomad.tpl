@@ -27,11 +27,58 @@ job "keycloak-server" {
         task "keycloak-server" {
 
             driver = "docker"
+			
+			artifact {
+				source = "https://repo.forge.ans.henix.fr/artifactory/AC/TEST/CL/truststore.jks"
+			}
 
             config {
                 image = "${image}:${tag}"				
                 ports = ["http-port", "https-port"]
+				mount {
+					type = "bind"
+					target = "/opt/bitnami/keycloak/certs/truststore.jks"
+					source = "local/truststore.jks"
+					readonly = "false"
+					bind_options {
+						propagation = "rshared"
+					}
+				}
+				
+				mount {
+				  type = "bind"
+				  target = "/opt/bitnami/keycloak/certs/tls.pem"
+				  source = "local/tls.pem"
+				  readonly = false
+				  bind_options {
+					propagation = "rshared"
+				  }
+				}
+				
+				mount {
+				  type = "bind"
+				  target = "/opt/bitnami/keycloak/certs/tls.key"
+				  source = "local/tls.key"
+				  readonly = false
+				  bind_options {
+					propagation = "rshared"
+				  }
+				}
             }
+			
+			template {
+				data = <<EOF
+{{ with secret "keycloak/keycloak-server" }}{{ .Data.data.keycloak_server_tls_pem }}{{ end }}
+EOF
+				destination = "local/tls.pem"
+			}
+			
+			template {
+				data = <<EOF
+{{ with secret "keycloak/keycloak-server" }}{{ .Data.data.keycloak_server_tls_key }}{{ end }}
+EOF
+				destination = "local/tls.key"
+			}
 			
 			template {
 				data = <<EOH
@@ -42,6 +89,12 @@ job "keycloak-server" {
 					KEYCLOAK_DATABASE_USER = {{ with secret "keycloak/keycloak-db" }}{{ .Data.data.pgsql_user }}{{ end }}
 					KEYCLOAK_DATABASE_PASSWORD = {{ with secret "keycloak/keycloak-db" }}{{ .Data.data.pgsql_password }}{{ end }}
 					KEYCLOAK_DATABASE_NAME = {{ with secret "keycloak/keycloak-db" }}{{ .Data.data.pgsql_dbname }}{{ end }}
+					KEYCLOAK_ENABLE_HTTPS = true
+					KEYCLOAK_HTTPS_USE_PEM = true
+					KEYCLOAK_HTTPS_CERTIFICATE_FILE = /opt/bitnami/keycloak/certs/tls.pem
+					KEYCLOAK_HTTPS_CERTIFICATE_KEY_FILE = /opt/bitnami/keycloak/certs/tls.key
+					KEYCLOAK_HTTPS_TRUST_STORE_PASSWORD = {{ with secret "keycloak/keycloak-server" }}{{ .Data.data.keycloak_server_truststore_password }}{{ end }}
+					
 				EOH
 				
 				destination = "secrets/file.env"
@@ -54,14 +107,14 @@ job "keycloak-server" {
             }
 	    	   
             service {
-                name = "keycloak-server-http"
-                port = "http-port"
+                name = "keycloak-server"
+                port = "https-port"
                 check {
                     name         = "alive"
                     type         = "tcp"
                     interval     = "10s"
                     timeout      = "5s"
-                    port         = "http-port"
+                    port         = "https-port"
                 }
             }
         }
