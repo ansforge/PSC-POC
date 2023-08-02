@@ -29,7 +29,7 @@ job "keycloak-server" {
             driver = "docker"
 			
 			artifact {
-				source = "https://repo.forge.ans.henix.fr/artifactory/AC/TEST/CL/truststore.jks"
+				source = "https://github.com/prosanteconnect/proof-of-concept/raw/main/keycloak/keycloak-server/truststore.jks"
 			}
 
             config {
@@ -93,6 +93,7 @@ EOF
 					KEYCLOAK_HTTPS_USE_PEM = true
 					KEYCLOAK_HTTPS_CERTIFICATE_FILE = /opt/bitnami/keycloak/certs/tls.pem
 					KEYCLOAK_HTTPS_CERTIFICATE_KEY_FILE = /opt/bitnami/keycloak/certs/tls.key
+					KEYCLOAK_HTTPS_TRUST_STORE_FILE = /opt/bitnami/keycloak/certs/truststore.jks
 					KEYCLOAK_HTTPS_TRUST_STORE_PASSWORD = {{ with secret "keycloak/keycloak-server" }}{{ .Data.data.keycloak_server_truststore_password }}{{ end }}
 					
 				EOH
