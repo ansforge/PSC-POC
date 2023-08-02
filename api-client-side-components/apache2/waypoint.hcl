@@ -28,7 +28,7 @@ app "editeur/apache2" {
         tag      = var.tag
         username = var.registry_username
         password = var.registry_password
-        local    = false
+        local    = true
       }
     }
   }
@@ -46,7 +46,7 @@ app "editeur/apache2" {
 
 variable "image" {
   type    = string
-  default = "customised-httpd-2.4-bookworm-v1"
+  default = "customised-httpd-2.4-bookworm"
 }
 
 variable "tag" {
