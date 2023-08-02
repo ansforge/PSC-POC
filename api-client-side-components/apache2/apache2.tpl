@@ -175,7 +175,7 @@ EOH
 	  # Conf, resources and service
 	  #######################################################
       config {
-        image = "${image}:${tag}"
+        image = "${artifact.image}:${artifact.tag}"
         ports = ["https"]     
 		# vhost dam
         mount {
