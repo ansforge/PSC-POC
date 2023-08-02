@@ -50,10 +50,8 @@ EOH
 	  #######################################################
 	   template {
         data = <<EOH
-{{ with secret "editeur/apache2/dam" }}
 <VirtualHost *:443>
-#Define demo_client_dam_base_url {{ range service "demo-client-dam" }}{{ .Address }}{{ end }}
-#Define keycloak_base_url {{ range service "keycloak-server-https" }}{{ .Address }}{{ end }}
+{{ with secret "editeur/apache2/dam" }}
 ErrorLogFormat "[%t] [%l] [pid %P] %F: %E: [client %a] %M"
 SSLProtocol all
    DocumentRoot /var/www/html
@@ -92,11 +90,12 @@ SSLProtocol all
     OIDCClientTokenEndpointCert /etc/ssl/certs/client.pocs.henix.asipsante.fr.pem
     OIDCClientTokenEndpointKey /etc/ssl/private/client.pocs.henix.asipsante.fr.key
 {{ end }}
+
   <Location /demo>
     AuthType openid-connect
     Require valid-user
-    ProxyPassMatch http://localhost:8081 #{ range service "demo-client-dam" }}{{ .Address }}{{ end }}
-	ProxyPassReverse http://localhost:8081 #{ range service "demo-client-dam" }}{{ .Address }}{{ end }}
+    ProxyPassMatch http://localhost:8081 
+	ProxyPassReverse http://localhost:8081 
 #    ProxyPassReverse $\u007Bdemo_client_dam_base_url\u007D
 #	ProxyPassReverse \u0024\u007Bdemo_client_dam_base_url\u007D
    </Location>
@@ -110,8 +109,8 @@ SSLProtocol all
 {{ end }}
 	 STSAcceptSourceTokenIn environment name=OIDC_access_token
 	 STSPassTargetTokenIn header
-     ProxyPassMatch  http://localhost:8081 #{ range service "demo-client-dam" }}{{ .Address }}{{ end }}
-     ProxyPassReverse  http://localhost:8081 #{ range service "demo-client-dam" }}{{ .Address }}{{ end }}
+     ProxyPassMatch  http://localhost:8081 
+     ProxyPassReverse  http://localhost:8081 
 
    </Location>
    
