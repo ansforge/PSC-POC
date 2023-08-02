@@ -52,8 +52,10 @@ EOH
         data = <<EOH
 {{ with secret "editeur/apache2/dam" }}
 <VirtualHost *:443>
-Define demo_client_dam_base_url {{ range service "demo-client-dam" }}{{ .Address }}{{ end }}
-Define keycloak_base_url {{ range service "keycloak-server-https" }}{{ .Address }}{{ end }}
+#Define demo_client_dam_base_url {{ range service "demo-client-dam" }}{{ .Address }}{{ end }}
+#Define keycloak_base_url {{ range service "keycloak-server-https" }}{{ .Address }}{{ end }}
+Define demo_client_dam_base_url {{ range service "cg-mongodb" }}{{ .Address }}:{{ .Port }}{{ end }}
+Define keycloak_base_url {{ range service "cg-mongodb" }}{{ .Address }}:{{ .Port }}{{ end }}
 ErrorLogFormat "[%t] [%l] [pid %P] %F: %E: [client %a] %M"
 SSLProtocol all
    DocumentRoot /var/www/html
@@ -95,8 +97,8 @@ SSLProtocol all
   <Location /demo>
     AuthType openid-connect
     Require valid-user
-    ProxyPassMatch \u0024\u007Bdemo_client_dam_base_url\u007D
-    ProxyPassReverse \u0024\u007Bdemo_client_dam_base_url\u007D
+    ProxyPassMatch $\u007Bdemo_client_dam_base_url\u007D
+    ProxyPassReverse $\u007Bdemo_client_dam_base_url\u007D
    </Location>
 
 
@@ -108,8 +110,8 @@ SSLProtocol all
 {{ end }}
 	 STSAcceptSourceTokenIn environment name=OIDC_access_token
 	 STSPassTargetTokenIn header
-     ProxyPassMatch \u0024\u007Bdemo_client_dam_base_url\u007D
-     ProxyPassReverse \u0024\u007Bdemo_client_dam_base_url\u007D
+     ProxyPassMatch $\u007Bdemo_client_dam_base_url\u007D
+     ProxyPassReverse $\u007Bdemo_client_dam_base_url\u007D
 
    </Location>
    
