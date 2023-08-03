@@ -53,7 +53,7 @@ server.use-forward-headers=true
 server.forward-headers-strategy=NATIVE
 server.tomcat.protocol-header=X-Forwarded-Proto
 dam.api.key={{ with secret "editeur/demo-client-dam" }}{{ .Data.data.dam.api.key}}{{ end }}
-dam.api.base.url=https://{{ with secret "editeur/demo-client-dam" }}{{ .Data.data.dam.api.base.url}}{{ end }}
+dam.api.url=https://{{ with secret "editeur/demo-client-dam" }}{{ .Data.data.dam.api.url}}{{ end }}
 EOH
       }
 
