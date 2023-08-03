@@ -41,14 +41,15 @@ job "demo-client-dam" {
         destination = "local/file.env"
         env = true
         data = <<EOH
-        JAVA_TOOL_OPTIONS="-Xms1g -Xmx2g -XX:+UseG1GC -Dspring.config.location=/local/application.properties"
+        JAVA_TOOL_OPTIONS="-Xms1g -Xmx2g -XX:+UseG1GC -Dspring.config.location=/secrets/application.properties"
 EOH
       }
 
       template {
-        destination = "local/application.properties"
+        destination = "secrets/application.properties"
         change_mode = "restart"
         data = <<EOH
+spring.application.name=demo-client-dam
 server.servlet.context-path=/secure
 server.use-forward-headers=true
 server.forward-headers-strategy=NATIVE
@@ -65,11 +66,11 @@ EOH
 
       service {
         name = "$\u007BNOMAD_JOB_NAME\u007D"
-        tags = ["urlprefix-/demo-client-dam/v1"]
+        tags = ["urlprefix-/secure"]
         port = "http"
         check {
           type = "http"
-          path = "demo-client-dam/v1/check"
+          path = "secure/check"
           port = "http"
           interval = "30s"
           timeout = "2s"
