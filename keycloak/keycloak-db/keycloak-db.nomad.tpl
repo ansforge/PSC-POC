@@ -23,9 +23,23 @@ job "keycloak-db" {
             port "psql-port" { to = 5432 }
         }
 		
+		volume "keycloak-db-volume" {
+			type      = "csi"
+			read_only = false
+			source    = "keycloak-db"
+			attachment_mode = "file-system"
+			access_mode     = "single-node-writer"
+		}
+		
         task "keycloak-db" {
 
             driver = "docker"
+			
+			volume_mount {
+				volume      = "keycloak-db-volume"
+				destination = "/var/lib/postgresql/data"
+				read_only   = false
+			}
 
             config {
                 image = "${image}:${tag}"				
