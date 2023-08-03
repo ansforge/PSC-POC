@@ -37,8 +37,8 @@ job "keycloak-server" {
                 ports = ["http-port", "https-port"]
 				mount {
 					type = "bind"
-					target = "/opt/bitnami/keycloak/certs/truststore.jks"
-					source = "local/truststore.jks"
+					target = "/opt/bitnami/keycloak/certs/truststore.bcfks"
+					source = "local/truststore.bcfks"
 					readonly = "false"
 					bind_options {
 						propagation = "rshared"
@@ -93,7 +93,7 @@ EOF
 					KEYCLOAK_HTTPS_USE_PEM = true
 					KEYCLOAK_HTTPS_CERTIFICATE_FILE = /opt/bitnami/keycloak/certs/tls.pem
 					KEYCLOAK_HTTPS_CERTIFICATE_KEY_FILE = /opt/bitnami/keycloak/certs/tls.key
-					KEYCLOAK_HTTPS_TRUST_STORE_FILE = /opt/bitnami/keycloak/certs/truststore.jks
+					KEYCLOAK_HTTPS_TRUST_STORE_FILE = /opt/bitnami/keycloak/certs/truststore.bcfks
 					KEYCLOAK_HTTPS_TRUST_STORE_PASSWORD = {{ with secret "keycloak/keycloak-server" }}{{ .Data.data.keycloak_server_truststore_password }}{{ end }}
 					
 				EOH
