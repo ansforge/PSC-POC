@@ -29,7 +29,7 @@ job "keycloak-server" {
             driver = "docker"
 			
 			artifact {
-				source = "https://github.com/prosanteconnect/proof-of-concept/raw/main/keycloak/keycloak-server/truststore.jks"
+				source = "https://github.com/prosanteconnect/proof-of-concept/raw/main/keycloak/keycloak-server/truststore.bcfks"
 			}
 
             config {
@@ -68,7 +68,7 @@ job "keycloak-server" {
 			
 			template {
 				data = <<EOF
-{{ with secret "keycloak/keycloak-server" }}{{ .Data.data.keycloak_server_tls_pem }}{{ end }}
+{{ with secret "keycloak/keycloak-server" }}{{ .Data.data.keycloak_server_tls_cert }}{{ end }}
 EOF
 				destination = "local/tls.pem"
 			}
