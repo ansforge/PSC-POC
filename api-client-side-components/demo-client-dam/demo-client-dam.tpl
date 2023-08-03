@@ -2,6 +2,7 @@ job "demo-client-dam" {
   namespace = "editeur"
   datacenters = ["${datacenter}"]
   type = "service"
+
   vault {
     policies = ["editeur"]
     change_mode = "restart"
@@ -40,20 +41,20 @@ job "demo-client-dam" {
         destination = "local/file.env"
         env = true
         data = <<EOH
-        JAVA_TOOL_OPTIONS="-Xms1g -Xmx2g -XX:+UseG1GC -Dspring.config.location=/secrets/application.properties"
+        JAVA_TOOL_OPTIONS="-Xms1g -Xmx2g -XX:+UseG1GC -Dspring.config.location=/local/application.properties"
 EOH
       }
 
       template {
-        destination = "secrets/application.properties"
+        destination = "local/application.properties"
         change_mode = "restart"
         data = <<EOH
 server.servlet.context-path=/secure
 server.use-forward-headers=true
 server.forward-headers-strategy=NATIVE
 server.tomcat.protocol-header=X-Forwarded-Proto
-dam.api.key={{ with secret "editeur/demo-client-dam" }}{{ .Data.data.dam.api.key}}{{ end }}
-dam.api.url=https://{{ with secret "editeur/demo-client-dam" }}{{ .Data.data.dam.api.url}}{{ end }}
+dam.api.key={{ with secret "editeur/demo-client-dam" }}{{ .Data.data.dam.api.key }}{{ end }}
+dam.api.url=https://{{ with secret "editeur/demo-client-dam" }}{{ .Data.data.dam.api.url }}{{ end }}
 EOH
       }
 
@@ -75,13 +76,6 @@ EOH
           failures_before_critical = 3
         }
       }
-	  
-	 	service {
-			name = "metrics-exporter"
-			port = "http"
-			tags = ["_endpoint=/psc-dam-api/v1/actuator/prometheus",
-							"_app=dam-api",]
-			} 
     }
   }
 }
