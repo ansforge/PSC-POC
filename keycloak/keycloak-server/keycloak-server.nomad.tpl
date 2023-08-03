@@ -27,26 +27,75 @@ job "keycloak-server" {
         task "keycloak-server" {
 
             driver = "docker"
+			
+			artifact {
+				source = "https://github.com/prosanteconnect/proof-of-concept/raw/main/keycloak/keycloak-server/truststore.bcfks"
+			}
 
             config {
                 image = "${image}:${tag}"				
                 ports = ["http-port", "https-port"]
+				mount {
+					type = "bind"
+					target = "/opt/bitnami/keycloak/certs/truststore.bcfks"
+					source = "local/truststore.bcfks"
+					readonly = "false"
+					bind_options {
+						propagation = "rshared"
+					}
+				}
+				
+				mount {
+				  type = "bind"
+				  target = "/opt/bitnami/keycloak/certs/tls.pem"
+				  source = "local/tls.pem"
+				  readonly = false
+				  bind_options {
+					propagation = "rshared"
+				  }
+				}
+				
+				mount {
+				  type = "bind"
+				  target = "/opt/bitnami/keycloak/certs/tls.key"
+				  source = "local/tls.key"
+				  readonly = false
+				  bind_options {
+					propagation = "rshared"
+				  }
+				}
             }
 			
 			template {
+				data = <<EOF
+{{ with secret "keycloak/keycloak-server" }}{{ .Data.data.keycloak_server_tls_cert }}{{ end }}
+EOF
+				destination = "local/tls.pem"
+			}
+			
+			template {
+				data = <<EOF
+{{ with secret "keycloak/keycloak-server" }}{{ .Data.data.keycloak_server_tls_key }}{{ end }}
+EOF
+				destination = "local/tls.key"
+			}
+			
+			template {
 				data = <<EOH
-<<<<<<< HEAD
-					KEYCLOAK_ADMIN_USER = {{ with secret "keycloak/keycloak-db" }}{{ .Data.data.keycloak_admin_user }}{{ end }}
-					KEYCLOAK_ADMIN_PASSWORD = {{ with secret "keycloak/keycloak-db" }}{{ .Data.data.keycloak_admin_password }}{{ end }}
-=======
 					KEYCLOAK_ADMIN_USER = {{ with secret "keycloak/keycloak-server" }}{{ .Data.data.keycloak_admin_user }}{{ end }}
 					KEYCLOAK_ADMIN_PASSWORD = {{ with secret "keycloak/keycloak-server" }}{{ .Data.data.keycloak_admin_password }}{{ end }}
->>>>>>> 63bc179fbdb2f4f414a4656c0da02ccc37ba819e
 					KEYCLOAK_DATABASE_HOST = {{ range service "keycloak-db"}}{{ .Address }}{{ end }}
 					KEYCLOAK_DATABASE_PORT = {{ range service "keycloak-db"}}{{ .Port }}{{ end }}
 					KEYCLOAK_DATABASE_USER = {{ with secret "keycloak/keycloak-db" }}{{ .Data.data.pgsql_user }}{{ end }}
 					KEYCLOAK_DATABASE_PASSWORD = {{ with secret "keycloak/keycloak-db" }}{{ .Data.data.pgsql_password }}{{ end }}
 					KEYCLOAK_DATABASE_NAME = {{ with secret "keycloak/keycloak-db" }}{{ .Data.data.pgsql_dbname }}{{ end }}
+					KEYCLOAK_ENABLE_HTTPS = true
+					KEYCLOAK_HTTPS_USE_PEM = true
+					KEYCLOAK_HTTPS_CERTIFICATE_FILE = /opt/bitnami/keycloak/certs/tls.pem
+					KEYCLOAK_HTTPS_CERTIFICATE_KEY_FILE = /opt/bitnami/keycloak/certs/tls.key
+					KEYCLOAK_HTTPS_TRUST_STORE_FILE = /opt/bitnami/keycloak/certs/truststore.bcfks
+					KEYCLOAK_HTTPS_TRUST_STORE_PASSWORD = {{ with secret "keycloak/keycloak-server" }}{{ .Data.data.keycloak_server_truststore_password }}{{ end }}
+					
 				EOH
 				
 				destination = "secrets/file.env"
@@ -59,14 +108,14 @@ job "keycloak-server" {
             }
 	    	   
             service {
-                name = "keycloak-server-http"
-                port = "http-port"
+                name = "keycloak-server"
+                port = "https-port"
                 check {
                     name         = "alive"
                     type         = "tcp"
                     interval     = "10s"
                     timeout      = "5s"
-                    port         = "http-port"
+                    port         = "https-port"
                 }
             }
         }
