@@ -82,6 +82,7 @@ EOF
 			
 			template {
 				data = <<EOH
+					KEYCLOAK_PRODUCTION = true
 					KEYCLOAK_ADMIN_USER = {{ with secret "keycloak/keycloak-server" }}{{ .Data.data.keycloak_admin_user }}{{ end }}
 					KEYCLOAK_ADMIN_PASSWORD = {{ with secret "keycloak/keycloak-server" }}{{ .Data.data.keycloak_admin_password }}{{ end }}
 					KEYCLOAK_DATABASE_HOST = {{ range service "keycloak-db"}}{{ .Address }}{{ end }}
@@ -95,8 +96,12 @@ EOF
 					KEYCLOAK_HTTPS_CERTIFICATE_KEY_FILE = /opt/bitnami/keycloak/certs/tls.key
 					KEYCLOAK_HTTPS_TRUST_STORE_FILE = /opt/bitnami/keycloak/certs/truststore.bcfks
 					KEYCLOAK_HTTPS_TRUST_STORE_PASSWORD = {{ with secret "keycloak/keycloak-server" }}{{ .Data.data.keycloak_server_truststore_password }}{{ end }}
-					KEYCLOAK_EXTRA_ARGS_PREPENDED = "start --hostname=auth.server.pocs.psc.esante.gouv.fr --features=preview --https-client-auth=request --hostname-strict=false"
 					PROSANTECONNECT_BACASABLE = 1
+					KC_HOSTNAME = auth.server.pocs.psc.esante.gouv.fr
+					KC_FEATURES = preview
+					KC_HTTPS_CLIENT_AUTH = request
+					KC_HOSTNAME_STRICT = false
+					KC_HEALTH_ENABLED = true
 				EOH
 				
 				destination = "secrets/file.env"
@@ -113,11 +118,11 @@ EOF
                 port = "https-port"
 				tags = ["urlprefix-auth.server.pocs.psc.esante.gouv.fr proto=tcp"]
                 check {
-                    name         = "alive"
-                    type         = "tcp"
+                    type         = "http"
                     interval     = "10s"
                     timeout      = "5s"
                     port         = "https-port"
+					path 		 = "/health/live"
                 }
             }
         }
