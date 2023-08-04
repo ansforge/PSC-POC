@@ -101,6 +101,7 @@ EOF
 					KC_FEATURES = preview
 					KC_HTTPS_CLIENT_AUTH = request
 					KC_HOSTNAME_STRICT = false
+					KC_HEALTH_ENABLED = true
 				EOH
 				
 				destination = "secrets/file.env"
@@ -117,11 +118,11 @@ EOF
                 port = "https-port"
 				tags = ["urlprefix-auth.server.pocs.psc.esante.gouv.fr proto=tcp"]
                 check {
-                    name         = "alive"
-                    type         = "tcp"
+                    type         = "http"
                     interval     = "10s"
                     timeout      = "5s"
                     port         = "https-port"
+					path 		 = "/health/live"
                 }
             }
         }
