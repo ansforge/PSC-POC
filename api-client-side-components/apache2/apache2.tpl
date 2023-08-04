@@ -98,10 +98,8 @@ RewriteEngine on
   <Location /secure>
     AuthType openid-connect
     Require valid-user
-    ProxyPassMatch http://localhost:8081 
-	ProxyPassReverse http://localhost:8081 
-#   ProxyPassReverse $\u007Bdemo_client_dam_base_url\u007D
-#	ProxyPassReverse \u0024\u007Bdemo_client_dam_base_url\u007D
+    ProxyPassMatch http://{{ range service "demo-client-dam" }}{{ .Address }}:{{ .Port }}{{ end }}
+	ProxyPassReverse http://{{ range service "demo-client-dam" }}{{ .Address }}:{{ .Port }}{{ end }}
    </Location>
 
 
@@ -109,13 +107,12 @@ RewriteEngine on
     AuthType openid-connect               #
     Require valid-user
 {{ with secret "editeur/apache2/dam" }}
-     STSExchange otx https://keycloak:8443/realms/{{ .Data.data.keycloak_realm }}/protocol/openid-connect/token auth=client_cert&cert=/etc/ssl/certs/client.pocs.henix.asipsante.fr.pem&key=/etc/ssl/certs/client.pocs.henix.asipsante.fr.pem&ssl_verify=false&params=subject_issuer%3D{{ .Data.data.keycloak_otx_subjet_issuer }}%26audience%3D{{ .Data.data.keycloak_otx_audience }}%26client_id%3D{{ .Data.data.keycloak_otx_client_id }}%26scope%3Dopenid
+     STSExchange otx https://auth.server.pocs.psc.esante.gouv.fr/realms/{{ .Data.data.keycloak_realm }}/protocol/openid-connect/token auth=client_cert&cert=/etc/ssl/certs/client.pocs.henix.asipsante.fr.pem&key=/etc/ssl/certs/client.pocs.henix.asipsante.fr.pem&ssl_verify=false&params=subject_issuer%3D{{ .Data.data.keycloak_otx_subjet_issuer }}%26audience%3D{{ .Data.data.keycloak_otx_audience }}%26client_id%3D{{ .Data.data.keycloak_otx_client_id }}%26scope%3Dopenid
 {{ end }}
 	 STSAcceptSourceTokenIn environment name=OIDC_access_token
 	 STSPassTargetTokenIn header
-     ProxyPassMatch  http://localhost:8081 
-     ProxyPassReverse  http://localhost:8081 
-
+     ProxyPassMatch  http://{{ range service "demo-client-dam" }}{{ .Address }}:{{ .Port }}{{ end }}
+     ProxyPassReverse  http://{{ range service "demo-client-dam" }}{{ .Address }}:{{ .Port }}{{ end }}
    </Location>
    
   
