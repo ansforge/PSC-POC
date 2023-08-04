@@ -59,6 +59,8 @@ SSLProtocol all
    ServerName {{ .Data.data.server_name }}
 
 #   ErrorLog /var/log/apache2/ssl_error_log_{{ .Data.data.server_name }}.log
+   ErrorLog /dev/stdout
+   ransferLog /dev/stdout
    LogLevel info
 
 RewriteEngine on
@@ -227,8 +229,8 @@ EOH
           }
         }   
         #rights and owner certificate key
-		command = "bash"
-		args = ["-c", "chmod 640 /etc/ssl/private/* && chown root:www-data /etc/ssl/private/*"]	
+#		command = "bash"
+#		args = ["-c", "chmod 640 /etc/ssl/private/* && chown root:www-data /etc/ssl/private/*"]	
       }
 	  
       resources {
