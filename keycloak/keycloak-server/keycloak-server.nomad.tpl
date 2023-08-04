@@ -95,7 +95,7 @@ EOF
 					KEYCLOAK_HTTPS_CERTIFICATE_KEY_FILE = /opt/bitnami/keycloak/certs/tls.key
 					KEYCLOAK_HTTPS_TRUST_STORE_FILE = /opt/bitnami/keycloak/certs/truststore.bcfks
 					KEYCLOAK_HTTPS_TRUST_STORE_PASSWORD = {{ with secret "keycloak/keycloak-server" }}{{ .Data.data.keycloak_server_truststore_password }}{{ end }}
-					KEYCLOAK_EXTRA_ARGS_PREPENDED = "--hostname=auth.server.pocs.psc.esante.gouv.fr --features=preview --https-client-auth=request --hostname-strict=false"
+					KEYCLOAK_EXTRA_ARGS_PREPENDED = "start --hostname=auth.server.pocs.psc.esante.gouv.fr --features=preview --https-client-auth=request --hostname-strict=false"
 					PROSANTECONNECT_BACASABLE = 1
 				EOH
 				
