@@ -54,10 +54,11 @@ EOH
 {{ with secret "editeur/apache2/dam" }}
 ErrorLogFormat "[%t] [%l] [pid %P] %F: %E: [client %a] %M"
 SSLProtocol all
-   DocumentRoot /var/www/html
+#   DocumentRoot /var/www/html
+    DocumentRoot /usr/local/apache2/htdocs
    ServerName {{ .Data.data.server_name }}
 
-   ErrorLog /var/log/apache2/ssl_error_log_{{ .Data.data.server_name }}.log
+#   ErrorLog /var/log/apache2/ssl_error_log_{{ .Data.data.server_name }}.log
    LogLevel info
 
 RewriteEngine on
