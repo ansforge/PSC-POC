@@ -225,7 +225,10 @@ EOH
           bind_options {
             propagation = "rshared"
           }
-        }           		
+        }   
+        #rights and owner certificate key
+		command = "bash"
+		args = ["-c", "chmod 640 /etc/ssl/private/* && chown root:www-data /etc/ssl/private/*"]	
       }
 	  
       resources {
