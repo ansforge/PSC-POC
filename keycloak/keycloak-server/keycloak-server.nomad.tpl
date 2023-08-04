@@ -31,10 +31,24 @@ job "keycloak-server" {
 			artifact {
 				source = "https://github.com/prosanteconnect/proof-of-concept/raw/main/keycloak/keycloak-server/truststore.bcfks"
 			}
-
+			
+			artifact {
+				source = "https://github.com/ansforge/keycloak-prosanteconnect/releases/download/2.0.2/keycloak-prosanteconnect-2.0.2.jar"
+			}
+			
             config {
                 image = "${image}:${tag}"				
                 ports = ["http-port", "https-port"]
+				mount {
+					type = "bind"
+					target = "/opt/bitnami/keycloak/providers/keycloak-prosanteconnect-2.0.2.jar"
+					source = "local/keycloak-prosanteconnect-2.0.2.jar"
+					readonly = "false"
+					bind_options {
+						propagation = "rshared"
+					}
+				}
+				
 				mount {
 					type = "bind"
 					target = "/opt/bitnami/keycloak/certs/truststore.bcfks"
@@ -118,11 +132,11 @@ EOF
                 port = "https-port"
 				tags = ["urlprefix-auth.server.pocs.psc.esante.gouv.fr proto=tcp"]
                 check {
-                    type         = "http"
+                    type         = "tcp"
                     interval     = "10s"
                     timeout      = "5s"
                     port         = "https-port"
-					path 		 = "auth.server.pocs.psc.esante.gouv.fr/health/live"
+					#path 		 = "/health/live" TODO: http check
                 }
             }
         }
