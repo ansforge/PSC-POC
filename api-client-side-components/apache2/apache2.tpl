@@ -68,8 +68,8 @@ RewriteEngine on
   RewriteRule "^/$" "/dam/index.html" [L]
 
    SSLEngine on
-   SSLCertificateFile /etc/ssl/certs/damenligne.pocs.henix.asipsante.fr.pem
-   SSLCertificateKeyFile /etc/ssl/private/damenligne.pocs.henix.asipsante.fr.key
+   SSLCertificateFile secrets/damenligne.pocs.henix.asipsante.fr.pem
+   SSLCertificateKeyFile secrets/damenligne.pocs.henix.asipsante.fr.key
    OIDCHTTPTimeoutShort 10
    OIDCProviderAuthorizationEndpoint https://wallet.bas.psc.esante.gouv.fr/auth
    OIDCProviderMetadataURL https://auth.bas.psc.esante.gouv.fr/auth/realms/esante-wallet/.well-known/wallet-openid-configuration
@@ -94,8 +94,8 @@ RewriteEngine on
    OIDCPassClaimsAs headers 
    
 # mTLS avec PSC   
-    OIDCClientTokenEndpointCert /etc/ssl/certs/client.pocs.henix.asipsante.fr.pem
-    OIDCClientTokenEndpointKey /etc/ssl/private/client.pocs.henix.asipsante.fr.key
+    OIDCClientTokenEndpointCert secrets/client.pocs.henix.asipsante.fr.pem
+    OIDCClientTokenEndpointKey secrets/client.pocs.henix.asipsante.fr.key
 {{ end }}
 
   <Location /secure>
@@ -188,49 +188,6 @@ EOH
             propagation = "rshared"
           }
         }  
-        # cert pub server dam		
-        mount {
-          type = "bind"
-          target = "/etc/ssl/certs/damenligne.pocs.henix.asipsante.fr.pem"
-          source = "secrets/damenligne.pocs.henix.asipsante.fr.pem"
-          readonly = true
-          bind_options {
-            propagation = "rshared"
-          }
-        } 
-		# cert key server dam
-	    mount {
-          type = "bind"
-          target = "/etc/ssl/private/damenligne.pocs.henix.asipsante.fr.key"
-          source = "secrets/damenligne.pocs.henix.asipsante.fr.key"
-          readonly = true
-          bind_options {
-            propagation = "rshared"
-          }
-        } 
-		# cert pub client psc keycloak
-         mount {
-          type = "bind"
-          target = "/etc/ssl/certs/client.pocs.henix.asipsante.fr.pem"
-          source = "secrets/client.pocs.henix.asipsante.fr.pem"
-          readonly = true
-          bind_options {
-            propagation = "rshared"
-          }
-        }   
-		# cert key client psc keycloak
-         mount {
-          type = "bind"
-          target = "/etc/ssl/private/client.pocs.henix.asipsante.fr.key"
-          source = "secrets/client.pocs.henix.asipsante.fr.key"
-          readonly = true
-          bind_options {
-            propagation = "rshared"
-          }
-        }   
-        #rights and owner certificate key
-#		command = "bash"
-#		args = ["-c", "chmod 640 /etc/ssl/private/* && chown root:www-data /etc/ssl/private/*"]	
       }
 	  
       resources {
