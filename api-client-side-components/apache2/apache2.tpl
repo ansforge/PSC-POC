@@ -60,7 +60,7 @@ SSLProtocol all
 
 #   ErrorLog /var/log/apache2/ssl_error_log_{{ .Data.data.server_name }}.log
    ErrorLog /dev/stdout
-   ransferLog /dev/stdout
+   TransferLog /dev/stdout
    LogLevel info
 
 RewriteEngine on
