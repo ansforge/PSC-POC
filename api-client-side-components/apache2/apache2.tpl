@@ -35,7 +35,7 @@ job "apache2" {
       
 	  #Page d'accueil dam - utilisateur non connecté
 	  artifact {
-	    	source	= "https://github.com/prosanteconnect/proof-of-concept/api-client-side-components/demo-client-dam/PageAccueil/dam.zip"
+	    	source	= "https://github.com/prosanteconnect/proof-of-concept/raw/main/api-client-side-components/demo-client-dam/PageAccueil/dam.zip"
 		    options {
 			  archive = false
 	    	}
@@ -241,15 +241,15 @@ EOH
 #		command = "bash"
 #		args = ["-c", "chmod 640 /etc/ssl/private/* && chown root:www-data /etc/ssl/private/*"]	
 		#page d'accueil utilisateur non connecté
-		mount {
-		          type = "bind"
-			      target = "/usr/local/apache2/htdocs"
-			      source = "local/dam.zip"
-			      readonly = true
-			      bind_options {
-				    propagation = "rshared"
-				  }
-		    	}
+#		mount {
+#		          type = "bind"
+#			      target = "/usr/local/apache2/htdocs"
+#			      source = "local/dam.zip"
+#   		      readonly = true
+#			      bind_options {
+#				    propagation = "rshared"
+#				  }
+#		    	}
       }
 	  
       resources {
