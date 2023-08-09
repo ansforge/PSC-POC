@@ -36,6 +36,10 @@ job "keycloak-server" {
 				source = "https://github.com/ansforge/keycloak-prosanteconnect/releases/download/2.0.2/keycloak-prosanteconnect-2.0.2.jar"
 			}
 			
+			artifact {
+				source = "https://github.com/ansforge/keycloak-certhash-mapper/releases/download/1.0.1/keycloak-certhash-mapper-1.0.1.jar"
+			}
+			
             config {
                 image = "${image}:${tag}"				
                 ports = ["http-port", "https-port"]
@@ -43,6 +47,16 @@ job "keycloak-server" {
 					type = "bind"
 					target = "/opt/bitnami/keycloak/providers/keycloak-prosanteconnect-2.0.2.jar"
 					source = "local/keycloak-prosanteconnect-2.0.2.jar"
+					readonly = "false"
+					bind_options {
+						propagation = "rshared"
+					}
+				}
+				
+				mount {
+					type = "bind"
+					target = "/opt/bitnami/keycloak/providers/keycloak-certhash-mapper-1.0.1.jar"
+					source = "local/keycloak-certhash-mapper-1.0.1.jar"
 					readonly = "false"
 					bind_options {
 						propagation = "rshared"
