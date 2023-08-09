@@ -146,19 +146,11 @@ EOF
                 port = "https-port"
 				tags = ["urlprefix-auth.server.pocs.psc.esante.gouv.fr proto=tcp"]
                 check {
-<<<<<<< HEAD
                     type         = "http"
-                    interval     = "10s"
-                    timeout      = "5s"
-                    port         = "https-port"
+					interval 	 = "30s"
+					timeout 	 = "10s"
+                    port         = "http-port"
 					path 		 = "/health/live"
-=======
-                    type         = "tcp"
-                    interval     = "10s"
-                    timeout      = "5s"
-                    port         = "https-port"
-					#path 		 = "/health/live" TODO: http check
->>>>>>> 821c6ca7c9ff367eed697ef5de10bbfae4be4403
                 }
             }
         }
