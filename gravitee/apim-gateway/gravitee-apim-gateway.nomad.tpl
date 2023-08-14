@@ -155,7 +155,7 @@ EOF
 	    	   
             service {
                 name = "$\u007BNOMAD_JOB_NAME\u007D"
-				tags = ["urlprefix-${apim_gateway_fqdn}"]
+				tags = ["urlprefix-${apim_gateway_fqdn} proto=tcp"]
                 port = "gateway-port"
                 check {
                     name         = "alive"
