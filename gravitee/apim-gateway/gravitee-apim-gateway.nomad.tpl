@@ -148,7 +148,7 @@ gravitee.http.ssl.keystore.type = pem
 gravitee_http_ssl_keystore_certificates_0_cert = /opt/graviteeio-gateway/config/gateway_pub_cert.pem
 gravitee_http_ssl_keystore_certificates_0_key = /opt/graviteeio-gateway/config/gateway_key_cert.key
 gravitee.http.ssl.truststore.type = pem
-gravitee.http.ssl.truststore.path = /opt/graviteeio-gateway/config/ca-bundle.pem
+gravitee.http.ssl.truststore.path = /opt/graviteeio-gateway/config/ca_bundle.pem
 # api properties encryption secret override
 gravitee_api_properties_encryption_secret={{ with secret "gravitee/apim" }}{{.Data.data.encryption_secret}}{{end}}
 # prometheus
