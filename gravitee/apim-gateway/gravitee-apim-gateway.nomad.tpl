@@ -118,9 +118,10 @@ gravitee.reporters.elasticsearch.security.password={{ with secret "gravitee/elas
 # mTLS
 gravitee.http.ssl.clientAuth = request
 gravitee.http.ssl.keystore.type = pem
-
+gravitee.http.ssl.keystore.certificates[0]cert = secrets/gateway_pub_cert.pem"
+gravitee.http.ssl.keystore.certificates[0]key = secrets/gateway_key_cert.key
 #gravitee.http.ssl.truststore.type = pem
-#gravitee.http.ssl.truststore.path = /notdefine
+gravitee.http.ssl.truststore.path = /notdefine
 # api properties encryption secret override
 gravitee_api_properties_encryption_secret={{ with secret "gravitee/apim" }}{{.Data.data.encryption_secret}}{{end}}
 # prometheus
@@ -133,9 +134,24 @@ _JAVA_OPTIONS="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=
 # Le heartbeat est en doublon avec Nomad et se marie mal avec l'allocation dynamique
 gravitee_services_heartbeat_enabled=false
 EOD
-                destination = "local/.env"
+                destination = "secrets/.env"
                 env = true
             }
+			
+			template {
+				data = <<EOF
+{{ with secret "gravitee/ssl" }}{{.Data.data.gateway_cert}}{{end}}
+EOF
+				destination = "secrets/gateway_pub_cert.pem"
+			}
+			
+			template {
+				data = <<EOF
+{{ with secret "gravitee/ssl" }}{{.Data.data.gateway_key}}{{end}}
+EOF
+				destination = "secrets/gateway_key_cert.key"
+			}
+
 	    	   
             service {
                 name = "$\u007BNOMAD_JOB_NAME\u007D"
