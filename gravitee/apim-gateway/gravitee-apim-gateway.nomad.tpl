@@ -115,13 +115,13 @@ gravitee.ds.elastic.host = {{ range service "gravitee-elasticsearch" }}{{.Addres
 gravitee.ds.elastic.port = {{ range service "gravitee-elasticsearch" }}{{.Port}}{{end}}
 gravitee.reporters.elasticsearch.security.username={{ with secret "gravitee/elasticsearch" }}{{.Data.data.root_user}}{{end}}
 gravitee.reporters.elasticsearch.security.password={{ with secret "gravitee/elasticsearch" }}{{.Data.data.root_pass}}{{end}}
-#mTLS https://docs.gravitee.io/apim/3.x/apim_installguide_gateway_configuration.html
+# mTLS
 gravitee.http.ssl.clientAuth = request
 gravitee.http.ssl.keystore.type = pem
 #gravitee.http.ssl.keystore.certificates[0]cert = {{ with secret "gravitee/ssl" }}{{.Data.data.gateway_cert}}{{end}}
 #gravitee.http.ssl.keystore.certificates[0]key = {{ with secret "gravitee/ssl" }}{{.Data.data.gateway_key}}{{end}}
 #gravitee.http.ssl.truststore.type = pem
-#gravitee.http.ssl.truststore.path
+#gravitee.http.ssl.truststore.path = /notdefine
 # api properties encryption secret override
 gravitee_api_properties_encryption_secret={{ with secret "gravitee/apim" }}{{.Data.data.encryption_secret}}{{end}}
 # prometheus
@@ -134,7 +134,7 @@ _JAVA_OPTIONS="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=
 # Le heartbeat est en doublon avec Nomad et se marie mal avec l'allocation dynamique
 gravitee_services_heartbeat_enabled=false
 EOD
-                destination = "secrets/.env"
+                destination = "local/.env"
                 env = true
             }
 	    	   
