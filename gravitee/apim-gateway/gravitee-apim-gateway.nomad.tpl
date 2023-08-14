@@ -118,8 +118,8 @@ gravitee.reporters.elasticsearch.security.password={{ with secret "gravitee/elas
 #mTLS https://docs.gravitee.io/apim/3.x/apim_installguide_gateway_configuration.html
 gravitee.http.ssl.clientAuth = request
 gravitee.http.ssl.keystore.type = pem
-gravitee.http.ssl.keystore.certificates[0].cert = {{ with secret "gravitee/ssl" }}{{.Data.data.gateway_cert}}{{end}}
-gravitee.http.ssl.keystore.certificates[0].key = {{ with secret "gravitee/ssl" }}{{.Data.data.gateway_key}}{{end}}
+gravitee.http.ssl.keystore.certificates.cert[0] = {{ with secret "gravitee/ssl" }}{{.Data.data.gateway_cert}}{{end}}
+gravitee.http.ssl.keystore.certificates.key[0] = {{ with secret "gravitee/ssl" }}{{.Data.data.gateway_key}}{{end}}
 #gravitee.http.ssl.truststore.type = pem
 #gravitee.http.ssl.truststore.path
 # api properties encryption secret override
@@ -134,7 +134,7 @@ _JAVA_OPTIONS="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=
 # Le heartbeat est en doublon avec Nomad et se marie mal avec l'allocation dynamique
 gravitee_services_heartbeat_enabled=false
 EOD
-                destination = "local/.env"
+                destination = "secrets/.env"
                 env = true
             }
 	    	   
