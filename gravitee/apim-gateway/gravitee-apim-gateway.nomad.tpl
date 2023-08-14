@@ -134,7 +134,7 @@ _JAVA_OPTIONS="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=
 # Le heartbeat est en doublon avec Nomad et se marie mal avec l'allocation dynamique
 gravitee_services_heartbeat_enabled=false
 EOD
-                destination = "secrets/.env"
+                destination = "local/.env"
                 env = true
             }
 	    	   
