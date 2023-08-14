@@ -36,6 +36,10 @@ job "keycloak-server" {
 				source = "https://github.com/ansforge/keycloak-prosanteconnect/releases/download/2.0.2/keycloak-prosanteconnect-2.0.2.jar"
 			}
 			
+			artifact {
+				source = "https://github.com/ansforge/keycloak-certhash-mapper/releases/download/1.0.1/keycloak-certhash-mapper-1.0.1.jar"
+			}
+			
             config {
                 image = "${image}:${tag}"				
                 ports = ["http-port", "https-port"]
@@ -43,6 +47,16 @@ job "keycloak-server" {
 					type = "bind"
 					target = "/opt/bitnami/keycloak/providers/keycloak-prosanteconnect-2.0.2.jar"
 					source = "local/keycloak-prosanteconnect-2.0.2.jar"
+					readonly = "false"
+					bind_options {
+						propagation = "rshared"
+					}
+				}
+				
+				mount {
+					type = "bind"
+					target = "/opt/bitnami/keycloak/providers/keycloak-certhash-mapper-1.0.1.jar"
+					source = "local/keycloak-certhash-mapper-1.0.1.jar"
 					readonly = "false"
 					bind_options {
 						propagation = "rshared"
@@ -132,19 +146,11 @@ EOF
                 port = "https-port"
 				tags = ["urlprefix-auth.server.pocs.psc.esante.gouv.fr proto=tcp"]
                 check {
-<<<<<<< HEAD
                     type         = "http"
-                    interval     = "10s"
-                    timeout      = "5s"
-                    port         = "https-port"
+					interval 	 = "30s"
+					timeout 	 = "10s"
+                    port         = "http-port"
 					path 		 = "/health/live"
-=======
-                    type         = "tcp"
-                    interval     = "10s"
-                    timeout      = "5s"
-                    port         = "https-port"
-					#path 		 = "/health/live" TODO: http check
->>>>>>> 821c6ca7c9ff367eed697ef5de10bbfae4be4403
                 }
             }
         }
