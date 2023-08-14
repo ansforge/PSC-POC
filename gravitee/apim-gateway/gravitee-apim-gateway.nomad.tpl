@@ -96,7 +96,7 @@ job "gravitee-apim-gateway" {
 				mount {
 					type = "bind"
 					target = "/opt/graviteeio-gateway/config/ca_bundle.pem"
-					source = "local/ca_bundle"
+					source = "local/ca_bundle.pem"
 					readonly = "false"
 					bind_options {
 						propagation = "rshared"
