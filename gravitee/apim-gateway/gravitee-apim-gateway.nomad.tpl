@@ -118,8 +118,8 @@ gravitee.reporters.elasticsearch.security.password={{ with secret "gravitee/elas
 # mTLS
 gravitee.http.ssl.clientAuth = request
 gravitee.http.ssl.keystore.type = pem
-gravitee_http_ssl_keystore_certificates_0_cert = secrets/gateway_pub_cert.pem"
-gravitee_http_ssl_keystore_certificates_0_key = secrets/gateway_key_cert.key
+gravitee_http_ssl_keystore_certificates_0_cert = _"secrets/gateway_pub_cert.pem"
+gravitee_http_ssl_keystore_certificates_0_key = "secrets/gateway_key_cert.key"
 #gravitee.http.ssl.truststore.type = pem
 gravitee.http.ssl.truststore.path = /notdefine
 # api properties encryption secret override
