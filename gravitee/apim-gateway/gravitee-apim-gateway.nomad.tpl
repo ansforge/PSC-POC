@@ -69,8 +69,7 @@ job "gravitee-apim-gateway" {
 		    	archive = false
 		    }
 	    }
-	   	  
-	   
+			   
             driver = "docker"
 
             config {
@@ -93,7 +92,34 @@ job "gravitee-apim-gateway" {
 			      bind_options {
 				    propagation = "rshared"
 				 }
-			    }				
+			    }			
+				mount {
+					type = "bind"
+					target = "/opt/graviteeio-gateway/config/ca_bundle.pem"
+					source = "local/ca_bundle"
+					readonly = "false"
+					bind_options {
+						propagation = "rshared"
+					}
+				}
+				mount {
+					type = "bind"
+					target = "/opt/graviteeio-gateway/config/gateway_key_cert.key"
+					source = "secrets/gateway_key_cert.key"
+					readonly = "false"
+					bind_options {
+						propagation = "rshared"
+					}
+				}
+				mount {
+					type = "bind"
+					target = "/opt/graviteeio-gateway/config/gateway_pub_cert.pem"
+					source = "secrets/gateway_pub_cert.pem"
+					readonly = "false"
+					bind_options {
+						propagation = "rshared"
+					}
+				}				
              }
 
             resources {
@@ -116,12 +142,13 @@ gravitee.ds.elastic.port = {{ range service "gravitee-elasticsearch" }}{{.Port}}
 gravitee.reporters.elasticsearch.security.username={{ with secret "gravitee/elasticsearch" }}{{.Data.data.root_user}}{{end}}
 gravitee.reporters.elasticsearch.security.password={{ with secret "gravitee/elasticsearch" }}{{.Data.data.root_pass}}{{end}}
 # mTLS
+gravitee.http.secured = true 
 gravitee.http.ssl.clientAuth = request
 gravitee.http.ssl.keystore.type = pem
-gravitee_http_ssl_keystore_certificates_0_cert = _"secrets/gateway_pub_cert.pem"
-gravitee_http_ssl_keystore_certificates_0_key = "secrets/gateway_key_cert.key"
-#gravitee.http.ssl.truststore.type = pem
-gravitee.http.ssl.truststore.path = /notdefine
+gravitee_http_ssl_keystore_certificates_0_cert = /opt/graviteeio-gateway/config/gateway_pub_cert.pem
+gravitee_http_ssl_keystore_certificates_0_key = /opt/graviteeio-gateway/config/gateway_key_cert.key
+gravitee.http.ssl.truststore.type = pem
+gravitee.http.ssl.truststore.path = /opt/graviteeio-gateway/config/ca-bundle-EL-ORG-TEST-PROD.pem
 # api properties encryption secret override
 gravitee_api_properties_encryption_secret={{ with secret "gravitee/apim" }}{{.Data.data.encryption_secret}}{{end}}
 # prometheus
@@ -150,6 +177,13 @@ EOF
 {{ with secret "gravitee/ssl" }}{{.Data.data.gateway_key}}{{end}}
 EOF
 				destination = "secrets/gateway_key_cert.key"
+			}
+
+			template {
+				data = <<EOF
+{{ with secret "gravitee/ssl" }}{{.Data.data.ca_bundle}}{{end}}
+EOF
+				destination = "local/ca_bundle.pem"
 			}
 
 	    	   
