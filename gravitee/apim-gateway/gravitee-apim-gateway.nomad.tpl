@@ -153,6 +153,7 @@ gravitee.http.ssl.truststore.path = /opt/graviteeio-gateway/config/ca_bundle.pem
 gravitee_groovy_whitelist_mode = append
 gravitee_groovy_whitelist_list_0 = class sun.security.ssl.SSLSessionImpl
 gravitee_groovy_whitelist_list_1 = class javax.net.ssl.SSLSessionImpl
+gravitee_groovy_whitelist_list_2 = class javax.net.ssl.SSLSession
 # api properties encryption secret override
 gravitee_api_properties_encryption_secret={{ with secret "gravitee/apim" }}{{.Data.data.encryption_secret}}{{end}}
 # prometheus
