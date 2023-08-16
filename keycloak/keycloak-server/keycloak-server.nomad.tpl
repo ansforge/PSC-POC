@@ -127,7 +127,7 @@ EOF
 					PROSANTECONNECT_BACASABLE = 1
 					KC_HOSTNAME = auth.server.pocs.psc.esante.gouv.fr
 					KC_FEATURES = preview
-					KC_HTTPS_CLIENT_AUTH = request
+					KC_HTTPS_CLIENT_AUTH = {{ with secret "keycloak/keycloak-server" }}{{ .Data.data.keycloak_server_x509_client_auth }}{{ end }}
 					KC_HOSTNAME_STRICT = false
 					KC_HEALTH_ENABLED = true
 				EOH
