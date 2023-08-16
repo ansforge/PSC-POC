@@ -73,6 +73,9 @@ gravitee_security_providers_0_users_0_password=
 gravitee_security_providers_0_users_2_password=
 gravitee_security_providers_0_users_3_password=
 gravitee_email_enabled=false
+#groovy whitelist append
+gravitee_groovy_whitelist_mode = append
+gravitee_groovy_whitelist_list_0 = class sun.security.ssl.SSLSessionImpl
 # jwt secret override
 gravitee_jwt_secret={{ with secret "gravitee/apim" }}{{.Data.data.jwt_secret}}{{end}}
 # api properties encryption secret override
