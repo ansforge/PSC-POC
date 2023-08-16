@@ -130,6 +130,7 @@ EOF
 					KC_HTTPS_CLIENT_AUTH = {{ with secret "keycloak/keycloak-server" }}{{ .Data.data.keycloak_server_x509_client_auth }}{{ end }}
 					KC_HOSTNAME_STRICT = false
 					KC_HEALTH_ENABLED = true
+					KC_LOG_LEVEL = ALL
 				EOH
 				
 				destination = "secrets/file.env"
