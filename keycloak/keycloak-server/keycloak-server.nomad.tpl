@@ -121,10 +121,7 @@ EOF
 					KEYCLOAK_ENABLE_HTTPS = true
 					KEYCLOAK_HTTPS_USE_PEM = true
 					KEYCLOAK_HTTPS_CERTIFICATE_FILE = /opt/bitnami/keycloak/certs/tls.pem
-					KEYCLOAK_HTTPS_CERTIFICATE_KEY_FILE = /opt/bitnami/keycloak/certs/tls.key
-					KEYCLOAK_HTTPS_TRUST_STORE_FILE = /opt/bitnami/keycloak/certs/truststore.bcfks
-					KEYCLOAK_HTTPS_TRUST_STORE_TYPE = BCFKS
-					KEYCLOAK_HTTPS_TRUST_STORE_PASSWORD = {{ with secret "keycloak/keycloak-server" }}{{ .Data.data.keycloak_server_truststore_password }}{{ end }}
+					KEYCLOAK_HTTPS_CERTIFICATE_KEY_FILE = /opt/bitnami/keycloak/certs/tls.key					
 					PROSANTECONNECT_BACASABLE = 1
 					KC_HOSTNAME = auth.server.pocs.psc.esante.gouv.fr
 					KC_FEATURES = preview
