@@ -160,6 +160,8 @@ EOH
         destination = "secrets/damenligne.pocs.psc.esante.gouv.fr.key"
         change_mode = "restart"
         env = false
+		perms = "640"		
+		gid = 33
       }
 	  
 	  template {
@@ -241,15 +243,15 @@ EOH
 #		command = "bash"
 #		args = ["-c", "chmod 640 /etc/ssl/private/* && chown root:www-data /etc/ssl/private/*"]	
 		#page d'accueil utilisateur non connecté
-#		mount {
-#		          type = "bind"
-#			      target = "/usr/local/apache2/htdocs"
-#			      source = "local/dam.zip"
-#   		      readonly = true
-#			      bind_options {
-#				    propagation = "rshared"
-#				  }
-#		    	}
+		mount {
+		          type = "bind"
+			      target = "/usr/local/apache2/htdocs"
+			      source = "local/dam.zip"
+   		      readonly = true
+			      bind_options {
+				    propagation = "rshared"
+				  }
+		    	}
       }
 	  
       resources {
