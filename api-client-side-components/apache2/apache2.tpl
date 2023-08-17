@@ -248,7 +248,7 @@ EOH
 		mount {
 		          type = "bind"
 			      target = "/usr/local/apache2/htdocs/dam"
-			      source = "local/dam.zip"
+			      source = "local/tmp"
    		      readonly = true
 			      bind_options {
 				    propagation = "rshared"
