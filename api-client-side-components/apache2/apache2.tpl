@@ -80,7 +80,8 @@ RewriteEngine on
 
    SSLEngine on
    SSLCertificateFile /etc/ssl/certs/damenligne.pocs.psc.esante.gouv.fr.pem
-   SSLCertificateKeyFile /etc/ssl/private/damenligne.pocs.psc.esante.gouv.fr.key
+#   SSLCertificateKeyFile /etc/ssl/private/damenligne.pocs.psc.esante.gouv.fr.key
+   SSLCertificateKeyFile secrets/damenligne.pocs.psc.esante.gouv.fr.key
    OIDCHTTPTimeoutShort 10
    OIDCProviderAuthorizationEndpoint https://wallet.bas.psc.esante.gouv.fr/auth
    OIDCProviderMetadataURL https://auth.bas.psc.esante.gouv.fr/auth/realms/esante-wallet/.well-known/wallet-openid-configuration
@@ -212,15 +213,15 @@ EOH
           }
         } 
 		# cert key server dam
-	    mount {
-          type = "bind"
-          target = "/etc/ssl/private/damenligne.pocs.psc.esante.gouv.fr.key"
-          source = "secrets/damenligne.pocs.psc.esante.gouv.fr.key"
-          readonly = true
-          bind_options {
-            propagation = "rshared"
-          }
-        } 
+#	    mount {
+#          type = "bind"
+#          target = "/etc/ssl/private/damenligne.pocs.psc.esante.gouv.fr.key"
+#          source = "secrets/damenligne.pocs.psc.esante.gouv.fr.key"
+#          readonly = true
+#          bind_options {
+#            propagation = "rshared"
+#          }
+#        } 
 		# cert pub client psc keycloak
          mount {
           type = "bind"
