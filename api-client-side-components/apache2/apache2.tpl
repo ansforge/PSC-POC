@@ -211,7 +211,7 @@ EOH
 	    mount {
           type = "bind"
           target = "/etc/ssl/private/damenligne.pocs.psc.esante.gouv.fr.key"
-          source = "secrets/damenligne.pocs.psc.esante.gouv.fr".key
+          source = "secrets/damenligne.pocs.psc.esante.gouv.fr.key"
           readonly = true
           bind_options {
             propagation = "rshared"
