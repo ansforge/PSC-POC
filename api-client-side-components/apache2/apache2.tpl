@@ -242,11 +242,11 @@ EOH
         #rights and owner certificate key
 #		command = "bash"
 #		args = ["-c", "chmod 640 /etc/ssl/private/* && chown root:www-data /etc/ssl/private/*"]	
-		#page d'accueil utilisateur non connecté
+		#page d'accueil utilisateur non connectéopt/
 		mount {
 		          type = "bind"
-			      target = "/usr/local/apache2/htdocs/dam/"
-			      source = "local/dam.zip"
+			      target = "/usr/local/apache2/htdocs/dam"
+			      source = "local/dam"
    		      readonly = true
 			      bind_options {
 				    propagation = "rshared"
