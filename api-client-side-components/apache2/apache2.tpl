@@ -245,7 +245,7 @@ EOH
 		#page d'accueil utilisateur non connecté
 		mount {
 		          type = "bind"
-			      target = "/usr/local/apache2/htdocs"
+			      target = "/usr/local/apache2/htdocs/dam/"
 			      source = "local/dam.zip"
    		      readonly = true
 			      bind_options {
