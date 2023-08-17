@@ -252,7 +252,7 @@ EOH
    		      readonly = true
 			      bind_options {
 				    propagation = "rshared"
-				  }cd 
+				  }
 		    	}
       }
 	  
