@@ -162,7 +162,7 @@ EOH
         destination = "secrets/damenligne.pocs.psc.esante.gouv.fr.key"
         change_mode = "restart"
         env = false
-		perms = "777"		
+		perms = "640"		
 		gid = 33
 		uid = 33
       }
