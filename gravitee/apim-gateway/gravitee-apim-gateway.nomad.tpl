@@ -154,6 +154,9 @@ gravitee_groovy_whitelist_mode = append
 gravitee_groovy_whitelist_list_0 = class sun.security.ssl.SSLSessionImpl
 gravitee_groovy_whitelist_list_1 = class javax.net.ssl.SSLSessionImpl
 gravitee_groovy_whitelist_list_2 = class javax.net.ssl.SSLSession
+gravitee_groovy_whitelist_list_3 = class sun.security.x509.X509CertImpl
+gravitee_groovy_whitelist_list_4 = class java.security.cert.Certificate
+gravitee_groovy_whitelist_list_5 = class ava.security.cert.X509Certificate
 # api properties encryption secret override
 gravitee_api_properties_encryption_secret={{ with secret "gravitee/apim" }}{{.Data.data.encryption_secret}}{{end}}
 # prometheus
