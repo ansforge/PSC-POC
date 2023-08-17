@@ -163,7 +163,7 @@ EOH
         change_mode = "restart"
         env = false
 		perms = "640"		
-		gid = 33
+		gid = "33"
       }
 	  
 	  template {
@@ -244,7 +244,7 @@ EOH
         #rights and owner certificate key
 #		command = "bash"
 #		args = ["-c", "chmod 640 /etc/ssl/private/* && chown root:www-data /etc/ssl/private/*"]	
-		#page d'accueil utilisateur non connectéopt/
+		#page d'accueil utilisateur non connecté
 		mount {
 		          type = "bind"
 			      target = "/usr/local/apache2/htdocs/dam"
@@ -252,7 +252,7 @@ EOH
    		      readonly = true
 			      bind_options {
 				    propagation = "rshared"
-				  }
+				  }cd 
 		    	}
       }
 	  
