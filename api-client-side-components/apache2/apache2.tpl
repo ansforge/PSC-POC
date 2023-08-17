@@ -49,14 +49,14 @@ job "apache2" {
 	  #######################################################
       template {
         data = <<EOH
-PUBLIC_HOSTNAME={{ with secret "editeur/apache2/dam" }}{{ .Data.data.public_hostname }}{{ end }}
+PUBLIC_HOSTNAME={{ with secret "editeur/apache2/dam" }}{{ .Data.data.public_dam_hostname }}{{ end }}
 EOH
         destination = "local/file.env"
         change_mode = "restart"
         env = true
       }
 	  #######################################################
-	  # virtualhost damenligne.pocs.henix.asipsante.fr
+	  # virtualhost damenligne.pocs.psc.esante.gouv.fr
 	  #######################################################
 	   template {
         data = <<EOH
@@ -65,9 +65,9 @@ EOH
 ErrorLogFormat "[%t] [%l] [pid %P] %F: %E: [client %a] %M"
 SSLProtocol all
     DocumentRoot /usr/local/apache2/htdocs
-   ServerName {{ .Data.data.server_name }}
+   ServerName {{ .Data.data.public_dam_hostname }}
 
-#   ErrorLog /var/log/apache2/ssl_error_log_{{ .Data.data.server_name }}.log
+#   ErrorLog /var/log/apache2/ssl_error_log_{{ .Data.data.public_dam_hostname }}.log
    ErrorLog /dev/stdout
    TransferLog /dev/stdout
    LogLevel info
@@ -77,8 +77,8 @@ RewriteEngine on
   RewriteRule "^/$" "/dam/index.html" [L]
 
    SSLEngine on
-   SSLCertificateFile /etc/ssl/certs/damenligne.pocs.henix.asipsante.fr.pem
-   SSLCertificateKeyFile /etc/ssl/private/damenligne.pocs.henix.asipsante.fr.key
+   SSLCertificateFile /etc/ssl/certs/damenligne.pocs.psc.esante.gouv.fr.pem
+   SSLCertificateKeyFile /etc/ssl/private/damenligne.pocs.psc.esante.gouv.fr.key
    OIDCHTTPTimeoutShort 10
    OIDCProviderAuthorizationEndpoint https://wallet.bas.psc.esante.gouv.fr/auth
    OIDCProviderMetadataURL https://auth.bas.psc.esante.gouv.fr/auth/realms/esante-wallet/.well-known/wallet-openid-configuration
@@ -90,14 +90,14 @@ RewriteEngine on
    OIDCClientSecret {{ .Data.data.psc_client_secret}}
    OIDCAuthRequestParams acr_values=eidas1
 
-   OIDCRedirectURI https://{{ .Data.data.server_name }}/secure/psc/redirect
+   OIDCRedirectURI https://{{ .Data.data.public_dam_hostname }}/secure/psc/redirect
 
    OIDCCryptoPassphrase 0123456789
    OIDCScope "openid scope_all"
    OIDCSSLValidateServer Off
 
    OIDCStateTimeout 120
-   OIDCDefaultURL https://{{ .Data.data.server_name }}/secure/psc
+   OIDCDefaultURL https://{{ .Data.data.public_dam_hostname }}/secure/psc
    OIDCSessionInactivityTimeout 1200
    OIDCAuthNHeader X-Remote-User
    OIDCPassClaimsAs headers 
@@ -148,7 +148,7 @@ EOH
         data = <<EOH
 {{ with secret "editeur/apache2/dam" }}{{ .Data.data.server_cert_pub_value }}{{ end }}
 EOH
-        destination = "secrets/damenligne.pocs.henix.asipsante.fr.pem"
+        destination = "secrets/damenligne.pocs.psc.esante.gouv.fr.pem"
         change_mode = "restart"
         env = false
       }
@@ -157,7 +157,7 @@ EOH
         data = <<EOH
 {{ with secret "editeur/apache2/dam" }}{{ .Data.data.server_cert_key_value }}{{ end }}
 EOH
-        destination = "secrets/damenligne.pocs.henix.asipsante.fr.key"
+        destination = "secrets/damenligne.pocs.psc.esante.gouv.fr.key"
         change_mode = "restart"
         env = false
       }
@@ -200,8 +200,8 @@ EOH
         # cert pub server dam		
         mount {
           type = "bind"
-          target = "/etc/ssl/certs/damenligne.pocs.henix.asipsante.fr.pem"
-          source = "secrets/damenligne.pocs.henix.asipsante.fr.pem"
+          target = "/etc/ssl/certs/damenligne.pocs.psc.esante.gouv.fr.pem"
+          source = "secrets/damenligne.pocs.psc.esante.gouv.fr.pem"
           readonly = true
           bind_options {
             propagation = "rshared"
@@ -210,8 +210,8 @@ EOH
 		# cert key server dam
 	    mount {
           type = "bind"
-          target = "/etc/ssl/private/damenligne.pocs.henix.asipsante.fr.key"
-          source = "secrets/damenligne.pocs.henix.asipsante.fr.key"
+          target = "/etc/ssl/private/damenligne.pocs.psc.esante.gouv.fr.key"
+          source = "secrets/damenligne.pocs.psc.esante.gouv.fr".key
           readonly = true
           bind_options {
             propagation = "rshared"
@@ -259,6 +259,7 @@ EOH
 	  
       service {
         name = "$\u007BNOMAD_JOB_NAME\u007D"
+		 tags = ["urlprefix-$\u007BPUBLIC_HOSTNAME\u007D"]
         port = "https"
         check {
           name         = "alive"
