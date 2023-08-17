@@ -132,6 +132,9 @@ EOF
 					KC_HOSTNAME_STRICT = false
 					KC_HEALTH_ENABLED = true
 					KC_LOG_LEVEL = ALL
+					KC_HTTPS_TRUST_STORE_FILE = /opt/bitnami/keycloak/certs/truststore.bcfks
+					KC_HTTPS_TRUST_STORE_PASSWORD = {{ with secret "keycloak/keycloak-server" }}{{ .Data.data.keycloak_server_truststore_password }}{{ end }}
+					KC_HTTPS_TRUST_STORE_TYPE = BCFKS
 				EOH
 				
 				destination = "secrets/file.env"
