@@ -79,8 +79,10 @@ RewriteEngine on
   RewriteRule "^/$" "/dam/index.html" [L]
 
    SSLEngine on
-   SSLCertificateFile /etc/ssl/certs/damenligne.pocs.psc.esante.gouv.fr.pem
-   SSLCertificateKeyFile /etc/ssl/private/damenligne.pocs.psc.esante.gouv.fr.key
+#   SSLCertificateFile /etc/ssl/certs/damenligne.pocs.psc.esante.gouv.fr.pem
+#   SSLCertificateKeyFile /etc/ssl/private/damenligne.pocs.psc.esante.gouv.fr.key
+   SSLCertificateFile /etc/ssl/damenligne.pocs.psc.esante.gouv.fr.pem
+   SSLCertificateKeyFile /etc/ssl/damenligne.pocs.psc.esante.gouv.fr.key
    OIDCHTTPTimeoutShort 10
    OIDCProviderAuthorizationEndpoint https://wallet.bas.psc.esante.gouv.fr/auth
    OIDCProviderMetadataURL https://auth.bas.psc.esante.gouv.fr/auth/realms/esante-wallet/.well-known/wallet-openid-configuration
@@ -205,7 +207,7 @@ EOH
         # cert pub server dam		
         mount {
           type = "bind"
-          target = "/etc/ssl/certs/damenligne.pocs.psc.esante.gouv.fr.pem"
+          target = "/etc/ssl/damenligne.pocs.psc.esante.gouv.fr.pem"
           source = "secrets/damenligne.pocs.psc.esante.gouv.fr.pem"
           readonly = true
           bind_options {
@@ -215,7 +217,7 @@ EOH
 		# cert key server dam
 	    mount {
           type = "bind"
-          target = "/etc/ssl/private/damenligne.pocs.psc.esante.gouv.fr.key"
+          target = "/etc/ssl/damenligne.pocs.psc.esante.gouv.fr.key"
           source = "secrets/damenligne.pocs.psc.esante.gouv.fr.key"
           readonly = false
           bind_options {
