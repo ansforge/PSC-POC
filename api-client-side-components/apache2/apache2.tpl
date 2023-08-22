@@ -102,7 +102,7 @@ RewriteEngine on
    OIDCDefaultURL https://{{ .Data.data.public_dam_hostname }}/secure/psc
    OIDCSessionInactivityTimeout 1200
    OIDCAuthNHeader X-Remote-User
-   OIDCPassClaimsAs headers 
+   OIDCPassClaimsAs both
    
 # mTLS avec PSC   
     OIDCClientTokenEndpointCert /secrets/client.pocs.henix.asipsante.fr.pem
