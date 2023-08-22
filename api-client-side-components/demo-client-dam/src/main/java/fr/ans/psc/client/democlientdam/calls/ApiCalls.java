@@ -35,8 +35,9 @@ public class ApiCalls {
 	public String getMyDams() {
 		HttpHeaders headers = new HttpHeaders();
 		String damReaderBaseUrl = conf.getDamReaderBaseUrl();
-		System.out.println("damReaderUrl " + damReaderBaseUrl);
-		headers.set(HttpHeaders.ACCEPT, "application/json");
+		System.out.println("damReaderUrl " + damReaderBaseUrl);		
+	//	headers.set(HttpHeaders.ACCEPT, "application/json");
+		System.err.println("la valeur du header X-IDNAT est en dur : 899700245667");		
 		headers.set(ID_NAT_HEADER, "899700245667");		
 		String damReaderUrl = damReaderBaseUrl + MY_DAMS_ENDPOINT;		
 		System.out.println("damReaderUrl avec Endpoint: " + damReaderUrl);
