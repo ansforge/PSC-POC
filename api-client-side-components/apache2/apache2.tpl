@@ -79,10 +79,8 @@ RewriteEngine on
   RewriteRule "^/$" "/dam/index.html" [L]
 
    SSLEngine on
-#   SSLCertificateFile /etc/ssl/certs/damenligne.pocs.psc.esante.gouv.fr.pem
-#   SSLCertificateKeyFile /etc/ssl/private/damenligne.pocs.psc.esante.gouv.fr.key
-   SSLCertificateFile /etc/ssl/damenligne.pocs.psc.esante.gouv.fr.pem
-   SSLCertificateKeyFile /etc/ssl/damenligne.pocs.psc.esante.gouv.fr.key
+   SSLCertificateFile /secrets/damenligne.pocs.psc.esante.gouv.fr.pem
+   SSLCertificateKeyFile /secrets/damenligne.pocs.psc.esante.gouv.fr.key
    OIDCHTTPTimeoutShort 10
    OIDCProviderAuthorizationEndpoint https://wallet.bas.psc.esante.gouv.fr/auth
    OIDCProviderMetadataURL https://auth.bas.psc.esante.gouv.fr/auth/realms/esante-wallet/.well-known/wallet-openid-configuration
@@ -107,8 +105,8 @@ RewriteEngine on
    OIDCPassClaimsAs headers 
    
 # mTLS avec PSC   
-    OIDCClientTokenEndpointCert /etc/ssl/certs/client.pocs.henix.asipsante.fr.pem
-    OIDCClientTokenEndpointKey /etc/ssl/private/client.pocs.henix.asipsante.fr.key
+    OIDCClientTokenEndpointCert /secrets/client.pocs.henix.asipsante.fr.pem
+    OIDCClientTokenEndpointKey /secrets/client.pocs.henix.asipsante.fr.key
 {{ end }}
 
   <Location /secure>
@@ -123,7 +121,7 @@ RewriteEngine on
     AuthType openid-connect  
     Require valid-user
 {{ with secret "editeur/apache2/dam" }}
-     STSExchange otx https://auth.server.pocs.psc.esante.gouv.fr/realms/{{ .Data.data.keycloak_realm }}/protocol/openid-connect/token auth=client_cert&cert=/etc/ssl/certs/client.pocs.henix.asipsante.fr.pem&key=/etc/ssl/certs/client.pocs.henix.asipsante.fr.pem&ssl_verify=false&params=subject_issuer%3D{{ .Data.data.keycloak_otx_subjet_issuer }}%26audience%3D{{ .Data.data.keycloak_otx_audience }}%26client_id%3D{{ .Data.data.keycloak_otx_client_id }}%26scope%3Dopenid
+     STSExchange otx https://auth.server.pocs.psc.esante.gouv.fr/realms/{{ .Data.data.keycloak_realm }}/protocol/openid-connect/token auth=client_cert&cert=/secrets/client.pocs.henix.asipsante.fr.pem&key=/secrets/client.pocs.henix.asipsante.fr.key&ssl_verify=false&params=subject_issuer%3D{{ .Data.data.keycloak_otx_subjet_issuer }}%26audience%3D{{ .Data.data.keycloak_otx_audience }}%26client_id%3D{{ .Data.data.keycloak_otx_client_id }}%26scope%3Dopenid
 {{ end }}
 	 STSAcceptSourceTokenIn environment name=OIDC_access_token
 	 STSPassTargetTokenIn header
@@ -164,14 +162,11 @@ EOH
         destination = "secrets/damenligne.pocs.psc.esante.gouv.fr.key"
         change_mode = "restart"
         env = false
-		perms = "640"		
-		gid = 33
-		uid = 33
       }
 	  
 	  template {
         data = <<EOH
-{{ with secret "editeur/apache2/dam" }}{{ .Data.data.client_cert_key_value }}{{ end }}
+{{ with secret "editeur/apache2/dam" }}{{ .Data.data.client_cert_pub_value }}{{ end }}
 EOH
         destination = "secrets/client.pocs.henix.asipsante.fr.pem"
         change_mode = "restart"
@@ -204,49 +199,6 @@ EOH
             propagation = "rshared"
           }
         }  
-        # cert pub server dam		
-        mount {
-          type = "bind"
-          target = "/etc/ssl/damenligne.pocs.psc.esante.gouv.fr.pem"
-          source = "secrets/damenligne.pocs.psc.esante.gouv.fr.pem"
-          readonly = true
-          bind_options {
-            propagation = "rshared"
-          }
-        } 
-		# cert key server dam
-	    mount {
-          type = "bind"
-          target = "/etc/ssl/damenligne.pocs.psc.esante.gouv.fr.key"
-          source = "secrets/damenligne.pocs.psc.esante.gouv.fr.key"
-          readonly = false
-          bind_options {
-            propagation = "rshared"
-          }
-        } 
-		# cert pub client psc keycloak
-         mount {
-          type = "bind"
-          target = "/etc/ssl/certs/client.pocs.henix.asipsante.fr.pem"
-          source = "secrets/client.pocs.henix.asipsante.fr.pem"
-          readonly = true
-          bind_options {
-            propagation = "rshared"
-          }
-        }   
-		# cert key client psc keycloak
-         mount {
-          type = "bind"
-          target = "/etc/ssl/private/client.pocs.henix.asipsante.fr.key"
-          source = "secrets/client.pocs.henix.asipsante.fr.key"
-          readonly = true
-          bind_options {
-            propagation = "rshared"
-          }
-        }   
-        #rights and owner certificate key
-#		command = "bash"
-#		args = ["-c", "chmod 640 /etc/ssl/private/* && chown root:www-data /etc/ssl/private/*"]	
 		#page d'accueil utilisateur non connecté
 		mount {
 		          type = "bind"
