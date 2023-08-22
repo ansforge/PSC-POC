@@ -6,6 +6,6 @@ RUN mvn -f /usr/src/app/pom.xml -gs /usr/share/maven/ref/settings-docker.xml cle
 
 FROM openjdk:11-slim-buster
 COPY --from=build /usr/src/app/target/demo-client-dam-*.jar /usr/app/demo-client-dam.jar
-USER daemon
+
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","/usr/app/demo-client-dam.jar"]
