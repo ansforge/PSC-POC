@@ -2,6 +2,8 @@ package fr.ans.psc.client.democlientdam.calls;
 
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.security.GeneralSecurityException;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
@@ -59,6 +61,7 @@ public class ApiCalls {
 	}
 //	if ( response.getStatusCode() == HttpStatus.OK)
 	//cas d'erreur et 410 à traiter
+	System.out.println("code http: " + response.getStatusCodeValue());
 	return response.getBody();	
 	}
 	
@@ -78,11 +81,16 @@ public class ApiCalls {
 	//	params.put(MODE_EXERCICE_PARAM,)
 		ResponseEntity<String> response = null;
 		try {
+			System.out.println("restTemplate:" + conf.restTemplate());
 			response  = conf.restTemplate().exchange(damReaderUrl, HttpMethod.GET, entity, String.class, params);
 		} catch (RestClientException | KeyManagementException | UnrecoverableKeyException | NoSuchAlgorithmException
 				| KeyStoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			StringWriter sw = new StringWriter();
+			e.printStackTrace(new PrintWriter(sw));
+			String stacktrace = sw.toString();
+			System.out.println("except:" + stacktrace);
 		}
 //		if ( response.getStatusCode() == HttpStatus.OK)
 		//cas d'erreur et 410 à traiter
