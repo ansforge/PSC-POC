@@ -53,11 +53,16 @@ public class ApiCalls {
 		HttpEntity<Object> entity = new HttpEntity<Object>(headers);
 	ResponseEntity<String> response = null;
 	try {
+		System.out.println("restTemplate:" + conf.restTemplate());
 		response = conf.restTemplate().exchange(damReaderUrl, HttpMethod.GET, entity, String.class);
 	} catch (RestClientException | KeyManagementException | UnrecoverableKeyException | NoSuchAlgorithmException
 			| KeyStoreException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
+		StringWriter sw = new StringWriter();
+		e.printStackTrace(new PrintWriter(sw));
+		String stacktrace = sw.toString();
+		System.out.println("except:" + stacktrace);
 	}
 //	if ( response.getStatusCode() == HttpStatus.OK)
 	//cas d'erreur et 410 à traiter
@@ -81,7 +86,7 @@ public class ApiCalls {
 	//	params.put(MODE_EXERCICE_PARAM,)
 		ResponseEntity<String> response = null;
 		try {
-			System.out.println("restTemplate:" + conf.restTemplate());
+			
 			response  = conf.restTemplate().exchange(damReaderUrl, HttpMethod.GET, entity, String.class, params);
 		} catch (RestClientException | KeyManagementException | UnrecoverableKeyException | NoSuchAlgorithmException
 				| KeyStoreException e) {
