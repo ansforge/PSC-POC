@@ -56,6 +56,16 @@ server.forward-headers-strategy=NATIVE
 server.tomcat.protocol-header=X-Forwarded-Proto
 dam.api.key={{ with secret "editeur/demo-client-dam" }}{{ .Data.data.dam_api_key }}{{ end }}
 dam.api.url=https://{{ with secret "editeur/demo-client-dam" }}{{ .Data.data.dam_api_url }}{{ end }}
+client.poc.keystore.location=/secrets/keystore.jks
+client.poc.keystore.password={{ with secret "editeur/demo-client-dam" }}{{ .Data.data.client_poc_keystore_password }}{{ end }}
+EOH
+      }
+
+     template {
+        destination = "secrets/keystore.jks"
+        change_mode = "restart"
+        data = <<EOH
+{{ with secret "editeur/demo-client-dam" }}{{base64Decode .Data.data.client_poc_keystore_base64 }}{{ end }}
 EOH
       }
 
