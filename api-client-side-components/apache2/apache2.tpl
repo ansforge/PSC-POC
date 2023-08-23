@@ -187,7 +187,7 @@ EOH
 	  # Conf, resources and service
 	  #######################################################
       config {
-	  extra_hosts = ["auth.bas.psc.esante.gouv.fr:$$NOMAD_IP_https"]
+	  extra_hosts = ["auth.bas.psc.esante.gouv.fr:$${NOMAD_IP_https}"]
         image = "${artifact.image}:${artifact.tag}"
         ports = ["https"]     
 		# vhost dam
