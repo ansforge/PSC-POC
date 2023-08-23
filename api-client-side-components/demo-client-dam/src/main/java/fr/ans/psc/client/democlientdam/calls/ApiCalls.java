@@ -71,7 +71,7 @@ public class ApiCalls {
 	}
 	
 	public String getUserDams() throws IOException, GeneralSecurityException {
-		String damReaderBaseUrl = "gateway.pocs.esante.gouv.fr:19587/" + conf.getDamReaderPath();
+		String damReaderBaseUrl = "gateway.pocs.psc.esante.gouv.fr :19587/" + conf.getDamReaderPath();
 		System.out.println("damReaderUrl " + damReaderBaseUrl);
 		HttpHeaders headers = new HttpHeaders();
 		headers.set(HttpHeaders.ACCEPT, "application/json");
