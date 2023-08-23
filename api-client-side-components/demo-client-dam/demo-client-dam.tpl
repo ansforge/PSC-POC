@@ -59,6 +59,7 @@ dam.api.key={{ with secret "editeur/demo-client-dam" }}{{ .Data.data.dam_api_key
 dam.api.path={{ with secret "editeur/demo-client-dam" }}{{ .Data.data.dam_api_path }}{{ end }}
 client.poc.keystore.location=/secrets/keystore.jks
 client.poc.keystore.password={{ with secret "editeur/demo-client-dam" }}{{ .Data.data.client_poc_keystore_password }}{{ end }}
+client.poc.truststore.location=/local/truststore.jks
 EOH
       }
 
@@ -67,6 +68,14 @@ EOH
         change_mode = "restart"
         data = <<EOH
 {{ with secret "editeur/demo-client-dam" }}{{base64Decode .Data.data.client_poc_keystore_base64 }}{{ end }}
+EOH
+      }
+	  
+      template {
+        destination = "local/truststore.jks"
+        change_mode = "restart"
+        data = <<EOH
+{{ with secret "editeur/demo-client-dam" }}{{base64Decode .Data.data.client_poc_truststore_base64 }}{{ end }}
 EOH
       }
 

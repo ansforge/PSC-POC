@@ -46,15 +46,17 @@ public class DemoClientConfiguration {
 	@Value("${client.poc.keystore.password}")
 	private String keystorePassword;
 	
+	@Value("${client.poc.truststore.location}")
+	private String truststoreLocation;
+	
 	@Bean
     public RestTemplate restTemplate() throws IOException, GeneralSecurityException {
       
 		KeyStore ks = loadKeyStore(keystoreLocation, keystorePassword);		
-		File trustFile = ResourceUtils.getFile("classpath:cacert/CACERT_EL_ORG_TEST_PROD.jks");
-		
+		KeyStore ts = loadKeyStore(truststoreLocation, null);		
         SSLContext sslContext = new SSLContextBuilder()
         .loadKeyMaterial(ks, keystorePassword.toCharArray())
-        .loadTrustMaterial(trustFile)
+        .loadTrustMaterial(ts,  (TrustStrategy) (chain, authType) -> true)
         .build();
         SSLConnectionSocketFactory sslConFactory = new SSLConnectionSocketFactory(sslContext);
         CloseableHttpClient httpClient = HttpClients.custom().setSSLSocketFactory(sslConFactory).build();
@@ -67,7 +69,12 @@ public class DemoClientConfiguration {
         try {
             in = new FileInputStream(location);
             final KeyStore keyStore = KeyStore.getInstance("JKS");
+            if (password == null) {
+            	keyStore.load(in, null);
+            }
+            else {
             keyStore.load(in, password.toCharArray());
+            }
             return keyStore;
         } finally {
             IOUtils.closeQuietly(in);
