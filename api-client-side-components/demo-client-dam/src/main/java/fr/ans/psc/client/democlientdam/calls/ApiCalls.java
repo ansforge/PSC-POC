@@ -41,7 +41,7 @@ public class ApiCalls {
 	
 	public String getMyDams() throws IOException, GeneralSecurityException {
 		HttpHeaders headers = new HttpHeaders();
-		String damReaderBaseUrl = "gateway.pocs.esante.gouv.fr:19587/" + conf.getDamReaderPath();
+		String damReaderBaseUrl = "https://gateway.pocs.esante.gouv.fr:19587/" + conf.getDamReaderPath();
 		System.out.println("damReaderUrl " + damReaderBaseUrl);		
 	//	headers.set(HttpHeaders.ACCEPT, "application/json");
 		System.err.println("la valeur du header X-IDNAT est en dur : 899700245667");		
