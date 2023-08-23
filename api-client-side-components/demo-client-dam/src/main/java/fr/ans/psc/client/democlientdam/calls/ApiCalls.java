@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
@@ -44,25 +45,22 @@ public class ApiCalls {
 	public String getMyDams() throws IOException, GeneralSecurityException {
 		HttpHeaders headers = new HttpHeaders();
 		String damReaderBaseUrl = "https://gateway.pocs.psc.esante.gouv.fr:19587/" + conf.getDamReaderPath();
-		System.out.println("damReaderUrl " + damReaderBaseUrl);		
-	//	headers.set(HttpHeaders.ACCEPT, "application/json");
-		System.err.println("la valeur du header X-IDNAT est en dur : 899700245667");		
+		headers.set(HttpHeaders.ACCEPT, "application/json");
+		log.error(" !!!!!!!!!!!!!   la valeur du header X-IDNAT est en dur : 899700245667 !!!!!!!!!!!");		
 		headers.set(ID_NAT_HEADER, "899700245667");		
 		String damReaderUrl = damReaderBaseUrl + MY_DAMS_ENDPOINT;		
-		System.out.println("damReaderUrl avec Endpoint: " + damReaderUrl);
+		log.debug("damReaderUrl avec Endpoint: " + damReaderUrl);
 		HttpEntity<Object> entity = new HttpEntity<Object>(headers);
 	ResponseEntity<String> response = null;
 	try {
-		System.out.println("restTemplate:" + conf.restTemplate());
 		response = conf.restTemplate().exchange(damReaderUrl, HttpMethod.GET, entity, String.class);
 	} catch (RestClientException | KeyManagementException | UnrecoverableKeyException | NoSuchAlgorithmException
 			| KeyStoreException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
 		StringWriter sw = new StringWriter();
 		e.printStackTrace(new PrintWriter(sw));
 		String stacktrace = sw.toString();
-		System.out.println("except:" + stacktrace);
+		log.error("except:" + stacktrace);
+		//TODO 
 	}
 //	if ( response.getStatusCode() == HttpStatus.OK)
 	//cas d'erreur et 410 à traiter
@@ -72,7 +70,6 @@ public class ApiCalls {
 	
 	public String getUserDams() throws IOException, GeneralSecurityException {
 		String damReaderBaseUrl = "gateway.pocs.psc.esante.gouv.fr:19587/" + conf.getDamReaderPath();
-		System.out.println("damReaderUrl " + damReaderBaseUrl);
 		HttpHeaders headers = new HttpHeaders();
 		headers.set(HttpHeaders.ACCEPT, "application/json");
 		headers.set(API_KEY_HEADER, conf.getDamApiKey());

@@ -94,5 +94,5 @@ variable "user_java_opts" {
 
 variable "apim_gateway_fqdn" {
     type = string
-    default = "gateway.pocs.esante.gouv.fr"
+    default = "gateway.pocs.psc.esante.gouv.fr"
 }
