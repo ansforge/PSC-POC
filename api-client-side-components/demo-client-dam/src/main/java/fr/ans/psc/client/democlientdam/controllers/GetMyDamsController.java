@@ -27,7 +27,7 @@ public class GetMyDamsController {
 	 @Autowired
     private ApiCalls api;
 
-	 private final static String AUTHORIZATION =  "authorization";
+	 private final static String AUTHORIZATION =  "Authorization";
 	 
 	@GetMapping("/view")
 	public String getMyDam(Model model, HttpServletRequest request) throws JsonMappingException, JsonProcessingException {
