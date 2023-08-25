@@ -59,7 +59,9 @@ public class ApiCalls {
 		response = conf.restTemplate().exchange(damReaderUrl, HttpMethod.GET, entity, String.class);
 	} catch (RestClientException | KeyManagementException | UnrecoverableKeyException | NoSuchAlgorithmException
 			| KeyStoreException e) {
+		if  (response==null || response.getStatusCode()!=HttpStatus.GONE) {
 		throw new ApiCallException(e);
+		}
 	}
 	return new Pair <HttpStatus,String>(response.getStatusCode(),response.getBody());	
 	}

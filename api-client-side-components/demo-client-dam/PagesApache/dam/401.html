@@ -38,15 +38,15 @@
 
     <main class="main" role="main" id="main" tabindex="-1">
         <div class="container">
-            <h1>Access non authorisé</h1>
-            <p> Causes possibles:</p>
-            <ul>
-            <li>..</li>
-            <li>L'échange de jeton (ProsanteCOnnect en jeton d'API) a échoué car le jeton Prosante Connect est expiré</li>
+            <h1>Accès non authorisé! (Erreur 401) </h1>
+			<p>Le serveur n'a pas pu satisfaire à votre demande de ressource car il n'a pas de jeton valide d'api</p>
+            <p> Parmi les causes possibles:</p>
+            <ul style="list-style-type:square">
+            <li></li>
+            <li>La demande d'échange de jeton ProsanteConnect en jeton d'API a échoué car le jeton Prosante Connect est expiré</li>
             <li>..</li>
             </ul>
-            <hr>
-            <h2>Vous pouvez ré-essayer en demandant un nouveau jeton Prosante Connect</h2>
+            <h2>Vous pouvez ré-essayer d'accéder à la resource en demandant un nouveau jeton Prosante Connect avec votre carte CPS ou votre e-CPS et en cliquant sur le bouton ci-dessous</h2>
             <button class="psc_button" onclick="window.location.href='/secure/psc'"></button>
         </div>
     </main>
