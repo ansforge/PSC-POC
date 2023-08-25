@@ -1,6 +1,5 @@
 package fr.ans.psc.client.democlientdam.calls;
 
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -29,10 +28,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class ApiCalls {
-	
+
 	@Autowired
 	DemoClientConfiguration conf;
-	
+
 	public static final String ID_NAT_HEADER = "X-IDNAT";
 	public static final String MY_DAMS_ENDPOINT = "/get_mydams";
 	public static final String USER_DAMS_ENDPOINT = "/admin/get_user_dams";
@@ -40,38 +39,41 @@ public class ApiCalls {
 	public static final String MODE_EXERCICE_PARAM = "modeExercice";
 	public static final String ID_TECH_STRUCT_PARAM = "idTechniqueStructure";
 	public static final String BOOL_INCLUDE_CLOSE_PARAM = "dontFermes";
-	public static final String ID_NAT_PARAM ="idNational";
-	
-	
-	
-	public Pair<HttpStatus,String> getMyDams(String bearer) throws IOException, GeneralSecurityException, ApiCallException {
+	public static final String ID_NAT_PARAM = "idNational";
+
+	public Pair<HttpStatus, String> getMyDams(String bearer)
+			throws IOException, GeneralSecurityException, ApiCallException {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Authorization", bearer);
 		headers.set(HttpHeaders.ACCEPT, "application/json");
 		String damReaderBaseUrl = "https://gateway.pocs.psc.esante.gouv.fr:19587/" + conf.getDamReaderPath();
-		log.error(" !!!!!!!!!!!!!   la valeur du header X-IDNAT est en dur : 899700245667 !!!!!!!!!!!");		
-		headers.set(ID_NAT_HEADER, "899700245667");		
-		String damReaderUrl = damReaderBaseUrl + MY_DAMS_ENDPOINT;		
+		log.error(" !!!!!!!!!!!!!   la valeur du header X-IDNAT est en dur : 899700245667 !!!!!!!!!!!");
+		headers.set(ID_NAT_HEADER, "899700245667");
+		String damReaderUrl = damReaderBaseUrl + MY_DAMS_ENDPOINT;
 		log.debug("damReaderUrl avec Endpoint: " + damReaderUrl);
 		HttpEntity<Object> entity = new HttpEntity<Object>(headers);
-	ResponseEntity<String> response = null;
-	try {
-		System.out.println("appel de l'api ..");
-		response = conf.restTemplate().exchange(damReaderUrl, HttpMethod.GET, entity, String.class);
-		System.out.println(".. l'api a répondu.");
-	} catch (RestClientException | KeyManagementException | UnrecoverableKeyException | NoSuchAlgorithmException
-			| KeyStoreException e) {
-		System.out.println("catch lors de l'appel à l'api");
-		System.out.println(e.getClass().getCanonicalName());
-		if  (! e.getClass().getCanonicalName().equalsIgnoreCase("org.springframework.web.client.HttpClientErrorException.Gone")) {
-		throw new ApiCallException(e);
+		ResponseEntity<String> response = null;
+		try {
+			System.out.println("appel de l'api ..");
+			response = conf.restTemplate().exchange(damReaderUrl, HttpMethod.GET, entity, String.class);
+			System.out.println(".. l'api a répondu.");
+		} catch (RestClientException | KeyManagementException | UnrecoverableKeyException | NoSuchAlgorithmException
+				| KeyStoreException e) {
+			System.out.println("catch lors de l'appel à l'api");
+			System.out.println(e.getClass().getCanonicalName());
+			if (!e.getClass().getCanonicalName()
+					.equalsIgnoreCase("org.springframework.web.client.HttpClientErrorException.Gone")) {
+				throw new ApiCallException(e);
+			}
+			else {
+				return new Pair<HttpStatus, String>(HttpStatus.GONE,"Pas de données Améli trouvées");				
+				}
 		}
+		System.out.println("HttpStatus: " + response.getStatusCode());
+		System.out.println("body: " + response.getBody());
+		return new Pair<HttpStatus, String>(response.getStatusCode(), response.getBody());
 	}
-	System.out.println("HttpStatus: " + response.getStatusCode());
-	System.out.println("body: " + response.getBody());
-	return new Pair <HttpStatus,String>(response.getStatusCode(),response.getBody());	
-	}
-	
+
 	public String getUserDams() throws IOException, GeneralSecurityException, ApiCallException {
 		String damReaderBaseUrl = "gateway.pocs.psc.esante.gouv.fr:19587/" + conf.getDamReaderPath();
 		HttpHeaders headers = new HttpHeaders();
@@ -79,20 +81,20 @@ public class ApiCalls {
 		headers.set(API_KEY_HEADER, conf.getDamApiKey());
 		String damReaderUrl = damReaderBaseUrl + USER_DAMS_ENDPOINT;
 		HttpEntity<Object> entity = new HttpEntity<Object>(headers);
-		
+
 		Map<String, Object> params = new HashMap<>();
 		params.put(ID_NAT_PARAM, "899700245667");
 		params.put(BOOL_INCLUDE_CLOSE_PARAM, "false");
-	//	params.put(ID_TECH_STRUCT_PARAM,);
-	//	params.put(MODE_EXERCICE_PARAM,)
+		// params.put(ID_TECH_STRUCT_PARAM,);
+		// params.put(MODE_EXERCICE_PARAM,)
 		ResponseEntity<String> response = null;
 		try {
-			
-			response  = conf.restTemplate().exchange(damReaderUrl, HttpMethod.GET, entity, String.class, params);
+
+			response = conf.restTemplate().exchange(damReaderUrl, HttpMethod.GET, entity, String.class, params);
 		} catch (RestClientException | KeyManagementException | UnrecoverableKeyException | NoSuchAlgorithmException
 				| KeyStoreException e) {
 			throw new ApiCallException(e);
 		}
-		return response.getBody();	
+		return response.getBody();
 	}
 }
