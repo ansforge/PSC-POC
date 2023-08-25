@@ -1,6 +1,6 @@
 $(document).ready(function() {                
-                const pscToken = getJeton();
-                const splited=pscToken.split('.');
+                const token = getJeton();
+                const splited=token.split('.');
                 const header=atob(splited[0]);
                 const body=atob(splited[1]);
 
