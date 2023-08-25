@@ -63,10 +63,12 @@ public class ApiCalls {
 			| KeyStoreException e) {
 		System.out.println("catch lors de l'appel à l'api");
 		System.out.println(e.getClass().getCanonicalName());
-		if  (! e.getClass().getCanonicalName().equalsIgnoreCase("org.springframework.web.client.HttpClientErrorException$Gone")) {
+		if  (! e.getClass().getCanonicalName().equalsIgnoreCase("org.springframework.web.client.HttpClientErrorException.Gone")) {
 		throw new ApiCallException(e);
 		}
 	}
+	System.out.println("HttpStatus: " + response.getStatusCode());
+	System.out.println("body: " + response.getBody());
 	return new Pair <HttpStatus,String>(response.getStatusCode(),response.getBody());	
 	}
 	
