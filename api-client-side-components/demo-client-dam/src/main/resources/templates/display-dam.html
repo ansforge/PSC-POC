@@ -26,7 +26,6 @@
 
                             <img src="./img/logo-ministere.svg" alt="Ministère de la Santé et de la Prévention"
                                  width="107" height="62">
-
                         </a>
                     </div>
                     <div class="logo logo--1">
@@ -265,12 +264,19 @@
      <main class="main" role="main" id="main" tabindex="-1">
         <div class="container">
 	<h1>Affichage des DAMs</h1>
+	<!-- si existance de données -->
+	<div th:if="${dams != null && variable.name != null}" th:text="${variable.name}">
 		<input type="hidden" id="dams" th:value="${dams}" />
-				<hr />
+				
 			<div class="header" id="json-dams"></div>
-			
-			<!-- affichage jeton -->
-							<div id=cd_token class=display-token th:if="${token != null}">
+	</div>	
+	<!-- si abscence de données HttpsStatus=410-->
+	<div th:if="${dams == null && status410 != null}">
+	      <p id=nodata  style="color: #ff6d91; background:#dbe0ef; border-top:2px solid #aeb8de; border-bottom:2px solid #aeb8de; padding:1em 1em 1em 5em">Le service (api Dam) indique qu'il n'a pas de données Améli pour votre identifiant National  </p>
+	</div>	
+	<!-- affichage jeton -->
+	<hr />
+	<div id=cd_token class=display-token th:if="${token != null}">
 	<h3>Caractéristiques du jeton</h3>
 				<div class="date-friendly">
 				<p>

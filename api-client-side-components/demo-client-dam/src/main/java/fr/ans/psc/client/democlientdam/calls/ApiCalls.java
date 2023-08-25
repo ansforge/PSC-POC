@@ -12,6 +12,7 @@ import java.security.UnrecoverableKeyException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.javatuples.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -21,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 
+import fr.ans.psc.client.democlientdam.exception.ApiCallException;
 //import org.apache.http.client.HttpClient;
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,7 +44,7 @@ public class ApiCalls {
 	
 	
 	
-	public String getMyDams(String bearer) throws IOException, GeneralSecurityException {
+	public Pair<HttpStatus,String> getMyDams(String bearer) throws IOException, GeneralSecurityException, ApiCallException {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Authorization", bearer);
 		headers.set(HttpHeaders.ACCEPT, "application/json");
@@ -57,19 +59,12 @@ public class ApiCalls {
 		response = conf.restTemplate().exchange(damReaderUrl, HttpMethod.GET, entity, String.class);
 	} catch (RestClientException | KeyManagementException | UnrecoverableKeyException | NoSuchAlgorithmException
 			| KeyStoreException e) {
-		StringWriter sw = new StringWriter();
-		e.printStackTrace(new PrintWriter(sw));
-		String stacktrace = sw.toString();
-		log.error("except:" + stacktrace);
-		//TODO 
+		throw new ApiCallException(e);
 	}
-//	if ( response.getStatusCode() == HttpStatus.OK)
-	//cas d'erreur et 410 à traiter
-	System.out.println("code http: " + response.getStatusCodeValue());
-	return response.getBody();	
+	return new Pair <HttpStatus,String>(response.getStatusCode(),response.getBody());	
 	}
 	
-	public String getUserDams() throws IOException, GeneralSecurityException {
+	public String getUserDams() throws IOException, GeneralSecurityException, ApiCallException {
 		String damReaderBaseUrl = "gateway.pocs.psc.esante.gouv.fr:19587/" + conf.getDamReaderPath();
 		HttpHeaders headers = new HttpHeaders();
 		headers.set(HttpHeaders.ACCEPT, "application/json");
@@ -88,15 +83,8 @@ public class ApiCalls {
 			response  = conf.restTemplate().exchange(damReaderUrl, HttpMethod.GET, entity, String.class, params);
 		} catch (RestClientException | KeyManagementException | UnrecoverableKeyException | NoSuchAlgorithmException
 				| KeyStoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			StringWriter sw = new StringWriter();
-			e.printStackTrace(new PrintWriter(sw));
-			String stacktrace = sw.toString();
-			System.out.println("except:" + stacktrace);
+			throw new ApiCallException(e);
 		}
-//		if ( response.getStatusCode() == HttpStatus.OK)
-		//cas d'erreur et 410 à traiter
 		return response.getBody();	
 	}
 }

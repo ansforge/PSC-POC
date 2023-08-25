@@ -35,7 +35,7 @@ job "apache2" {
       
 	  #Page d'accueil dam - utilisateur non connecté
 	  artifact {
-	    	source	= "https://github.com/prosanteconnect/proof-of-concept/raw/main/api-client-side-components/demo-client-dam/PageAccueil/dam.zip"
+	    	source	= "https://github.com/prosanteconnect/proof-of-concept/raw/main/api-client-side-components/demo-client-dam/PagesApache/dam.zip"
 #		    options {
 #			  archive = true
 #	    	}
@@ -127,6 +127,7 @@ RewriteEngine on
 	 STSPassTargetTokenIn header
      ProxyPassMatch  http://{{ range service "demo-client-dam" }}{{ .Address }}:{{ .Port }}{{ end }}
      ProxyPassReverse  http://{{ range service "demo-client-dam" }}{{ .Address }}:{{ .Port }}{{ end }}
+	 ErrorDocument 401 /dam/401.html
    </Location>
    
   
