@@ -62,7 +62,8 @@ public class ApiCalls {
 	} catch (RestClientException | KeyManagementException | UnrecoverableKeyException | NoSuchAlgorithmException
 			| KeyStoreException e) {
 		System.out.println("catch lors de l'appel à l'api");
-		if  (response==null || response.getStatusCode()!=HttpStatus.GONE) {
+		System.out.println(e.getClass().getCanonicalName());
+		if  (! e.getClass().getCanonicalName().equalsIgnoreCase("org.springframework.web.client.HttpClientErrorException$Gone")) {
 		throw new ApiCallException(e);
 		}
 	}
