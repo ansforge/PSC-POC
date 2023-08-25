@@ -41,14 +41,13 @@ public class ApiCalls {
 	public static final String BOOL_INCLUDE_CLOSE_PARAM = "dontFermes";
 	public static final String ID_NAT_PARAM = "idNational";
 
-	public Pair<HttpStatus, String> getMyDams(String bearer)
+	public Pair<HttpStatus, String> getMyDams(String bearer, String idNat)
 			throws IOException, GeneralSecurityException, ApiCallException {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Authorization", bearer);
 		headers.set(HttpHeaders.ACCEPT, "application/json");
-		String damReaderBaseUrl = "https://gateway.pocs.psc.esante.gouv.fr:19587/" + conf.getDamReaderPath();
-		log.error(" !!!!!!!!!!!!!   la valeur du header X-IDNAT est en dur : 899700245667 !!!!!!!!!!!");
-		headers.set(ID_NAT_HEADER, "899700245667");
+		String damReaderBaseUrl = "https://gateway.pocs.psc.esante.gouv.fr:19587/" + conf.getDamReaderPath();		
+		headers.set(ID_NAT_HEADER, idNat);
 		String damReaderUrl = damReaderBaseUrl + MY_DAMS_ENDPOINT;
 		log.debug("damReaderUrl avec Endpoint: " + damReaderUrl);
 		HttpEntity<Object> entity = new HttpEntity<Object>(headers);

@@ -316,7 +316,16 @@
 		</div>
 	
 </div> <!-- token non null -->
-			
+				<hr/>
+		<div class=display-headers>
+		<h3>Affichage des headers</h3>
+		<tr th:each="row : mapHeaders">
+			<table>
+				<tr th:each="element : ${mapHeaders}">
+					<td th:text="${element.key}"></td>
+					<td th:text="${element.value}"></td>
+			</table>
+	</div>
 
 	</div> <!-- div contenainer -->
 	</main>

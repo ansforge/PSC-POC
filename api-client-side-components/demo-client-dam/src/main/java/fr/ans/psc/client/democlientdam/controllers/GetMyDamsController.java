@@ -41,9 +41,10 @@ public class GetMyDamsController {
 		MultiValueMap<String,String> map = Helper.logRequestHeaders(request);
 		MultiValueMap<String, String> filetredMap = Helper.filtredMap(map);
 		model.addAttribute("mapHeaders",filetredMap);
-		String tokenBearer = request.getHeader(AUTHORIZATION);
+		String tokenBearer = request.getHeader(AUTHORIZATION);		
 		String token = tokenBearer.substring("Bearer ".length());
 		model.addAttribute("token",token);
+		String idNat = "810001158368";
 		Triplet<String, String, String> tmp = Helper.splitAndDecodeToken(token);	
 		model.addAttribute("tokenHeader", tmp.getValue0());
 		String bodyToken = tmp.getValue1();
@@ -59,7 +60,8 @@ public class GetMyDamsController {
 		log.debug("Appel de l'api ...");
 		Pair<HttpStatus,String> damResponse = null;
 		try {
-			damResponse = api.getMyDams(tokenBearer);
+			log.error(" !!!!!!!!!!!!!   la valeur du header X-IDNAT est en dur  !!!!!!!!!!! : " + idNat);
+			damResponse = api.getMyDams(tokenBearer, idNat);
 		} catch (IOException | GeneralSecurityException e) {
 			//page pour Erreur technique: absence de backend, technique, ..	
 		}
