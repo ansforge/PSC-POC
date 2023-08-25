@@ -31,6 +31,7 @@ public class GetMyDamsController {
 	private ApiCalls api;
 
 	private final static String AUTHORIZATION = "Authorization";
+	private final static String OIDC_CLAIM_IDNAT = "oidc_claim_preferred_username";
 
 	@GetMapping("/view")
 	public String getMyDam(Model model, HttpServletRequest request) throws JsonMappingException, JsonProcessingException, ApiCallException {
@@ -44,7 +45,10 @@ public class GetMyDamsController {
 		String tokenBearer = request.getHeader(AUTHORIZATION);		
 		String token = tokenBearer.substring("Bearer ".length());
 		model.addAttribute("token",token);
-		String idNat = "810001158368";
+		
+		//String idNat = "810001158368";
+		String idNat = request.getHeader(OIDC_CLAIM_IDNAT);		
+		
 		Triplet<String, String, String> tmp = Helper.splitAndDecodeToken(token);	
 		model.addAttribute("tokenHeader", tmp.getValue0());
 		String bodyToken = tmp.getValue1();
@@ -62,6 +66,7 @@ public class GetMyDamsController {
 		try {
 			log.error(" !!!!!!!!!!!!!   la valeur du header X-IDNAT est en dur  !!!!!!!!!!! : " + idNat);
 			damResponse = api.getMyDams(tokenBearer, idNat);
+			
 		} catch (IOException | GeneralSecurityException e) {
 			//page pour Erreur technique: absence de backend, technique, ..	
 		}
