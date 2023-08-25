@@ -48,7 +48,7 @@ public class GetMyDamsController {
 		
 		//String idNat = "810001158368";
 		String idNat = request.getHeader(OIDC_CLAIM_IDNAT);		
-		
+		log.debug("Reception d'une demande de DAM (getMyDAMs pour l'IdNat: {} et avec le token d'API {}", idNat, token);
 		Triplet<String, String, String> tmp = Helper.splitAndDecodeToken(token);	
 		model.addAttribute("tokenHeader", tmp.getValue0());
 		String bodyToken = tmp.getValue1();
