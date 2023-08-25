@@ -56,9 +56,12 @@ public class ApiCalls {
 		HttpEntity<Object> entity = new HttpEntity<Object>(headers);
 	ResponseEntity<String> response = null;
 	try {
+		System.out.println("appel de l'api ..");
 		response = conf.restTemplate().exchange(damReaderUrl, HttpMethod.GET, entity, String.class);
+		System.out.println(".. l'api a répondu.");
 	} catch (RestClientException | KeyManagementException | UnrecoverableKeyException | NoSuchAlgorithmException
 			| KeyStoreException e) {
+		System.out.println("catch lors de l'appel à l'api");
 		if  (response==null || response.getStatusCode()!=HttpStatus.GONE) {
 		throw new ApiCallException(e);
 		}
