@@ -38,17 +38,13 @@ public class GetMyDamsController {
 
 		
 		
-		//header: recup jeton JWT pour appel API et affichage page de demo
+		//header: récupération du jeton d'api pour appel API et affichage dans la page page de démonstration
 		MultiValueMap<String,String> map = Helper.logRequestHeaders(request);
 		MultiValueMap<String, String> filetredMap = Helper.filtredMap(map);
 		model.addAttribute("mapHeaders",filetredMap);
 		String tokenBearer = request.getHeader(AUTHORIZATION);		
 		String token = tokenBearer.substring("Bearer ".length());
 		model.addAttribute("token",token);
-		
-		//String idNat = "810001158368";
-		String idNat = request.getHeader(OIDC_CLAIM_IDNAT);		
-		log.debug("Reception d'une demande de DAM (getMyDAMs pour l'IdNat: {} et avec le token d'API {}", idNat, token);
 		Triplet<String, String, String> tmp = Helper.splitAndDecodeToken(token);	
 		model.addAttribute("tokenHeader", tmp.getValue0());
 		String bodyToken = tmp.getValue1();
@@ -59,6 +55,11 @@ public class GetMyDamsController {
 		model.addAttribute("rawIatDate", iat);		
 		model.addAttribute("expDate",Helper.convertTimeStampToLocalDateTime(exp));
 		model.addAttribute("iatDate",Helper.convertTimeStampToLocalDateTime(iat));	
+		
+		//header: récupération de l' idNat pour appel API 
+		String idNat = request.getHeader(OIDC_CLAIM_IDNAT);		
+		log.debug("Reception d'une demande de DAM (getMyDAMs pour l'IdNat: {} et avec le token d'API {}", idNat, token);
+		
 
 		// appel à l'API avec le jeton d'API 
 		log.debug("Appel de l'api ...");
@@ -67,19 +68,18 @@ public class GetMyDamsController {
 			damResponse = api.getMyDams(tokenBearer, idNat);
 			
 		} catch (IOException | GeneralSecurityException e) {
-			//page pour Erreur technique: absence de backend, technique, ..	
+			return "tech-error";
 		}
-//		String damResponse ="{\"nationalId\":\"899700245667\",\"dams\":[{\"identifiantLieuDeTravail\":\"99700245667008\",\"typeIdentifiant\":\"Id Cabinet RPPS / N° de registre\",\"codeTypeIdentifiant\":\"6\",\"raisonSociale\":\"CABINET M DOC0024566\",\"modeExercice\":\"Libéral\",\"codeModeExercice\":\"0\",\"numActivite\":\"2102887019\",\"numAssuranceMaladie\":\"001055664\",\"dateDebutValidite\":\"26-06-2020\",\"dateFinValidite\":\"26-06-2023\",\"specialite\":\"Médecine générale\",\"codeSpecialite\":\"01\",\"conventionnement\":\"Conventionné\",\"codeConventionnel\":\"1\",\"indicateurFacturation\":\"Libellé indicateur facturation 2\",\"codeIndicateurFacturation\":\"2\",\"zoneIK\":\"Libellé Code Indemnités kilométriques 1\",\"codeZoneIK\":\"1\",\"zoneTarifaire\":\"Zone B\",\"codeZoneTarifaire\":\"24\",\"agrement1\":\"code non trouvé dans la nomenclature\",\"codeAgrement1\":\"00\",\"agrement2\":\"code non trouvé dans la nomenclature\",\"codeAgrement2\":\"00\",\"agrement3\":\"code non trouvé dans la nomenclature\",\"codeAgrement3\":\"00\",\"habilitationFse\":\"001\",\"habilitationLot\":\"001\"}]}";
-		log.info("réponse getMyDams: " + damResponse.getValue0() + " , " + damResponse.getValue1());
+		log.debug("réponse getMyDams: " + damResponse.getValue0() + " , " + damResponse.getValue1());
 		if (damResponse.getValue0()==HttpStatus.OK) {
 			model.addAttribute("dams",damResponse.getValue1());		
 		}
 		else if (damResponse.getValue0()==HttpStatus.GONE) {
-			//410: pas de dma mais service et token d'API OK
+			log.debug("réponse getMyDams code 410: pas de données Améli trouvées pour le PS" );
 			model.addAttribute("status410", HttpStatus.GONE.name());
 		}
 		else {
-			//TODO erreur
+			return "tech-error";
 		}
 		return "display-dam";
 	}

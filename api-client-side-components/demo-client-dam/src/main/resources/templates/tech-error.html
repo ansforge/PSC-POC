@@ -6,7 +6,6 @@
 <script type="text/javascript" src="./script/jquery-3.5.1.min.js"></script>
 <script src="./script/json-viewer.js"></script>
 <link rel="stylesheet" href="./style/json-viewer.css" type="text/css">
-<script src="./script/jsonviewer-dams.js"></script>
 <script src="./script/jsonviewer-token.js"></script>
    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
@@ -26,6 +25,7 @@
 
                             <img src="./img/logo-ministere.svg" alt="Ministère de la Santé et de la Prévention"
                                  width="107" height="62">
+
                         </a>
                     </div>
                     <div class="logo logo--1">
@@ -262,76 +262,11 @@
     
     
      <main class="main" role="main" id="main" tabindex="-1">
-        <div class="container">
-	<h1>Affichage des DAMs</h1>
-	<!-- si existance de données -->
-	<div th:if="${dams != null}">
-		<input type="hidden" id="dams" th:value="${dams}" />
-				
-			<div class="header" id="json-dams"></div>
-	</div>	
-	<!-- si abscence de données HttpsStatus=410-->
-	<div th:if="${dams == null && status410 != null}">
-	      <p id=nodata  style="color: #ff6d91; background:#dbe0ef; border-top:2px solid #aeb8de; border-bottom:2px solid #aeb8de; padding:1em 1em 1em 5em">Le service (api Dam) indique qu'il n'a pas de données Améli pour votre identifiant National  </p>
-	</div>	
-	<!-- affichage jeton -->
-	<hr />
 	<div>
 	      <p id=warning  style="color: #ff6d91; background:#dbe0ef; border-top:2px solid #aeb8de; border-bottom:2px solid #aeb8de; padding:1em 1em 1em 5em">
-	      Les informations ci-dessous sont remontées et affichées dans le navigateur uniquement à titre de démonstration. En production, elles ne doivent pas sortir pas du proxy ('Relying Party') </p>
+	      Votre requête n'a pas pu aboutir suite à une erreur technique.</p>
+	      <p>Merci de contacter l'expoitant</p>
 	</div>	
-	<div id=cd_token class=display-token th:if="${token != null}">
-	<h3>Caractéristiques du jeton</h3>
-				<div class="date-friendly">
-				<p>
-					date d'expiration: <span th:text="${rawExpDate}"> &#32;&#61;&#62;&#32;</span>
-					<span th:text="${#temporals.format(expDate, 'dd-MM-yyyy HH:mm:ss')}" />
-				</p>
-				<p>
-					date d'émission: <span th:text="${rawIatDate}" > &#32;&#61;&#62;&#32; </span>
-					<span th:text="${#temporals.format(iatDate, 'dd-MM-yyyy HH:mm:ss')}" />
-				</p>
-			</div>
-		<input type="hidden" id="token" th:value="${token}" />
-				<hr />
-			<div class="header" id="json-header"></div>
-			<div class="header" id="json-body"></div>
-			<div class="token-brut">
-			<h4>TOKEN</h4>
-			<p>
-				<span th:text="${token}" />
-			</p>
-		</div>
-			<div class="token-header">
-				<h4>HEADER</h4>
-				<p>
-					<span th:text="${tokenHeader}" />
-				</p>
-
-			</div>
-			<div class="token-body">
-				<h4>BODY</h4>
-				<p>
-					<span th:text="${tokenBody}" />
-				</p>
-
-			</div>
-		
-		</div>
-	
-</div> <!-- token non null -->
-				<hr/>
-		<div class=display-headers>
-		<h3>Affichage des headers</h3>
-		<tr th:each="row : mapHeaders">
-			<table>
-				<tr th:each="element : ${mapHeaders}">
-					<td th:text="${element.key}"></td>
-					<td th:text="${element.value}"></td>
-			</table>
-	</div>
-
-	</div> <!-- div contenainer -->
 	</main>
 	</div>
 </body>

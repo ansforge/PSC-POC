@@ -274,7 +274,10 @@
 		</div>
 	<hr />
 
-	
+	<div>
+	      <p id=warning  style="color: #ff6d91; background:#dbe0ef; border-top:2px solid #aeb8de; border-bottom:2px solid #aeb8de; padding:1em 1em 1em 5em">
+	      Les informations ci-dessous sont remontées et affichées dans le navigateur uniquement à titre de démonstration. En production, elles ne doivent pas sortir pas du proxy ('Relying Party') </p>
+	</div>	
 	<div id=cd_token class=display-token th:if="${token != null}">
 	<h3>Caractéristiques du jeton PSC</h3>
 	<div class="date-friendly">
@@ -292,28 +295,7 @@
 			<div class="header" id="json-header"></div>
 			<div class="header" id="json-body"></div>
 			<hr/>
-		<div class="token-brut">
-			<h4>TOKEN</h4>
-			<p>
-				<span th:text="${token}" />
-			</p>
-		</div>
-		<div class="token-header">
-			<h4>HEADER</h4>
-			<p>
-				<span th:text="${tokenHeader}" />
-			</p>
-		</div>
-		<div class="token-body">
-			<h4>BODY</h4>
-			<p>
-				<span th:text="${tokenBody}" />
-			</p>
-		</div>
-		
-
 	
-
 	</div> <!-- div token exist -->
 	<hr/>
 		<div class=display-headers>
