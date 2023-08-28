@@ -77,7 +77,7 @@ public class Helper {
 	public static LocalDateTime convertTimeStampToLocalDateTime(String timestampInSecond) {
 		Instant instant = Instant.ofEpochSecond(Long.valueOf(timestampInSecond));
 		LocalDateTime date = LocalDateTime.ofInstant(instant, ZoneId.of("Europe/Paris"));
-		System.out.println("Helper date:" + date);
+		log.debug("Helper date:" + date);
 		return date;
 	}
 
@@ -89,9 +89,10 @@ public class Helper {
 			String tmp = iHeaderNames.next();
 			String value = request.getHeader(tmp);
 			map.add(tmp, value);
-			System.out.println("\t" + tmp + ": " + value);
+			if (!tmp.equalsIgnoreCase("oidc_access_token")) {
+			log.debug("\t" + tmp + ": " + value);
+			}
 		}
-		System.out.println("...fin de lecture des headers");
 		return map;
 	}
 	
@@ -109,7 +110,7 @@ public class Helper {
 	  for (Entry<String, List<String>> data : map.entrySet()) {
 	      if(data.getKey().startsWith("oidc_claim") 
 	    		  || data.getKey().startsWith("x-") 
-	    		  || data.getKey().startsWith("oidc_access")
+	    		//  || data.getKey().startsWith("oidc_access")
 	    		  || data.getKey().startsWith("authorization")
 	    		  ){
 	    	  filteredMap.put(data.getKey(), data.getValue());
