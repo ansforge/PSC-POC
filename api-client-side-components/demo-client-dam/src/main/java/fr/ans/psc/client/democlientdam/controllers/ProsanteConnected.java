@@ -36,7 +36,8 @@ public class ProsanteConnected {
 
 		Boolean bExisteToken = map.containsKey(OIDC_ACCESS_TOKEN);
 		if (bExisteToken) {
-		String token = request.getHeader(OIDC_ACCESS_TOKEN);				
+		String token = request.getHeader(OIDC_ACCESS_TOKEN);
+		
 		model.addAttribute("expDate", Helper.convertTimeStampToLocalDateTime(map.getFirst("oidc_claim_exp")));
 		model.addAttribute("iatDate", Helper.convertTimeStampToLocalDateTime(map.getFirst("oidc_claim_iat")));
 		model.addAttribute("rawExpDate", map.getFirst("oidc_claim_exp"));
