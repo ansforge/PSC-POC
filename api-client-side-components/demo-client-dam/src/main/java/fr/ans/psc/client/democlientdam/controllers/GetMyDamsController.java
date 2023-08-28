@@ -63,8 +63,7 @@ public class GetMyDamsController {
 		// appel à l'API avec le jeton d'API 
 		log.debug("Appel de l'api ...");
 		Pair<HttpStatus,String> damResponse = null;
-		try {
-			log.error(" !!!!!!!!!!!!!   la valeur du header X-IDNAT est en dur  !!!!!!!!!!! : " + idNat);
+		try {			
 			damResponse = api.getMyDams(tokenBearer, idNat);
 			
 		} catch (IOException | GeneralSecurityException e) {

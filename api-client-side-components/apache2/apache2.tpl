@@ -111,7 +111,7 @@ RewriteEngine on
 
   <Location /secure>
     AuthType openid-connect
-    Require valid-user
+   # Require valid-user
     ProxyPassMatch http://{{ range service "demo-client-dam" }}{{ .Address }}:{{ .Port }}{{ end }}
 	ProxyPassReverse http://{{ range service "demo-client-dam" }}{{ .Address }}:{{ .Port }}{{ end }}
    </Location>
