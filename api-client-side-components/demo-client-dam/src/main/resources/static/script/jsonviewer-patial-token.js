@@ -1,3 +1,6 @@
+/*
+ * (c) Copyright 2023, ANS. All rights reserved.
+ */
 $(document).ready(function() {                
                 const header=getData("#header");
                 const body=getData("#body");

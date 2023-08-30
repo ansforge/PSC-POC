@@ -1,3 +1,6 @@
+/**
+ * (c) Copyright 2023, ANS. All rights reserved.
+ */
 package fr.ans.psc.client.democlientdam.controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;

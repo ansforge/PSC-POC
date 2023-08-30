@@ -1,3 +1,7 @@
+#
+# (c) Copyright 2023, ANS. All rights reserved.
+#
+
 FROM maven:3-jdk-11 AS build
 COPY settings-docker.xml /usr/share/maven/ref/
 COPY src /usr/src/app/src

@@ -1,3 +1,4 @@
+#(c) Copyright 2023, ANS. All rights reserved.
 FROM httpd:2.4-bookworm
 COPY ./ANS_ssl.conf /usr/local/apache2/conf/extra/
 RUN set -eux \

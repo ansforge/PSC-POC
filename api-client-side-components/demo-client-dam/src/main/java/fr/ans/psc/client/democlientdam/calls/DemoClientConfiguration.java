@@ -1,15 +1,13 @@
+/**
+ * (c) Copyright 2023, ANS. All rights reserved.
+ */
 package fr.ans.psc.client.democlientdam.calls;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.GeneralSecurityException;
-import java.security.KeyManagementException;
 import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
 
 import javax.net.ssl.SSLContext;
 
@@ -24,60 +22,55 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.client.RestTemplate;
 
 import lombok.Getter;
 
-
 @Getter
 @Configuration
 public class DemoClientConfiguration {
-	
+
 	@Value("${dam.api.path}")
 	private String damReaderPath;
 
 	@Value("${dam.api.key}")
 	private String damApiKey;
-	
+
 	@Value("${client.poc.keystore.location}")
 	private String keystoreLocation;
-	
+
 	@Value("${client.poc.keystore.password}")
 	private String keystorePassword;
-	
+
 	@Value("${client.poc.truststore.location}")
 	private String truststoreLocation;
-	
+
 	@Bean
-    public RestTemplate restTemplate() throws IOException, GeneralSecurityException {
-      
-		KeyStore ks = loadKeyStore(keystoreLocation, keystorePassword);		
-		KeyStore ts = loadKeyStore(truststoreLocation, null);		
-        SSLContext sslContext = new SSLContextBuilder()
-        .loadKeyMaterial(ks, keystorePassword.toCharArray())
-        .loadTrustMaterial(ts,  (TrustStrategy) (chain, authType) -> true)
-        .build();
-        SSLConnectionSocketFactory sslConFactory = new SSLConnectionSocketFactory(sslContext);
-        CloseableHttpClient httpClient = HttpClients.custom().setSSLSocketFactory(sslConFactory).build();
-        ClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
-        return new RestTemplate(requestFactory);
-    }
+	public RestTemplate restTemplate() throws IOException, GeneralSecurityException {
+
+		KeyStore ks = loadKeyStore(keystoreLocation, keystorePassword);
+		KeyStore ts = loadKeyStore(truststoreLocation, null);
+		SSLContext sslContext = new SSLContextBuilder().loadKeyMaterial(ks, keystorePassword.toCharArray())
+				.loadTrustMaterial(ts, (TrustStrategy) (chain, authType) -> true).build();
+		SSLConnectionSocketFactory sslConFactory = new SSLConnectionSocketFactory(sslContext);
+		CloseableHttpClient httpClient = HttpClients.custom().setSSLSocketFactory(sslConFactory).build();
+		ClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
+		return new RestTemplate(requestFactory);
+	}
 
 	private KeyStore loadKeyStore(String location, String password) throws IOException, GeneralSecurityException {
-        InputStream in = null;
-        try {
-            in = new FileInputStream(location);
-            final KeyStore keyStore = KeyStore.getInstance("JKS");
-            if (password == null) {
-            	keyStore.load(in, null);
-            }
-            else {
-            keyStore.load(in, password.toCharArray());
-            }
-            return keyStore;
-        } finally {
-            IOUtils.closeQuietly(in);
-        }
-    }
+		InputStream in = null;
+		try {
+			in = new FileInputStream(location);
+			final KeyStore keyStore = KeyStore.getInstance("JKS");
+			if (password == null) {
+				keyStore.load(in, null);
+			} else {
+				keyStore.load(in, password.toCharArray());
+			}
+			return keyStore;
+		} finally {
+			IOUtils.closeQuietly(in);
+		}
+	}
 }

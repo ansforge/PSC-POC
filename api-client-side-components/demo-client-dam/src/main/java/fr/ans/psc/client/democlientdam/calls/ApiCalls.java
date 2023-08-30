@@ -1,8 +1,9 @@
+/**
+ * (c) Copyright 2023, ANS. All rights reserved.
+ */
 package fr.ans.psc.client.democlientdam.calls;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.security.GeneralSecurityException;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
@@ -46,7 +47,7 @@ public class ApiCalls {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Authorization", bearer);
 		headers.set(HttpHeaders.ACCEPT, "application/json");
-		String damReaderBaseUrl = "https://gateway.pocs.psc.esante.gouv.fr:19587/" + conf.getDamReaderPath();		
+		String damReaderBaseUrl = "https://gateway.pocs.psc.esante.gouv.fr:19587/" + conf.getDamReaderPath();
 		headers.set(ID_NAT_HEADER, idNat);
 		String damReaderUrl = damReaderBaseUrl + MY_DAMS_ENDPOINT;
 		log.debug("damReaderUrl avec Endpoint: " + damReaderUrl);
@@ -63,10 +64,9 @@ public class ApiCalls {
 			if (!e.getClass().getCanonicalName()
 					.equalsIgnoreCase("org.springframework.web.client.HttpClientErrorException.Gone")) {
 				throw new ApiCallException(e);
+			} else {
+				return new Pair<HttpStatus, String>(HttpStatus.GONE, "Pas de données Améli trouvées");
 			}
-			else {
-				return new Pair<HttpStatus, String>(HttpStatus.GONE,"Pas de données Améli trouvées");				
-				}
 		}
 		System.out.println("HttpStatus: " + response.getStatusCode());
 		System.out.println("body: " + response.getBody());

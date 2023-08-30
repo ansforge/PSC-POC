@@ -1,3 +1,7 @@
+#
+# (c) Copyright 2023, ANS. All rights reserved.
+#
+
 job "demo-client-dam" {
   namespace = "editeur"
   datacenters = ["${datacenter}"]

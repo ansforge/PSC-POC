@@ -1,3 +1,6 @@
+/*
+ * (c) Copyright 2023, ANS. All rights reserved.
+ */
 $(document).ready(function() {                
                 const token = getJeton();
                 const splited=token.split('.');

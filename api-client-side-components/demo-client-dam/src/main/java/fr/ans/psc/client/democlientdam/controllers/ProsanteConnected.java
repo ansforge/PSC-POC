@@ -1,3 +1,6 @@
+/**
+ * (c) Copyright 2023, ANS. All rights reserved.
+ */
 package fr.ans.psc.client.democlientdam.controllers;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +34,7 @@ public class ProsanteConnected {
 		model.addAttribute("mapHeaders",filetredMap);
 
 		/*
-		 * Récupération du token et de ses caratcéristiques ...
+		 * Récupération du token et de ses caractéristiques ...
 		 */
 
 		Boolean bExisteToken = map.containsKey(OIDC_ACCESS_TOKEN);

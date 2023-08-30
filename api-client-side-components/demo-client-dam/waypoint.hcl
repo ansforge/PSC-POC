@@ -1,3 +1,7 @@
+#
+# (c) Copyright 2023, ANS. All rights reserved.
+#
+
 project = "editeur/demo-client-dam"
 
 labels = {
@@ -37,7 +41,7 @@ app "editeur/demo-client-dam" {
 
   deploy {
     use "nomad-jobspec" {
-      jobspec = templatefile("${path.app}/demo-client-dam.tpl", {
+      jobspec = templatefile("${path.app}/demo-client-dam.nomad.tpl", {
         datacenter = var.datacenter
       })
     }
