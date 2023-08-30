@@ -38,7 +38,7 @@ job "db-esignsante-psc" {
 			driver = "docker"
 		    volume_mount {
               volume      = "esignsante"
-              destination = "/data"
+              destination = "/data/db"
               read_only   = false
             }
 			config {

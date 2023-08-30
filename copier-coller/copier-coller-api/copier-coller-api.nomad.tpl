@@ -22,12 +22,6 @@ job "copier-coller-api" {
       mode = "fail"
     }
 
-    volume "json-schemas" {
-      type      = "host"
-      read_only = false
-      source    = "json-schemas"
-    }
-
     network {
       port "http" {
         to = 8080
@@ -37,11 +31,6 @@ job "copier-coller-api" {
 	
     task "api" {
       driver = "docker"
-      volume_mount {
-          volume      = "json-schemas"
-          destination = "/data"
-          read_only   = false
-      }	
       artifact {
         source = "https://github.com/prosanteconnect/proof-of-concept/raw/main/copier-coller/resources/json-schemas.zip"
       }
@@ -65,8 +54,7 @@ job "copier-coller-api" {
         destination = "local/file.env"
         env = true
         data = <<EOH
-PUBLIC_HOSTNAME={{ with secret "copier-coller/api" }}{{ .Data.data.api_public_hostname }}{{ end }}
-#JAVA_TOOL_OPTIONS="-Xms256m -Xmx1g -XX:+UseG1GC -Dspring.config.location=/secrets/application.properties -Dlogging.level.fr.ans.psc=${log_level}"
+PUBLIC_HOSTNAME={{ with secret "copier-coller/app" }}{{ .Data.data.api_public_hostname }}{{ end }}
 JAVA_TOOL_OPTIONS="-Xms256m -Xmx1g -XX:+UseG1GC -Dspring.config.location=/secrets/application.properties -Dlogging.level.fr.ans.psc=DEBUG"
 EOH
       }

@@ -51,7 +51,7 @@ EOH
         destination = "secrets/application.properties"
         change_mode = "restart"
         data = <<EOF
-psc.context.sharing.api.url=http://{{ range service "copier-coller-api"}}{{ .Address }}:{{ .Port }}{{ end }}/copier-coller-api/cache
+psc.context.sharing.api.url=http://{{ range service "copier-coller-api"}}{{ .Address }}:{{ .Port }}{{ end }}/cc-api/cache
 
 {{ with secret "copier-coller/app" }}
 spring.security.oauth2.client.registration.prosanteconnect.clientId={{ .Data.data.psc_client_id}}

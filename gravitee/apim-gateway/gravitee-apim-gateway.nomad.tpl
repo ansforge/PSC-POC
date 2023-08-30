@@ -69,8 +69,7 @@ job "gravitee-apim-gateway" {
 		    	archive = false
 		    }
 	    }
-	   	  
-	   
+			   
             driver = "docker"
 
             config {
@@ -93,7 +92,34 @@ job "gravitee-apim-gateway" {
 			      bind_options {
 				    propagation = "rshared"
 				 }
-			    }				
+			    }			
+				mount {
+					type = "bind"
+					target = "/opt/graviteeio-gateway/config/ca_bundle.pem"
+					source = "local/ca_bundle.pem"
+					readonly = "false"
+					bind_options {
+						propagation = "rshared"
+					}
+				}
+				mount {
+					type = "bind"
+					target = "/opt/graviteeio-gateway/config/gateway_key_cert.key"
+					source = "secrets/gateway_key_cert.key"
+					readonly = "false"
+					bind_options {
+						propagation = "rshared"
+					}
+				}
+				mount {
+					type = "bind"
+					target = "/opt/graviteeio-gateway/config/gateway_pub_cert.pem"
+					source = "secrets/gateway_pub_cert.pem"
+					readonly = "false"
+					bind_options {
+						propagation = "rshared"
+					}
+				}				
              }
 
             resources {
@@ -115,6 +141,24 @@ gravitee.ds.elastic.host = {{ range service "gravitee-elasticsearch" }}{{.Addres
 gravitee.ds.elastic.port = {{ range service "gravitee-elasticsearch" }}{{.Port}}{{end}}
 gravitee.reporters.elasticsearch.security.username={{ with secret "gravitee/elasticsearch" }}{{.Data.data.root_user}}{{end}}
 gravitee.reporters.elasticsearch.security.password={{ with secret "gravitee/elasticsearch" }}{{.Data.data.root_pass}}{{end}}
+# mTLS
+gravitee.http.secured = true 
+gravitee.http.ssl.clientAuth = request
+gravitee.http.ssl.keystore.type = pem
+gravitee_http_ssl_keystore_certificates_0_cert = /opt/graviteeio-gateway/config/gateway_pub_cert.pem
+gravitee_http_ssl_keystore_certificates_0_key = /opt/graviteeio-gateway/config/gateway_key_cert.key
+gravitee.http.ssl.truststore.type = pem
+gravitee.http.ssl.truststore.path = /opt/graviteeio-gateway/config/ca_bundle.pem
+#groovy whitelist append
+gravitee_groovy_whitelist_mode = append
+gravitee_groovy_whitelist_list_0 = class sun.security.ssl.SSLSessionImpl
+gravitee_groovy_whitelist_list_1 = class javax.net.ssl.SSLSessionImpl
+gravitee_groovy_whitelist_list_2 = class javax.net.ssl.SSLSession
+gravitee_groovy_whitelist_list_3 = class sun.security.x509.X509CertImpl
+gravitee_groovy_whitelist_list_4 = class java.security.cert.Certificate
+gravitee_groovy_whitelist_list_5 = class java.security.cert.X509Certificate
+gravitee_groovy_whitelist_list_6 = class java.security.MessageDigest
+gravitee_groovy_whitelist_list_7 = class javax.xml.bind.DatatypeConverter
 # api properties encryption secret override
 gravitee_api_properties_encryption_secret={{ with secret "gravitee/apim" }}{{.Data.data.encryption_secret}}{{end}}
 # prometheus
@@ -130,10 +174,32 @@ EOD
                 destination = "secrets/.env"
                 env = true
             }
+			
+			template {
+				data = <<EOF
+{{ with secret "gravitee/ssl" }}{{.Data.data.gateway_cert}}{{end}}
+EOF
+				destination = "secrets/gateway_pub_cert.pem"
+			}
+			
+			template {
+				data = <<EOF
+{{ with secret "gravitee/ssl" }}{{.Data.data.gateway_key}}{{end}}
+EOF
+				destination = "secrets/gateway_key_cert.key"
+			}
+
+			template {
+				data = <<EOF
+{{ with secret "gravitee/ssl" }}{{.Data.data.ca_bundle}}{{end}}
+EOF
+				destination = "local/ca_bundle.pem"
+			}
+
 	    	   
             service {
                 name = "$\u007BNOMAD_JOB_NAME\u007D"
-				tags = ["urlprefix-${apim_gateway_fqdn}"]
+				tags = ["urlprefix-${apim_gateway_fqdn} proto=tcp"]
                 port = "gateway-port"
                 check {
                     name         = "alive"
