@@ -41,7 +41,7 @@ public class ApiCalls {
 	public static final String BOOL_INCLUDE_CLOSE_PARAM = "dontFermes";
 	public static final String ID_NAT_PARAM = "idNational";
 
-	public Pair<HttpStatus, String> getMyDams(String bearer, String idNat)
+	public Pair<HttpStatus, String> getMyDams(String bearer)
 			throws IOException, GeneralSecurityException, ApiCallException {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Authorization", bearer);

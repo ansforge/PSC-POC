@@ -68,7 +68,7 @@ public class GetMyDamsController {
 		log.debug("Appel de l'api ...");
 		Pair<HttpStatus,String> damResponse = null;
 		try {			
-			damResponse = api.getMyDams(tokenBearer, idNat);
+			damResponse = api.getMyDams(tokenBearer);
 			
 		} catch (IOException | GeneralSecurityException e) {
 			return "tech-error";
