@@ -97,7 +97,7 @@ RewriteEngine on
    OIDCStateTimeout 120
    OIDCDefaultURL https://{{ .Data.data.public_dam_hostname }}/secure/psc
    OIDCSessionInactivityTimeout 1200
-   OIDCAuthNHeader X-Remote-User
+#   OIDCAuthNHeader X-Remote-User
    OIDCPassClaimsAs both
    
 # mTLS avec PSC   
