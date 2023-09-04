@@ -47,6 +47,7 @@ public class ProsanteConnected {
 		model.addAttribute("rawIatDate", map.getFirst("oidc_claim_iat"));
 		
 		Triplet<String, String, String> tmp = Helper.splitAndDecodeToken(token);	
+		log.info("token: {} ", token);
 		model.addAttribute("tokenHeader", tmp.getValue0());
 		model.addAttribute("tokenBody",tmp.getValue1());
 		}

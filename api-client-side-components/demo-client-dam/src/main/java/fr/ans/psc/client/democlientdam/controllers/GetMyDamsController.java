@@ -60,8 +60,8 @@ public class GetMyDamsController {
 		model.addAttribute("iatDate",Helper.convertTimeStampToLocalDateTime(iat));	
 		
 		//header: récupération de l' idNat pour appel API 
-		String idNat = request.getHeader(OIDC_CLAIM_IDNAT);		
-		log.debug("Reception d'une demande de DAM (getMyDAMs pour l'IdNat: {} et avec le token d'API {}", idNat, token);
+	//	String idNat = request.getHeader(OIDC_CLAIM_IDNAT);		
+	//	log.debug("Reception d'une demande de DAM (getMyDAMs pour l'IdNat: {} et avec le token d'API {}", idNat, token);
 		
 
 		// appel à l'API avec le jeton d'API 
