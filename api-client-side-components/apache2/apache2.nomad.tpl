@@ -61,11 +61,10 @@ EOH
       template {
         data = <<EOH
 <VirtualHost *:443>
-{{ with secret "editeur/apache2/dam" }}
 ErrorLogFormat "[%t] [%l] [pid %P] %F: %E: [client %a] %M"
 SSLProtocol all
    DocumentRoot /usr/local/apache2/htdocs
-   ServerName {{ .Data.data.public_dam_hostname }}
+   ServerName {{ with secret "editeur/apache2/dam" }}{{ .Data.data.public_dam_hostname }}{{ end }}
    ErrorLog /dev/stdout
    TransferLog /dev/stdout
    LogLevel info
@@ -83,11 +82,12 @@ RewriteEngine on
    OIDCPKCEMethod S256
    OIDCOAuthAcceptTokenAs post
    OIDCCookieHTTPOnly On
-
+{{ with secret "editeur/apache2/common" }
    OIDCClientID {{ .Data.data.psc_client_id}}
    OIDCClientSecret {{ .Data.data.psc_client_secret}}
+{{ end }}
    OIDCAuthRequestParams acr_values=eidas1
-
+{ with secret "editeur/apache2/dam" }}
    OIDCRedirectURI https://{{ .Data.data.public_dam_hostname }}/secure/psc/redirect
 
    OIDCCryptoPassphrase 0123456789
@@ -96,6 +96,7 @@ RewriteEngine on
 
    OIDCStateTimeout 120
    OIDCDefaultURL https://{{ .Data.data.public_dam_hostname }}/secure/psc
+{{ end }}
    OIDCSessionInactivityTimeout 1200
    OIDCAuthNHeader X-Remote-User
    OIDCPassClaimsAs both
@@ -103,7 +104,7 @@ RewriteEngine on
 # mTLS avec PSC   
    OIDCClientTokenEndpointCert /secrets/client.pocs.henix.asipsante.fr.pem
    OIDCClientTokenEndpointKey /secrets/client.pocs.henix.asipsante.fr.key
-{{ end }}
+
 
   <Location /secure>
     AuthType openid-connect
@@ -116,9 +117,9 @@ RewriteEngine on
    <Location /secure/view>
     AuthType openid-connect  
     Require valid-user
-{{ with secret "editeur/apache2/dam" }}
-    STSExchange otx https://auth.server.pocs.psc.esante.gouv.fr:19587/realms/{{ .Data.data.keycloak_realm }}/protocol/openid-connect/token auth=client_cert&cert=/secrets/client.pocs.henix.asipsante.fr.pem&key=/secrets/client.pocs.henix.asipsante.fr.key&ssl_verify=false&params=subject_issuer%3D{{ .Data.data.keycloak_otx_subjet_issuer }}%26audience%3D{{ .Data.data.keycloak_otx_audience }}%26client_id%3D{{ .Data.data.keycloak_otx_client_id }}%26scope%3Dopenid
-{{ end }}
+{{ with secret "editeur/apache2/common" }}
+    STSExchange otx https://auth.server.pocs.psc.esante.gouv.fr:19587/realms/{{ .Data.data.keycloak_realm }}/protocol/openid-connect/token auth=client_cert&cert=/secrets/client.pocs.henix.asipsante.fr.pem&key=/secrets/client.pocs.henix.asipsante.fr.key&ssl_verify=false&params=subject_issuer%3D{{ .Data.data.keycloak_otx_subjet_issuer }}%26client_id%3D{{ .Data.data.keycloak_otx_client_id }}{{ end }}%26scope%3Dopenid%26audience%3D{{ with secret "editeur/apache2/common" }}{{ .Data.data.keycloak_otx_audience }}{{ end }}
+
     STSAcceptSourceTokenIn environment name=OIDC_access_token
     STSPassTargetTokenIn header
     ProxyPassMatch  http://{{ range service "demo-client-dam" }}{{ .Address }}:{{ .Port }}{{ end }}
@@ -162,7 +163,7 @@ EOH
       
       template {
         data = <<EOH
-{{ with secret "editeur/apache2/dam" }}{{ .Data.data.client_cert_pub_value }}{{ end }}
+{{ with secret "editeur/apache2/common" }}{{ .Data.data.client_cert_pub_value }}{{ end }}
 EOH
         destination = "secrets/client.pocs.henix.asipsante.fr.pem"
         change_mode = "restart"
@@ -172,7 +173,7 @@ EOH
       
       template {
         data = <<EOH
-{{ with secret "editeur/apache2/dam" }}{{ .Data.data.client_cert_key_value }}{{ end }}
+{{ with secret "editeur/apache2/common" }}{{ .Data.data.client_cert_key_value }}{{ end }}
 EOH
         destination = "secrets/client.pocs.henix.asipsante.fr.key"
         change_mode = "restart"

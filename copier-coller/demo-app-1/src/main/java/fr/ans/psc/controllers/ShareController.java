@@ -61,7 +61,7 @@ public class ShareController {
         }
     }
 
-    private HttpEntity<String> prepareRequest(OAuth2AuthorizedClient client, String requestBody) {
+    private HttpEntity<String> prepareRequest(String requestBody) {
         log.debug("retrieving access token...");
         String accessToken = client.getAccessToken().getTokenValue();
 
