@@ -82,12 +82,12 @@ RewriteEngine on
    OIDCPKCEMethod S256
    OIDCOAuthAcceptTokenAs post
    OIDCCookieHTTPOnly On
-{{ with secret "editeur/apache2/common" }
+{{ with secret "editeur/apache2/common" }}
    OIDCClientID {{ .Data.data.psc_client_id}}
    OIDCClientSecret {{ .Data.data.psc_client_secret}}
 {{ end }}
    OIDCAuthRequestParams acr_values=eidas1
-{ with secret "editeur/apache2/dam" }}
+{{ with secret "editeur/apache2/dam" }}
    OIDCRedirectURI https://{{ .Data.data.public_dam_hostname }}/secure/psc/redirect
 
    OIDCCryptoPassphrase 0123456789
