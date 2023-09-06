@@ -26,7 +26,7 @@ job "keycloak-db" {
             port "psql-port" { to = 5432 }
         }
 		
-		volume "keycloak-db-volume" {
+		volume "keycloak-db" {
 			type      = "csi"
 			read_only = false
 			source    = "keycloak-db"
@@ -39,7 +39,7 @@ job "keycloak-db" {
             driver = "docker"
 			
 			volume_mount {
-				volume      = "keycloak-db-volume"
+				volume      = "keycloak-db"
 				destination = "/var/lib/postgresql/data"
 				read_only   = false
 			}
