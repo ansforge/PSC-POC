@@ -29,9 +29,9 @@ public class ShareController {
     }
 
     @GetMapping(value = "/secure/share", produces = APPLICATION_JSON)
-    public ResponseEntity<String> getContextInCache(@RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient client) {
+    public ResponseEntity<String> getContextInCache() {
         log.debug("getting stored ProSanteConnect context...");
-        HttpEntity<String> entity = prepareRequest(client, null);
+        HttpEntity<String> entity = prepareRequest(null);
 
         try {
             log.debug("calling ProSanteConnect API...");
@@ -45,9 +45,9 @@ public class ShareController {
     }
 
     @PutMapping(value = "/secure/share", produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
-    public ResponseEntity<String> putContextInCache(@RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient client, @RequestBody String jsonContext) {
+    public ResponseEntity<String> putContextInCache( @RequestBody String jsonContext) {
         log.debug("putting context in ProSanteConnect Cache...");
-        HttpEntity<String> entity = prepareRequest(client, jsonContext);
+        HttpEntity<String> entity = prepareRequest(jsonContext);
 
         try {
             log.debug("calling ProSanteConnect API...");

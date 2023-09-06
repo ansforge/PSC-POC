@@ -56,7 +56,7 @@ EOH
       }
 	  
       #######################################################
-      # virtualhost damenligne.psc.pocs.esante.gouv.fr
+      # virtualhost damenligne.pocs.psc.esante.gouv.fr
       #######################################################
       template {
         data = <<EOH
@@ -140,6 +140,46 @@ EOH
         env = false
       }
       
+      #######################################################
+      # certificats server and client (psc, keycloak)
+      #######################################################
+      template {
+        data = <<EOH
+{{ with secret "editeur/apache2/dam" }}{{ .Data.data.server_cert_pub_value }}{{ end }}
+EOH
+        destination = "secrets/damenligne.pocs.psc.esante.gouv.fr.pem"
+        change_mode = "restart"
+        env = false
+      }
+      
+      template {
+        data = <<EOH
+{{ with secret "editeur/apache2/dam" }}{{ .Data.data.server_cert_key_value }}{{ end }}
+EOH
+        destination = "secrets/damenligne.pocs.psc.esante.gouv.fr.key"
+        change_mode = "restart"
+        env = false
+      }
+      
+      template {
+        data = <<EOH
+{{ with secret "editeur/apache2/common" }}{{ .Data.data.client_cert_pub_value }}{{ end }}
+EOH
+        destination = "secrets/client.pocs.henix.asipsante.fr.pem"
+        change_mode = "restart"
+        env = false
+      }
+      
+      
+      template {
+        data = <<EOH
+{{ with secret "editeur/apache2/common" }}{{ .Data.data.client_cert_key_value }}{{ end }}
+EOH
+        destination = "secrets/client.pocs.henix.asipsante.fr.key"
+        change_mode = "restart"
+        env = false
+      }
+	  
 	  #######################################################
       # virtualhost application-1.pocs.gateway.esante.gouv.fr
       #######################################################
@@ -217,11 +257,11 @@ EOH
       }
       
       #######################################################
-      # certificats server (Vhost)  and client (psc, keycloak)
+      # certificats server and client (psc, keycloak)
       #######################################################
 	  
 	  #####   certificat serveur du Vhost damenligne     #####
-	  template {
+	        template {
         data = <<EOH
 {{ with secret "editeur/apache2/dam" }}{{ .Data.data.server_cert_pub_value }}{{ end }}
 EOH
@@ -313,8 +353,7 @@ EOH
       
       service {
         name = "$\u007BNOMAD_JOB_NAME\u007D"
-        tags = ["urlprefix-damenligne.psc.pocs.esante.gouv.fr  proto=tcp",
-		         "urlprefix-application-1.pocs.gateway.esante.gouv.fr proto=tcp"]
+        tags = ["urlprefix-$\u007BPUBLIC_HOSTNAME\u007D  proto=tcp"]
         port = "https"
         check {
           name         = "alive"
@@ -324,7 +363,7 @@ EOH
           failures_before_critical = 5
           port         = "https"
         }
-      }	  
+      }
     }
   }
 }

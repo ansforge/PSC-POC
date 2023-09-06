@@ -149,7 +149,7 @@ EOF
             service {
                 name = "keycloak-server"
                 port = "https-port"
-				tags = ["urlprefix-auth.server.pocs.psc.esante.gouv.fr proto=tcp"]
+				tags = ["urlprefix-auth.server.psc.pocs.esante.gouv.fr proto=tcp"]
                 check {
                     type         = "http"
 					interval 	 = "30s"
