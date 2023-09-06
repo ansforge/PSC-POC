@@ -126,7 +126,7 @@ EOF
 					KEYCLOAK_HTTPS_CERTIFICATE_FILE = /opt/bitnami/keycloak/certs/tls.pem
 					KEYCLOAK_HTTPS_CERTIFICATE_KEY_FILE = /opt/bitnami/keycloak/certs/tls.key					
 					PROSANTECONNECT_BACASABLE = 1
-					KC_HOSTNAME = { with secret "keycloak/keycloak-server" }}{{ .Data.data.keycloak_hostname }}{{ end }}
+					KC_HOSTNAME = {{ with secret "keycloak/keycloak-server" }}{{ .Data.data.keycloak_hostname }}{{ end }}
 					KC_FEATURES = preview
 					KC_HTTPS_CLIENT_AUTH = {{ with secret "keycloak/keycloak-server" }}{{ .Data.data.keycloak_server_x509_client_auth }}{{ end }}
 					KC_HOSTNAME_STRICT = false
