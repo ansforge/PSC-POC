@@ -240,6 +240,8 @@ EOH
       }
 	  
 	  ##### certificat serveur du Vhost app-1 de copier-coller #####
+	  
+	  template {
         data = <<EOH
 {{ with secret "editeur/apache2/copiercoller" }}{{ .Data.data.server_app1_cert_pub_value }}{{ end }}
 EOH
@@ -327,3 +329,4 @@ EOH
       }	  
     }
   }
+ }
