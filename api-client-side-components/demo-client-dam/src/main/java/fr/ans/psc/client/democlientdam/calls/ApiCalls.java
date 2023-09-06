@@ -46,7 +46,7 @@ public class ApiCalls {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Authorization", bearer);
 		headers.set(HttpHeaders.ACCEPT, "application/json");
-		String damReaderBaseUrl = "https://gateway.pocs.psc.esante.gouv.fr:19587/" + conf.getDamReaderPath();
+		String damReaderBaseUrl = "https://gateway.psc.pocs.esante.gouv.fr:19587/" + conf.getDamReaderPath();
 //		headers.set(ID_NAT_HEADER, idNat);
 		String damReaderUrl = damReaderBaseUrl + MY_DAMS_ENDPOINT;
 		log.debug("damReaderUrl avec Endpoint: " + damReaderUrl);
