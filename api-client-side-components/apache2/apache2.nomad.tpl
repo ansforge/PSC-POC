@@ -211,7 +211,7 @@ SSLProtocol all
    SSLCipherSuite RSA:!EXP:!NULL:+HIGH:+MEDIUM:-LOW
 </VirtualHost>
 EOH
-        destination = "local/damenligne.conf"
+        destination = "local/app1-copiercoller.conf"
         change_mode = "restart"
         env = false
       }
@@ -313,8 +313,8 @@ EOH
       
       service {
         name = "$\u007BNOMAD_JOB_NAME\u007D"
-        tags = ["urlprefix-damenligne.psc.pocs.esante.gouv.fr  proto=tcp",
-		         "urlprefix-application-1.pocs.gateway.esante.gouv.fr proto=tcp"]
+        tags = ["urlprefix-damenligne.pocs.psc.esante.gouv.fr  proto=tcp"]
+#		         "urlprefix-application-1.pocs.gateway.esante.gouv.fr proto=tcp"]
         port = "https"
         check {
           name         = "alive"
@@ -327,4 +327,3 @@ EOH
       }	  
     }
   }
-}
