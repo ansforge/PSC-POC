@@ -74,8 +74,8 @@ RewriteEngine on
    RewriteRule "^/$" "/dam/index.html" [L]
 
    SSLEngine on
-   SSLCertificateFile /secrets/damenligne.pocs.psc.esante.gouv.fr.pem
-   SSLCertificateKeyFile /secrets/damenligne.pocs.psc.esante.gouv.fr.key
+   SSLCertificateFile /secrets/damenligne.pem
+   SSLCertificateKeyFile /secrets/damenligne.key
    OIDCHTTPTimeoutShort 10
    OIDCProviderAuthorizationEndpoint https://wallet.bas.psc.esante.gouv.fr/auth
    OIDCProviderMetadataURL https://auth.bas.psc.esante.gouv.fr/auth/realms/esante-wallet/.well-known/wallet-openid-configuration
@@ -225,7 +225,7 @@ EOH
         data = <<EOH
 {{ with secret "editeur/apache2/dam" }}{{ .Data.data.server_cert_pub_value }}{{ end }}
 EOH
-        destination = "secrets/damenligne.pocs.psc.esante.gouv.fr.pem"
+        destination = "secrets/damenligne.pem"
         change_mode = "restart"
         env = false
       }
@@ -234,7 +234,7 @@ EOH
         data = <<EOH
 {{ with secret "editeur/apache2/dam" }}{{ .Data.data.server_cert_key_value }}{{ end }}
 EOH
-        destination = "secrets/damenligne.pocs.psc.esante.gouv.fr.key"
+        destination = "secrets/damenligne.key"
         change_mode = "restart"
         env = false
       }
