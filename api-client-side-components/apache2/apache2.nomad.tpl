@@ -315,7 +315,7 @@ EOH
       
       service {
         name = "$\u007BNOMAD_JOB_NAME\u007D"
-        tags = ["urlprefix-damenligne.pocs.psc.esante.gouv.fr  proto=tcp"]
+        tags = ["urlprefix-damenligne.psc.pocs.esante.gouv.fr  proto=tcp"]
 #		         "urlprefix-application-1.pocs.gateway.esante.gouv.fr proto=tcp"]
         port = "https"
         check {
