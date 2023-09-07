@@ -65,9 +65,9 @@ public class GetMyDamsController {
 		
 
 		// appel à l'API avec le jeton d'API 
-		log.debug("Appel de l'api ...");
+		log.debug("Appel de l'api ... avec token Bearer: {} ", tokenBearer);
 		Pair<HttpStatus,String> damResponse = null;
-		try {			
+		try {		
 			damResponse = api.getMyDams(tokenBearer);
 			
 		} catch (IOException | GeneralSecurityException e) {
