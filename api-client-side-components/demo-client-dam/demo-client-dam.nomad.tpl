@@ -37,7 +37,7 @@ job "demo-client-dam" {
     task "demo-client-dam" {
       driver = "docker"
       config {
-	    extra_hosts = ["gateway.pocs.psc.esante.gouv.fr:$${NOMAD_IP_http}"]
+	    extra_hosts = ["gateway.psc.pocs.esante.gouv.fr:$${NOMAD_IP_http}"]
         image = "${artifact.image}:${artifact.tag}"
         ports = ["http"]
       }
