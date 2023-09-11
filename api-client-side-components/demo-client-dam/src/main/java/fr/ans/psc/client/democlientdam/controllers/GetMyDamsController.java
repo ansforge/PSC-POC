@@ -47,7 +47,7 @@ public class GetMyDamsController {
 		MultiValueMap<String, String> filetredMap = Helper.filtredMap(map);
 		model.addAttribute("mapHeaders",filetredMap);
 		String tokenBearer = request.getHeader(AUTHORIZATION);		
-//		String token = tokenBearer.substring("Bearer ".length());
+		String token = tokenBearer.substring("Bearer ".length());
 //		model.addAttribute("token",token);
 		Triplet<String, String, String> tmp = Helper.splitAndDecodeToken(token);	
 		model.addAttribute("tokenHeader", tmp.getValue0());
