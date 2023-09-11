@@ -134,7 +134,7 @@ RewriteEngine on
 	OIDCSessionMaxDuration 1
     ProxyPassMatch  http://{{ range service "demo-client-dam" }}{{ .Address }}:{{ .Port }}{{ end }}
     ProxyPassReverse  http://{{ range service "demo-client-dam" }}{{ .Address }}:{{ .Port }}{{ end }}	
-  </Files>
+  </Location>
    
 # A partir de apache 2.2.24 ##########################
    SSLCompression off
