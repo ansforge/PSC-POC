@@ -34,6 +34,15 @@ public class ProsanteConnected {
 		model.addAttribute("mapHeaders",filetredMap);
 
 		/*
+		 * Identité PRosante Connect
+		 */
+		String firstName = map.getFirst("oidc_claim_given_name");
+		firstName = (firstName !=null) ? firstName:"-";
+		String lastName = map.getFirst("oidc_claim_family_name"); 
+		lastName = (lastName !=null) ? lastName:"X";
+		model.addAttribute("user", firstName.concat(lastName));
+		
+		/*
 		 * Récupération du token et de ses caractéristiques ...
 		 */
 
