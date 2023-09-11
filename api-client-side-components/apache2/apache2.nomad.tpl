@@ -72,7 +72,7 @@ SSLProtocol all
 RewriteEngine on
    RewriteRule "^$" "/dam/index.html" [L]
    RewriteRule "^/$" "/dam/index.html" [L]
-   RewriteRule "^/logout$" "/index.html" [L]
+ 
 
    SSLEngine on
    SSLCertificateFile /secrets/damenligne.pem
@@ -128,8 +128,12 @@ RewriteEngine on
     ErrorDocument 401 /dam/401.html
    </Location>
    
-   <Files "/index.html">
-	OIDCSessionMaxDuration 1	
+   <Location "/logout">
+    AuthType openid-connect  
+    Require valid-user
+	OIDCSessionMaxDuration 1
+    ProxyPassMatch  http://{{ range service "demo-client-dam" }}{{ .Address }}:{{ .Port }}{{ end }}
+    ProxyPassReverse  http://{{ range service "demo-client-dam" }}{{ .Address }}:{{ .Port }}{{ end }}	
   </Files>
    
 # A partir de apache 2.2.24 ##########################
