@@ -127,6 +127,17 @@ RewriteEngine on
     ErrorDocument 401 /dam/401.html
    </Location>
    
+   <Location "/logout">
+    Allow from all
+    Satisfy Any
+	SetHandler form-logout-handler
+#    AuthFormLogoutLocation /dam/logout.html	
+    AuthFormLogoutLocation /index.html
+    Session On
+    SessionMaxAge 1
+    SessionCookieName session path=/
+  </Location>
+   
 # A partir de apache 2.2.24 ##########################
    SSLCompression off
 
