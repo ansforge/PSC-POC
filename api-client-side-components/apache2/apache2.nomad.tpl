@@ -72,6 +72,7 @@ SSLProtocol all
 RewriteEngine on
    RewriteRule "^$" "/dam/index.html" [L]
    RewriteRule "^/$" "/dam/index.html" [L]
+   RewriteRule "^/logout$" "/index.html" [L]
 
    SSLEngine on
    SSLCertificateFile /secrets/damenligne.pem
@@ -127,16 +128,9 @@ RewriteEngine on
     ErrorDocument 401 /dam/401.html
    </Location>
    
-   <Location "/logout">
-    Allow from all
-    Satisfy Any
-	SetHandler form-logout-handler
-#    AuthFormLogoutLocation /dam/logout.html	
-    AuthFormLogoutLocation /index.html
-    Session On
-    SessionMaxAge 1
-    SessionCookieName session path=/
-  </Location>
+   <Files "/index.html">
+	OIDCSessionMaxDuration 1	
+  </Files>
    
 # A partir de apache 2.2.24 ##########################
    SSLCompression off
