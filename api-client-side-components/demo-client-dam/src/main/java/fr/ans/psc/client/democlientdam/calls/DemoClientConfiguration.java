@@ -29,7 +29,7 @@ import lombok.Getter;
 @Getter
 @Configuration
 public class DemoClientConfiguration {
-
+/*
 	@Value("${dam.api.path}")
 	private String damReaderPath;
 
@@ -70,4 +70,5 @@ public class DemoClientConfiguration {
 			IOUtils.closeQuietly(in);
 		}
 	}
+	*/
 }

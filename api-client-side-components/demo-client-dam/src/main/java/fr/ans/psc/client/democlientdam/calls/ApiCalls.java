@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class ApiCalls {
-
+/*
 	@Autowired
 	DemoClientConfiguration conf;
 
@@ -63,5 +63,5 @@ public class ApiCalls {
 		log.debug("body: " + response.getBody());
 		return new Pair<HttpStatus, String>(response.getStatusCode(), response.getBody());
 	}
-
+*/
 }

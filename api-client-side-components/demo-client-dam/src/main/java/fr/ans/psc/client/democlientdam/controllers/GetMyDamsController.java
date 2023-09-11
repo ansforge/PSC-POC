@@ -31,8 +31,8 @@ import org.springframework.util.MultiValueMap;
 public class GetMyDamsController {
 
 
-	@Autowired
-	private ApiCalls api;
+//	@Autowired
+//	private ApiCalls api;
 
 	private final static String AUTHORIZATION = "Authorization";
 	private final static String OIDC_CLAIM_IDNAT = "oidc_claim_preferred_username";
@@ -66,6 +66,7 @@ public class GetMyDamsController {
 		
 
 		// appel à l'API avec le jeton d'API 
+/*
 		log.debug("Appel de l'api ... avec token Bearer: {} ", tokenBearer);
 		Pair<HttpStatus,String> damResponse = null;
 		try {		
@@ -85,6 +86,7 @@ public class GetMyDamsController {
 		else {
 			return "tech-error";
 		}
+*/
 		return "display-dam";
 	}
 
