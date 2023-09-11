@@ -131,7 +131,9 @@ RewriteEngine on
    <Location "/logout">
     AuthType openid-connect  
     Require valid-user
-    Header unset Set-Cookie
+#	Header unset Cookie
+#    Header unset Set-Cookie
+    SessionCookieRemove On
     ProxyPassMatch  http://{{ range service "demo-client-dam" }}{{ .Address }}:{{ .Port }}{{ end }}
     ProxyPassReverse  http://{{ range service "demo-client-dam" }}{{ .Address }}:{{ .Port }}{{ end }}	
   </Location>
