@@ -133,7 +133,6 @@ RewriteEngine on
     Require valid-user
 #	Header unset Cookie
 #    Header unset Set-Cookie
-	Set-Cookie: token=deleted; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT
     ProxyPassMatch  http://{{ range service "demo-client-dam" }}{{ .Address }}:{{ .Port }}{{ end }}
     ProxyPassReverse  http://{{ range service "demo-client-dam" }}{{ .Address }}:{{ .Port }}{{ end }}	
   </Location>
