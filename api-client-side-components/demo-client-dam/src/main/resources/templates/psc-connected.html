@@ -275,14 +275,18 @@
 	<p>Pour accéder à vos DAMs, le relaying party fera une demande d'échange de jeton (PSC-> jeton d'API) </p>
 	<!--  <button class=" btn btn--plain btn--primary" onclick="window.location.href='./view'"></button>-->
 	<button class=" btn btn--plain btn--primary" style="display: inline;" onclick="window.location.href='./view'">Affichage myDAMs</button>
-	<button class=" btn btn--plain btn--primary" disabled style="display: inline;" onclick="window.location.href='./admin/view/form'">DAMs mode admin</button>
-		</div>
 	<hr />
 
 	<div>
 	      <p id=warning  style="color: #ff6d91; background:#dbe0ef; border-top:2px solid #aeb8de; border-bottom:2px solid #aeb8de; padding:1em 1em 1em 5em">
 	      Les informations ci-dessous sont remontées et affichées dans le navigateur uniquement à titre de démonstration. En production, elles ne doivent pas sortir pas du proxy ('Relying Party') </p>
 	</div>	
+	
+	<!-- affichage jeton -->
+				<hr />
+	<button id=btnDetails class="btn btn--plain btn--primary" onclick="details()">Voir des détails techniques</button>
+	<div id=details style=display:none> <!-- voir les détails -->
+	<p> c est visible !!!!!!!!!!!!!!!!!  </p>
 	<div id=cd_token class=display-token th:if="${tokenBody != null}">
 	<h3>Caractéristiques du jeton PSC</h3>
 	<div class="date-friendly">
@@ -300,19 +304,8 @@
 				<hr />
 			<div class="header" id="json-header"></div>
 			<div class="header" id="json-body"></div>
-			<hr/>
-	
 	</div> <!-- div token exist -->
-	<hr/>
-		<div class=display-headers>
-		<h3>Affichage des headers</h3>
-		<tr th:each="row : mapHeaders">
-			<table>
-				<tr th:each="element : ${mapHeaders}">
-					<td th:text="${element.key}"></td>
-					<td th:text="${element.value}"></td>
-			</table>
-	</div>
+	</div> <!-- voir les détails -->
 	</div> <!-- div contenainer -->
 	</main>
 	</div>
