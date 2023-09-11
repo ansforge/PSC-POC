@@ -16,17 +16,17 @@ function getData(id){
 function details() {
   var btn = document.getElementById("btnDetails");
   var x = document.getElementById("details");
-  if (x.style.visibility === "hidden") {
+  if (x.style.display === "none") {
 	  alert("Les informations qui vont être affichées sont remontées dans le navigateur uniquement à titre de démonstration. En production, elles ne doivent pas sortir pas du proxy (\'Relying Party\')")
 	   btn.textContent="Masquer des détails techniques"
-    x.style.visibility = "visible";
+    x.style.display = "block";
     document.querySelector("#json-header").appendChild(jsonViewerHeader.getContainer());                           
         		jsonViewerHeader.showJSON(JSON.parse(header), -1, -1);
         		document.querySelector("#json-body").appendChild(jsonViewerBody.getContainer());                            
                 jsonViewerBody.showJSON(JSON.parse(body), -1, -1); 
    
   } else {
-    x.style.visibility = "hidden";
+    x.style.display = "none";
     btn.textContent="Voir des détails techniques"
   }
 }
