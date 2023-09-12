@@ -92,7 +92,9 @@ RewriteEngine on
 
    OIDCCryptoPassphrase 0123456789
    OIDCScope "openid scope_all"
-   OIDCSSLValidateServer Off
+   
+   OIDCSSLValidateServer On
+   OIDCCABundlePath /local/ssl/client.cert.chain.pem
 
    OIDCStateTimeout 120
    OIDCDefaultURL https://{{ .Data.data.public_dam_hostname }}/secure/psc
@@ -104,8 +106,6 @@ RewriteEngine on
 # mTLS avec PSC   
    OIDCClientTokenEndpointCert /secrets/client.pocs.henix.asipsante.fr.pem
    OIDCClientTokenEndpointKey /secrets/client.pocs.henix.asipsante.fr.key
-
-   SSLCADNRequestFile /local/client.cert.chain.pem
 
 
   <Location /secure>
@@ -285,7 +285,7 @@ EOH
         data = <<EOH
 {{ with secret "editeur/apache2/common" }}{{ .Data.data.client_cert_chain_accepted }}{{ end }}
 EOH
-        destination = "local/client.cert.chain.pem"
+        destination = "local/ssl/client.cert.chain.pem"
         change_mode = "restart"
         env = false
       }
