@@ -8,7 +8,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Webapp client DAM</title>
-<!-- <script type="text/javascript" src="./script/jquery-3.5.1.min.js"></script>-->
+<script type="text/javascript" src="./script/jquery-3.5.1.min.js"></script>
+<script type="text/javascript" src="./script/vendor.js"></script>
+<script type="text/javascript" src="./script/app.js"></script>
 <script src="./script/json-viewer.js"></script>
 <link rel="stylesheet" href="./style/json-viewer.css" type="text/css">
 <script src="./script/jsonviewer-patial-token.js"></script> 
@@ -223,7 +225,7 @@
                                         <svg class="svg-icon svg-mail" aria-hidden="true" focusable="false">
                                             <use xlink:href="./svg-icons/icon-sprite.svg#mail"></use>
                                         </svg>
-                                        <span class="mail-counter">3</span>
+                                      <!--   <span class="mail-counter">3</span>--> 
                                         <span class="title-responsive">Mes messages</span>
                                     </button>
                                 </li>
@@ -280,20 +282,19 @@
 	<h3>Vous êtes authentifié avec un jeton PSC. </h3>
 	<p>Pour accéder à vos DAMs, le relaying party fera une demande d'échange de jeton (PSC-> jeton d'API) </p>
 	<!--  <button class=" btn btn--plain btn--primary" onclick="window.location.href='./view'"></button>-->
-	<button class=" btn btn--plain btn--primary" style="display: inline;" onclick="window.location.href='./view'">Affichage myDAMs</button>
+	<button class=" btn btn--plain btn--primary" style="display: inline;text-align:center" onclick="window.location.href='./view'">Affichage myDAMs</button>
 	<hr />
 
-	<div>
-	      <p id=warning  style="color: #ff6d91; background:#dbe0ef; border-top:2px solid #aeb8de; border-bottom:2px solid #aeb8de; padding:1em 1em 1em 5em">
-	      Les informations ci-dessous sont remontées et affichées dans le navigateur uniquement à titre de démonstration. En production, elles ne doivent pas sortir pas du proxy ('Relying Party') </p>
-	</div>	
+		
 	
 	<!-- affichage jeton -->
+<div>
+	      <p id=warning  style="color: #ff6d91; background:#dbe0ef; border-top:2px solid #aeb8de; border-bottom:2px solid #aeb8de; padding:1em 1em 1em 5em">
+	      Les informations ci-dessous sont remontées et affichées dans le navigateur uniquement à titre de démonstration. En production, elles ne doivent pas sortir pas du proxy ('Relying Party') </p>
+	</div>
 				<hr />
 	<button id=btnDetails class="btn btn--plain btn--primary" onclick="details()">Voir des détails techniques</button>
-<!-- 	<div id=details style=display:none>  --> 
        <div id=details style=visibility:visible> 
-	<p> c est visible !!!!!!!!!!!!!!!!!  </p>
 	<div id=cd_token class=display-token th:if="${tokenBody != null}">
 	<h3>Caractéristiques du jeton PSC</h3>
 	<div class="date-friendly">
@@ -314,9 +315,6 @@
 	</div> <!-- div token exist -->
 	</div> <!-- voir les détails -->
 	</div> <!-- div contenainer -->
-	<script type="text/javascript" src="./script/jquery-3.5.1.min.js"></script>
-<script type="text/javascript" src="./script/vendor.js"></script>
-<script type="text/javascript" src="./script/app.js"></script>
 	</main>
 	</div>
 </body>

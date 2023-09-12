@@ -9,6 +9,8 @@
 <meta charset="UTF-8">
 <title>Webapp client DAM</title>
 <script type="text/javascript" src="./script/jquery-3.5.1.min.js"></script>
+<script type="text/javascript" src="./script/vendor.js"></script>
+<script type="text/javascript" src="./script/app.js"></script>
 <script src="./script/json-viewer.js"></script>
 <link rel="stylesheet" href="./style/json-viewer.css" type="text/css">
 <script src="./script/jsonviewer-dams.js"></script>
@@ -17,7 +19,7 @@
 <link rel="stylesheet" type="text/css"
 	href="./style/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="./style/style.css">
-<link rel="stylesheet" href="https://use.typekit.net/jjx2ksb.css">
+<!--<link rel="stylesheet" href="https://use.typekit.net/jjx2ksb.css">-->
 <link rel="stylesheet" href="./style/style-ans.css" type="text/css">
 <link rel="icon" type="image/x-icon" href="./img/favicon.ico">
 </head>
@@ -275,12 +277,8 @@
 				
 				
 				
-				
+					<hr />
 				<!-- affichage jeton -->
-								<!-- affichage jeton -->
-				<hr />
-				<button id=btnDetails class="btn btn--plain btn--primary" onclick="details()">Voir des détails techniques</button>
-				<p> c est visible !!!!!!!!!!!!!!!!!  </p>
 				<div>
 					<p id=warning
 						style="color: #ff6d91; background: #dbe0ef; border-top: 2px solid #aeb8de; border-bottom: 2px solid #aeb8de; padding: 1em 1em 1em 5em">
@@ -288,6 +286,9 @@
 						navigateur uniquement à titre de démonstration. En production,
 						elles ne doivent pas sortir pas du proxy ('Relying Party')</p>
 				</div>
+			<hr />
+				<button id=btnDetails class="btn btn--plain btn--primary" onclick="details()">Voir des détails techniques</button>			
+				 <div id=details style=visibility:visible> 
 				
 				
 				<div id=cd_token class=display-token th:if="${tokenBody != null}">
@@ -311,10 +312,9 @@
 					<div class="header" id="json-body"></div>
 
 
-			</div>
-			<!-- token non null -->
+			</div>		<!-- token non null -->
 
-
+	</div> <!-- voir les détails -->
 	</div> <!-- div contenainer -->
 	
 	</main>

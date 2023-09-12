@@ -65,11 +65,6 @@ public class GetMyDamsController {
 	    String fullName = Helper.getFullName (map);
 		model.addAttribute("user", fullName);
 
-	//header: récupération de l' idNat pour appel API 
-	//	String idNat = request.getHeader(OIDC_CLAIM_IDNAT);		
-	//	log.debug("Reception d'une demande de DAM (getMyDAMs pour l'IdNat: {} et avec le token d'API {}", idNat, token);
-		
-
 		// appel à l'API avec le jeton d'API 
 
 		log.debug("Appel de l'api ... avec token Bearer: {} ", tokenBearer);

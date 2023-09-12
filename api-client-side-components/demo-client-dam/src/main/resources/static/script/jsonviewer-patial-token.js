@@ -7,12 +7,12 @@ $(document).ready(function() {
                 let jsonViewerHeader = new JSONViewer();    
                 let jsonViewerBody = new JSONViewer();
                    document.querySelector("#json-header").appendChild(jsonViewerHeader.getContainer());                           
-    jsonViewerHeader.showJSON(JSON.parse(header), 0, -1);
+    jsonViewerHeader.showJSON(JSON.parse(header), -1, 0);
     document.querySelector("#json-body").appendChild(jsonViewerBody.getContainer());                            
-    jsonViewerBody.showJSON(JSON.parse(body), 0, -1); 
-     var x = document.getElementById("details");
-     x.style.visibility = "hidden";
-                
+    jsonViewerBody.showJSON(JSON.parse(body), -1, 0); 
+//     var x = document.getElementById("details");
+//     x.style.visibility = "hidden";
+       details();         
         });   
                      
 function getData(id){
