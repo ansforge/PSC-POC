@@ -179,7 +179,8 @@ SSLProtocol all
 
    OIDCCryptoPassphrase 0123456789
    OIDCScope "openid scope_all"
-   OIDCSSLValidateServer Off
+   OIDCSSLValidateServer On
+   OIDCCABundlePath /local/ssl/client.cert.chain.pem
 
    OIDCStateTimeout 120
    OIDCDefaultURL https://{{ .Data.data.public_app1_hostname }}/secure/psc
