@@ -73,7 +73,7 @@ RewriteEngine on
    RewriteRule "^$" "/dam/index.html" [L]
    RewriteRule "^/$" "/dam/index.html" [L]
  
-
+   session_max_duration 300
    SSLEngine on
    SSLCertificateFile /secrets/damenligne.pem
    SSLCertificateKeyFile /secrets/damenligne.key
@@ -102,9 +102,9 @@ RewriteEngine on
    OIDCAuthNHeader X-Remote-User
    OIDCPassClaimsAs both
    
-   OIDCProviderBackChannelLogoutSupported OFF
-   OIDCSessionMaxDuration 300
-   OIDCSessionInactivityTimeout 300
+#   OIDCProviderBackChannelLogoutSupported OFF
+#   OIDCSessionMaxDuration 300
+#   OIDCSessionInactivityTimeout 300
    
 # mTLS avec PSC   
    OIDCClientTokenEndpointCert /secrets/client.pocs.henix.asipsante.fr.pem
