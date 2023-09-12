@@ -102,6 +102,10 @@ RewriteEngine on
    OIDCAuthNHeader X-Remote-User
    OIDCPassClaimsAs both
    
+   OIDCProviderBackChannelLogoutSupported OFF
+   OIDCSessionMaxDuration 300
+   OIDCSessionInactivityTimeout 300
+   
 # mTLS avec PSC   
    OIDCClientTokenEndpointCert /secrets/client.pocs.henix.asipsante.fr.pem
    OIDCClientTokenEndpointKey /secrets/client.pocs.henix.asipsante.fr.key
@@ -131,8 +135,8 @@ RewriteEngine on
    <Location "/logout">
     AuthType openid-connect  
     Require valid-user
-#	Header unset Cookie
-#    Header unset Set-Cookie
+	Header unset Cookie
+    Header unset Set-Cookie
     ProxyPassMatch  http://{{ range service "demo-client-dam" }}{{ .Address }}:{{ .Port }}{{ end }}
     ProxyPassReverse  http://{{ range service "demo-client-dam" }}{{ .Address }}:{{ .Port }}{{ end }}	
   </Location>
