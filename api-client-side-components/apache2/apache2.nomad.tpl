@@ -73,7 +73,7 @@ RewriteEngine on
    RewriteRule "^$" "/dam/index.html" [L]
    RewriteRule "^/$" "/dam/index.html" [L]
  
-   session_max_duration 300
+#   session_max_duration 300
    SSLEngine on
    SSLCertificateFile /secrets/damenligne.pem
    SSLCertificateKeyFile /secrets/damenligne.key
