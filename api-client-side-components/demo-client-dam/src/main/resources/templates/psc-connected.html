@@ -11,7 +11,7 @@
 <!-- <script type="text/javascript" src="./script/jquery-3.5.1.min.js"></script>-->
 <script src="./script/json-viewer.js"></script>
 <link rel="stylesheet" href="./style/json-viewer.css" type="text/css">
-<!--  <script src="./script/jsonviewer-patial-token.js"></script> -->
+<script src="./script/jsonviewer-patial-token.js"></script> 
 
 
 
@@ -53,6 +53,184 @@
 
 
                     <div class="navbar navbar-expand-xl navbar-light" tabindex="-1" id="menuPrincipalTarget">
+                        <button type="button" class="navbar-toggler btn btn--icon-only btn-icon--header"
+                                data-toggle="collapse" data-target="#menuPrincipal" aria-controls="menuPrincipal"
+                                aria-expanded="false">
+                            <svg class="svg-icon svg-menu" aria-hidden="true" focusable="false">
+                                <use xlink:href="./svg-icons/icon-sprite.svg#menu"></use>
+                            </svg>
+                            <span class="sr-only">Menu</span>
+                        </button>
+
+
+                        <div class="collapse navbar-collapse" id="menuPrincipal">
+                            <button type="button"
+                                    class="navbar-toggler-close d-xl-none btn btn--icon-only btn-icon--header"
+                                    data-toggle="collapse" data-target="#menuPrincipal" aria-controls="menuPrincipal"
+                                    aria-expanded="false">
+                                <svg class="svg-icon svg-close" aria-hidden="true" focusable="false">
+                                    <use xlink:href="./svg-icons/icon-sprite.svg#close"></use>
+                                </svg>
+                                <span class="sr-only">Fermer le menu</span>
+                            </button>
+
+
+                            <nav role="navigation" aria-label="Menu principal">
+
+                                <ul class="navbar-nav nav-lvl--1">
+                                    <li class="nav-item common-nav-item">
+
+                                        <a class="nav-link" href="#">Fonction1</a>
+                                    </li>
+                                    <li class="nav-item is-active common-nav-item">
+
+                                        <a class="nav-link" href="#">Fonction2<span class="sr-only">(page courante)</span></a>
+                                    </li>
+                                    <li class="nav-item common-nav-item">
+
+
+                                        <button class="nav-link" type="button"
+                                                data-toggle="collapse"
+                                                data-target="#nav1-nav-collapse-submenu--2"
+                                                aria-controls="nav1-nav-collapse-submenu--2"
+                                                aria-expanded="false"
+                                        >Paramètres
+                                        </button>
+
+                                        <div class="collapse nav-collapse" id="nav1-nav-collapse-submenu--2"
+                                             data-parent="#menuPrincipal">
+                                            <div class="nav-collapse-inner">
+
+
+                                                <ul class="navbar-nav nav-lvl--2">
+                                                    <li class="nav-item is-active common-nav-item">
+
+                                                        <a class="nav-link" href="#">[Active] Label menu <span
+                                                                class="sr-only">(page courante)</span></a>
+                                                    </li>
+                                                    <li class="nav-item common-nav-item">
+
+                                                        <a class="nav-link" href="#">Label menu with long text lorem
+                                                            ipsum</a>
+                                                    </li>
+                                                    <li class="nav-item common-nav-item">
+
+                                                        <a class="nav-link" href="#">Label menu</a>
+
+
+                                                        <ul class="navbar-nav nav-lvl--3">
+                                                            <li class="nav-item common-nav-item">
+
+                                                                <a class="nav-link" href="#">Label menu with long text
+                                                                    lorem ipsum</a>
+                                                            </li>
+                                                            <li class="nav-item is-active common-nav-item">
+
+                                                                <a class="nav-link" href="#">[Active] Label menu <span
+                                                                        class="sr-only">(page courante)</span></a>
+                                                            </li>
+                                                            <li class="nav-item common-nav-item">
+
+                                                                <a class="nav-link" href="#">Label menu</a>
+                                                            </li>
+                                                        </ul>
+
+
+                                                    </li>
+                                                    <li class="nav-item common-nav-item">
+
+
+                                                        <span class="nav-title">Label menu sans lien</span>
+
+
+                                                        <ul class="navbar-nav nav-lvl--3">
+                                                            <li class="nav-item common-nav-item">
+
+                                                                <a class="nav-link" href="#">Label menu with long text
+                                                                    lorem ipsum</a>
+                                                            </li>
+                                                            <li class="nav-item is-active common-nav-item">
+
+                                                                <a class="nav-link" href="#">[Active] Label menu <span
+                                                                        class="sr-only">(page courante)</span></a>
+                                                            </li>
+                                                            <li class="nav-item common-nav-item">
+
+                                                                <a class="nav-link" href="#">Label menu</a>
+                                                            </li>
+                                                        </ul>
+
+
+                                                    </li>
+                                                    <li class="nav-item common-nav-item">
+
+                                                        <a class="nav-link" href="#">Label menu</a>
+                                                    </li>
+                                                </ul>
+
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </nav>
+
+                            <ul class="nav-right">
+                                <li class="nav-right-item collapse-wrapper common-nav-item">
+                                    <button type="button" class="btn btn--icon-only btn-icon--header"
+                                            aria-label="Accessibilité" data-toggle="collapse"
+                                            data-target="#collapseAccess" aria-controls="collapseAccess"
+                                            aria-expanded="false">
+                                        <svg class="svg-icon svg-access" aria-hidden="true" focusable="false">
+                                            <use xlink:href="./svg-icons/icon-sprite.svg#access"></use>
+                                        </svg>
+                                        <span class="title-responsive">Accessibilité</span>
+                                    </button>
+                                    <div class="collapse nav-collapse nav-collapse--right" id="collapseAccess">
+                                        <section aria-labelledby="widget-access-title">
+                                            <h2 class="o-widget-access__intro" id="widget-access-title">Options
+                                                d'accessibilité</h2>
+
+                                            <div class="o-widget-access">
+                                                <div class="form-group form-group-custom-control">
+                                                    <fieldset id="contrast-id">
+                                                        <legend>Contrastes :</legend>
+
+                                                        <div class="o-widget-access__option">
+                                                            <input id="default-c" value="default-c" name="contrast"
+                                                                   checked="checked" type="radio" class="sr-only">
+                                                            <label class="o-widget-access__label btn btn--ghost btn--primary btn-sm"
+                                                                   for="default-c"><span
+                                                                    class="sr-only">Contrastes</span> Standards</label>
+                                                        </div>
+                                                        <div class="o-widget-access__option">
+                                                            <input id="high-c" value="high-c" name="contrast"
+                                                                   type="radio" class="sr-only">
+                                                            <label class="o-widget-access__label btn btn--ghost btn--primary btn-sm"
+                                                                   for="high-c"><span class="sr-only">Contrastes</span>
+                                                                Renforcés</label>
+                                                        </div>
+                                                    </fieldset>
+                                                </div>
+
+
+                                            </div>
+                                        </section>
+                                    </div>
+                                </li>
+                                <li class="nav-right-item collapse-wrapper common-nav-item">
+                                    <button type="button" class="btn btn--icon-only btn-icon--header"
+                                            aria-label="Mes messages (3)">
+                                        <svg class="svg-icon svg-mail" aria-hidden="true" focusable="false">
+                                            <use xlink:href="./svg-icons/icon-sprite.svg#mail"></use>
+                                        </svg>
+                                        <span class="mail-counter">3</span>
+                                        <span class="title-responsive">Mes messages</span>
+                                    </button>
+                                </li>
+                            </ul>
+
+                        </div>
+
 
                         <div class="collapse-wrapper common-nav-item">
                             <button type="button" class="btn btn--icon-only btn-icon--header"
