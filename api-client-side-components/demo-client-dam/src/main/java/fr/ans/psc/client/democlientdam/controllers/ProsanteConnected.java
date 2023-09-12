@@ -30,17 +30,14 @@ public class ProsanteConnected {
 		 * Lecture des headers (données renvoyées par le serveur uniquement dans le cadre d'une démontsration). 
 		 */
 		MultiValueMap<String, String> map = Helper.logRequestHeaders(request);
-		MultiValueMap<String, String> filetredMap = Helper.filtredMap(map);
-		model.addAttribute("mapHeaders",filetredMap);
+//		MultiValueMap<String, String> filetredMap = Helper.filtredMap(map);
+//		model.addAttribute("mapHeaders",filetredMap);
 
 		/*
 		 * Identité PRosante Connect
 		 */
-		String firstName = map.getFirst("oidc_claim_given_name");
-		firstName = (firstName !=null) ? firstName:"-";
-		String lastName = map.getFirst("oidc_claim_family_name"); 
-		lastName = (lastName !=null) ? lastName:"X";
-		model.addAttribute("user", firstName.concat(lastName));
+	    String fullName = Helper.getFullName (map);
+		model.addAttribute("user", fullName);
 		
 		/*
 		 * Récupération du token et de ses caractéristiques ...

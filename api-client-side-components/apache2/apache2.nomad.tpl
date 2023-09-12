@@ -73,7 +73,6 @@ RewriteEngine on
    RewriteRule "^$" "/dam/index.html" [L]
    RewriteRule "^/$" "/dam/index.html" [L]
  
-#   session_max_duration 300
    SSLEngine on
    SSLCertificateFile /secrets/damenligne.pem
    SSLCertificateKeyFile /secrets/damenligne.key
@@ -102,10 +101,6 @@ RewriteEngine on
    OIDCAuthNHeader X-Remote-User
    OIDCPassClaimsAs both
    
-#   OIDCProviderBackChannelLogoutSupported OFF
-#   OIDCSessionMaxDuration 300
-#   OIDCSessionInactivityTimeout 300
-   
 # mTLS avec PSC   
    OIDCClientTokenEndpointCert /secrets/client.pocs.henix.asipsante.fr.pem
    OIDCClientTokenEndpointKey /secrets/client.pocs.henix.asipsante.fr.key
@@ -131,16 +126,7 @@ RewriteEngine on
     ProxyPassReverse  http://{{ range service "demo-client-dam" }}{{ .Address }}:{{ .Port }}{{ end }}
     ErrorDocument 401 /dam/401.html
    </Location>
-   
-   <Location "/logout">
-    AuthType openid-connect  
-    Require valid-user
-	Header unset Cookie
-    Header unset Set-Cookie
-    ProxyPassMatch  http://{{ range service "demo-client-dam" }}{{ .Address }}:{{ .Port }}{{ end }}
-    ProxyPassReverse  http://{{ range service "demo-client-dam" }}{{ .Address }}:{{ .Port }}{{ end }}	
-  </Location>
-   
+      
 # A partir de apache 2.2.24 ##########################
    SSLCompression off
 

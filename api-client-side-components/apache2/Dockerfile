@@ -58,8 +58,6 @@ RUN set -eux \
 		-e 's/^#\(LoadModule .*mod_rewrite.so\)/\1/' \
 		-e 's/^#\(LoadModule .*mod_proxy.so\)/\1/' \
 		-e 's/^#\(LoadModule .*mod_proxy_http.so\)/\1/' \
-		-e 's/^#\(LoadModule .*mod_session.so\)/\1/' \
-		-e 's/^#\(LoadModule .*mod_session.cookie.so\)/\1/' \
 		-e 's/^#\(LoadModule .*mod_http2.so\)/\1/' \
 		-e 's/^#\(LoadModule .*mod_proxy_http2.so\)/\1/' \
 		-e 's/^#Include .*httpd-vhosts.conf/IncludeOptional conf\/sites\/\*\.conf/' \
