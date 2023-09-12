@@ -13,7 +13,7 @@
 <script type="text/javascript" src="./script/app.js"></script>
 <script src="./script/json-viewer.js"></script>
 <link rel="stylesheet" href="./style/json-viewer.css" type="text/css">
-<script src="./script/jsonviewer-patial-token.js"></script> 
+<script src="./script/jsonviewer-partial-token.js"></script> 
 
 
 
@@ -296,16 +296,15 @@
 	<button id=btnDetails class="btn btn--plain btn--primary" onclick="details()">Voir des détails techniques</button>
        <div id=details style=visibility:visible> 
 	<div id=cd_token class=display-token th:if="${tokenBody != null}">
-	<h3>Caractéristiques du jeton PSC</h3>
+	<br/><br/>
+	<h3>Caractéristiques du jeton Prosante Connect</h3>
 	<div class="date-friendly">
 			<p>
-				date d'expiration:  <span th:text="${rawExpDate}"> &#32;&#61;&#62;&#32;</span>
-					<span th:text="${#temporals.format(expDate, 'dd-MM-yyyy HH:mm:ss')}" />
-			  </p>
-			<p> 
-				date d'émission: <span th:text="${rawIatDate}" > &#32;&#61;&#62;&#32; </span>
-					<span th:text="${#temporals.format(iatDate, 'dd-MM-yyyy HH:mm:ss')}" />
-			</p>
+							date d'émission:  <span	th:text="${#temporals.format(iatDate, 'dd-MM-yyyy HH:mm:ss')}" />
+						</p>
+						<p>
+							date d'expiration: <span th:text="${#temporals.format(expDate, 'dd-MM-yyyy HH:mm:ss')}" />
+						</p>
 		</div>
 		<input type="hidden" id="header" th:value="${tokenHeader}" />
 		<input type="hidden" id="body" th:value="${tokenBody}" />

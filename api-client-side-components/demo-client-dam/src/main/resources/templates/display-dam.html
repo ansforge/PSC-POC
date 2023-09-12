@@ -204,8 +204,8 @@
                                             <use
 													xlink:href="./svg-icons/icon-sprite.svg#mail"></use>
                                         </svg>
-											<span class="mail-counter">3</span> <span
-												class="title-responsive">Mes messages</span>
+											<!--<span class="mail-counter">3</span> -->
+											<span class="title-responsive">Mes messages</span>
 										</button>
 									</li>
 								</ul>
@@ -292,18 +292,16 @@
 				
 				
 				<div id=cd_token class=display-token th:if="${tokenBody != null}">
-					<h3>Caractéristiques du jeton</h3>
+				<br/><br/>
+					<h3>Caractéristiques du jeton d'API </h3>
 					<div class="date-friendly">
 						<p>
-							date d'expiration: <span th:text="${rawExpDate}">
-								&#32;&#61;&#62;&#32;</span> <span
-								th:text="${#temporals.format(expDate, 'dd-MM-yyyy HH:mm:ss')}" />
+							date d'émission:  <span	th:text="${#temporals.format(iatDate, 'dd-MM-yyyy HH:mm:ss')}" />
 						</p>
 						<p>
-							date d'émission: <span th:text="${rawIatDate}">
-								&#32;&#61;&#62;&#32; </span> <span
-								th:text="${#temporals.format(iatDate, 'dd-MM-yyyy HH:mm:ss')}" />
+							date d'expiration: <span th:text="${#temporals.format(expDate, 'dd-MM-yyyy HH:mm:ss')}" />
 						</p>
+						
 					</div>
 					<input type="hidden" id="header" th:value="${tokenHeader}" />
 		            <input type="hidden" id="body" th:value="${tokenBody}" />
