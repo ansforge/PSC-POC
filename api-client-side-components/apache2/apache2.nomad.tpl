@@ -105,6 +105,8 @@ RewriteEngine on
    OIDCClientTokenEndpointCert /secrets/client.pocs.henix.asipsante.fr.pem
    OIDCClientTokenEndpointKey /secrets/client.pocs.henix.asipsante.fr.key
 
+   SSLCADNRequestFile /local/client.cert.chain.pem
+
 
   <Location /secure>
     AuthType openid-connect
@@ -259,7 +261,7 @@ EOH
         env = false
       }
       
-	  ##### certificat client pour PSC et Keycloak #####
+	  ##### certificat client pour PSC et Keycloak - Chaine de confiance #####
       template {
         data = <<EOH
 {{ with secret "editeur/apache2/common" }}{{ .Data.data.client_cert_pub_value }}{{ end }}
@@ -275,6 +277,15 @@ EOH
 {{ with secret "editeur/apache2/common" }}{{ .Data.data.client_cert_key_value }}{{ end }}
 EOH
         destination = "secrets/client.pocs.henix.asipsante.fr.key"
+        change_mode = "restart"
+        env = false
+      }
+	  
+	        template {
+        data = <<EOH
+{{ with secret "editeur/apache2/common" }}{{ .Data.data.client_cert_chain_accepted }}{{ end }}
+EOH
+        destination = "local/client.cert.chain.pem"
         change_mode = "restart"
         env = false
       }
