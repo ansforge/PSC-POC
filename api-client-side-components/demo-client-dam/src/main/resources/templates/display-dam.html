@@ -279,17 +279,18 @@
 				
 					<hr />
 				<!-- affichage jeton -->
-				<div>
-					<p id=warning
+
+					
+
+			
+				<button id=btnDetails class="btn btn--plain btn--primary" onclick="details()">Voir des détails techniques</button>			
+				 <div id=details style=visibility:visible> 
+				<p id=warning
 						style="color: #ff6d91; background: #dbe0ef; border-top: 2px solid #aeb8de; border-bottom: 2px solid #aeb8de; padding: 1em 1em 1em 5em">
 						Les informations ci-dessous sont remontées et affichées dans le
 						navigateur uniquement à titre de démonstration. En production,
-						elles ne doivent pas sortir pas du proxy ('Relying Party')</p>
-				</div>
-			<hr />
-				<button id=btnDetails class="btn btn--plain btn--primary" onclick="details()">Voir des détails techniques</button>			
-				 <div id=details style=visibility:visible> 
-				
+						elles ne doivent pas sortir pas du proxy ('Relying Party')
+						</p>
 				
 				<div id=cd_token class=display-token th:if="${tokenBody != null}">
 				<br/><br/>
@@ -305,9 +306,12 @@
 					</div>
 					<input type="hidden" id="header" th:value="${tokenHeader}" />
 		            <input type="hidden" id="body" th:value="${tokenBody}" />
-					<hr />
-					<div class="header" id="json-header"></div>
-					<div class="header" id="json-body"></div>
+					<p>
+			<span>Header:</span><br />
+			<div class="header" id="json-header"></div>
+			<span>Body:</span><br />
+			<div class="header" id="json-body"></div>
+			</p>
 
 
 			</div>		<!-- token non null -->
