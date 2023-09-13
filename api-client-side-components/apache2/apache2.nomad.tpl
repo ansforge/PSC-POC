@@ -120,7 +120,8 @@ RewriteEngine on
     AuthType openid-connect  
     Require valid-user
 {{ with secret "editeur/apache2/common" }}
-    STSExchange otx https://auth.server.psc.pocs.esante.gouv.fr:19587/realms/{{ .Data.data.keycloak_realm }}/protocol/openid-connect/token auth=client_cert&cert=/secrets/client.pocs.henix.asipsante.fr.pem&key=/secrets/client.pocs.henix.asipsante.fr.key&ssl_verify=true&params=subject_issuer%3D{{ .Data.data.keycloak_otx_subjet_issuer }}%26client_id%3D{{ .Data.data.keycloak_otx_client_id }}{{ end }}%26scope%3Dopenid%26audience%3D{{ with secret "editeur/apache2/dam" }}{{ .Data.data.keycloak_otx_audience }}{{ end }}
+    STSExchange otx https://auth.server.psc.pocs.esante.gouv.fr:19587/realms/{{ .Data.data.keycloak_realm }}/protocol/openid-connect/token auth=client_cert&cert=/secrets/client.pocs.henix.asipsante.fr.pem&key=/secrets/client.pocs.henix.asipsante.fr.key&ssl_verify=true&
+	params=client_id%3D{{ .Data.data.keycloak_otx_client_id }}{{ end }}%26subject_issuer%3D{{ with secret "editeur/apache2/dam" }}{{ .Data.data.keycloak_otx_subject_issuer }}%26scope%3Dopenid%26audience%3D{{ .Data.data.keycloak_otx_audience }}{{ end }}
 
     STSAcceptSourceTokenIn environment name=OIDC_access_token
     STSPassTargetTokenIn header
