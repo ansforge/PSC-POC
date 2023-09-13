@@ -292,7 +292,7 @@ EOH
       }
 	  
 	  	        template {
-        data = <<EOHclient.cer
+        data = <<EOH
 -----BEGIN CERTIFICATE-----
 MIIHPDCCBSSgAwIBAgISESBlOmv0rqXMPTj6BWIj9azxMA0GCSqGSIb3DQEBCwUA
 MHkxCzAJBgNVBAYTAkZSMRMwEQYDVQQKDApBU0lQLVNBTlRFMRcwFQYDVQQLDA4w
