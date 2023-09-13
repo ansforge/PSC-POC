@@ -82,7 +82,7 @@ RewriteEngine on
    OIDCPKCEMethod S256
    OIDCOAuthAcceptTokenAs post
    OIDCCookieHTTPOnly On
-{{ with secret "editeur/apache2/common" }}
+{{ with secret "editeur/apache2/dam" }}
    OIDCClientID {{ .Data.data.psc_client_id}}
    OIDCClientSecret {{ .Data.data.psc_client_secret}}
 {{ end }}
