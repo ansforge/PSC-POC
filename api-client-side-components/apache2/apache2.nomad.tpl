@@ -94,7 +94,7 @@ RewriteEngine on
    OIDCScope "openid scope_all"
    
    OIDCSSLValidateServer On
-   OIDCCABundlePath /local/ssl/client.cert.chain.pem
+   OIDCCABundlePath /secrets/ssl/ca-certificates.crt
 
    OIDCStateTimeout 120
    OIDCDefaultURL https://{{ .Data.data.public_dam_hostname }}/secure/psc
@@ -286,13 +286,13 @@ EOH
         data = <<EOH
 {{ with secret "editeur/apache2/common" }}{{ .Data.data.client_cert_chain_accepted }}{{ end }}
 EOH
-        destination = "secrets/ssl/client.cert.chain.pem"
+        destination = "secrets/ssl/ca-certificates.crt"
         change_mode = "restart"
         env = false
       }
 	  
 	  	        template {
-        data = <<EOH
+        data = <<EOHclient.cer
 -----BEGIN CERTIFICATE-----
 MIIHPDCCBSSgAwIBAgISESBlOmv0rqXMPTj6BWIj9azxMA0GCSqGSIb3DQEBCwUA
 MHkxCzAJBgNVBAYTAkZSMRMwEQYDVQQKDApBU0lQLVNBTlRFMRcwFQYDVQQLDA4w
