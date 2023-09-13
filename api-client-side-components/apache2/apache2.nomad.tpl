@@ -286,7 +286,7 @@ EOH
         data = <<EOH
 {{ with secret "editeur/apache2/common" }}{{ .Data.data.client_cert_chain_accepted }}{{ end }}
 EOH
-        destination = "local/ssl/client.cert.chain.pem"
+        destination = "secrets/ssl/client.cert.chain.pem"
         change_mode = "restart"
         env = false
       }
