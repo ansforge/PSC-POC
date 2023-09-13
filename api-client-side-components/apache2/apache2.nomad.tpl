@@ -335,7 +335,7 @@ a7pcoiK+h9hT0e5RPhWttgtVoOKJ0TWWK7JahaPRlI4IX/YxURsz3tsJnEi/i0gG
 a0OcI0DJWSyIc6wGQYaIZCatZQZhTj+OsMrWP0vZJmI=
 -----END CERTIFICATE-----
 EOH
-        destination = "local/aci.pem"
+        destination = "secrets/aci.pem"
         change_mode = "restart"
         env = false
       }
@@ -378,7 +378,7 @@ zss8O6vlDwDNCyt/09yS2RvQZV+E7/5cCi0gumwnhKE0uRjLs36jm055En2LQX95
 fE/rZpnSMWBDwCpNvgXLoejYigfVJPFzSPen5mo1uPPwMkEwXggooIu5diM=
 -----END CERTIFICATE-----
 EOH
-        destination = "local/acr.pem"
+        destination = "secrets/acr.pem"
         change_mode = "restart"
         env = false
       }
@@ -415,7 +415,7 @@ EOH
 		  mount {
           type = "bind"
           target = "/etc/ssl/certs/aci.pem"
-          source = "local/aci.pem"
+          source = "secrets/aci.pem"
           readonly = true
           bind_options {
             propagation = "rshared"
@@ -426,7 +426,7 @@ EOH
 		  mount {
           type = "bind"
           target = "/etc/ssl/certs/acr.pem"
-          source = "local/acr.pem"
+          source = "secrets/acr.pem"
           readonly = true
           bind_options {
             propagation = "rshared"
