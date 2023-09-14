@@ -186,7 +186,7 @@ EOH
 ErrorLogFormat "[%t] [%l] [pid %P] %F: %E: [client %a] %M"
 SSLProtocol all
    DocumentRoot /usr/local/apache2/htdocs
-   ServerName {{ with secret "editeur/apache2/copiercoller" }}{{ .Data.data.public_app1_hostname }}{{ end }}
+   ServerName {{ with secret "editeur/apache2/copiercoller" }}{{ .Data.data.public_app2_hostname }}{{ end }}
    ErrorLog /dev/stdout
    TransferLog /dev/stdout
    LogLevel info
