@@ -159,7 +159,10 @@ SSLProtocol all
 #RewriteEngine on
    RewriteRule "^$" "/cc/app1/index.html" [L]
    RewriteRule "^/$" "/cc/app2/index.html" [L]
-
+   
+SSLEngine on
+   SSLCertificateFile /secrets/app1.cert.pub.pem
+   SSLCertificateKeyFile /secrets/app1.cert.key
    
 # A partir de apache 2.2.24 ##########################
    SSLCompression off
@@ -248,7 +251,11 @@ EOH
 	  
 	  template {
         data = <<EOH
+<html>
+<body>
 <h1>App 1. It's works</h1>
+</body>
+</html>
 EOH
         destination = "local/app1_index.html"
         change_mode = "restart"
@@ -257,7 +264,11 @@ EOH
 	  
 	  template {
         data = <<EOH
+<html>
+<body>
 <h1>App 2. It's works</h1>
+</body>
+</html>
 EOH
         destination = "local/app2_index.html"
         change_mode = "restart"
