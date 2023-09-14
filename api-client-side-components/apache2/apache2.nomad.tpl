@@ -346,6 +346,7 @@ EOH
           bind_options {
             propagation = "rshared"
           }
+		} 
 		
 		#index.html app1
         mount {
