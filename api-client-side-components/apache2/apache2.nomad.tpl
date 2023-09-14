@@ -157,12 +157,12 @@ SSLProtocol all
    LogLevel info
 
 #RewriteEngine on
-#   RewriteRule "^$" "/dam/index.html" [L]
-#   RewriteRule "^/$" "/dam/index.html" [L]
+   RewriteRule "^$" "/cc/app1/index.html" [L]
+   RewriteRule "^/$" "/cc/app2/index.html" [L]
 
    SSLEngine on
-   SSLCertificateFile /secrets/application-1.pocs.gateway.esante.gouv.fr.pem
-   SSLCertificateKeyFile /secrets/application-1.pocs.gateway.esante.gouv.fr.key
+   SSLCertificateFile /secrets/app1.cert.pub.pem
+   SSLCertificateKeyFile /secrets/app1.cert.key
    OIDCHTTPTimeoutShort 10
    OIDCProviderAuthorizationEndpoint https://wallet.bas.psc.esante.gouv.fr/auth
    OIDCProviderMetadataURL https://auth.bas.psc.esante.gouv.fr/auth/realms/esante-wallet/.well-known/wallet-openid-configuration
@@ -248,7 +248,7 @@ EOH
         data = <<EOH
 {{ with secret "editeur/apache2/copiercoller" }}{{ .Data.data.server_app1_cert_pub_value }}{{ end }}
 EOH
-        destination = "secrets/application-1.pocs.gateway.esante.gouv.fr.pem"
+        destination = "secrets/app1.cert.pub.pem"
         change_mode = "restart"
         env = false
       }
@@ -257,7 +257,7 @@ EOH
         data = <<EOH
 {{ with secret "editeur/apache2/copiercoller" }}{{ .Data.data.server_app1_cert_key_value }}{{ end }}
 EOH
-        destination = "secrets/application-1.pocs.gateway.esante.gouv.fr.key"
+        destination = "secrets/app1.cert.key"
         change_mode = "restart"
         env = false
       }
@@ -282,11 +282,29 @@ EOH
         env = false
       }
 	  
-	        template {
+	  template {
         data = <<EOH
 {{ with secret "editeur/apache2/common" }}{{ .Data.data.client_cert_chain_accepted }}{{ end }}
 EOH
         destination = "secrets/ssl/ca-certificates.crt"
+        change_mode = "restart"
+        env = false
+      }
+	  
+	  template {
+        data = <<EOH
+<h1>App 1. It's works</h1>
+EOH
+        destination = "local/app1_index.html"
+        change_mode = "restart"
+        env = false
+      }
+	  
+	  template {
+        data = <<EOH
+<h1>App 2. It's works</h1>
+EOH
+        destination = "local/app2_index.html"
         change_mode = "restart"
         env = false
       }
@@ -319,6 +337,28 @@ EOH
           }
         }
 		
+		#index.html app1
+        mount {
+          type = "bind"
+          target = "/usr/local/apache2/htdocs/cc/app1/index.html"
+          source = "local/app1_index.html"
+          readonly = true
+          bind_options {
+            propagation = "rshared"
+          }
+        }
+		
+		#index.html app2
+        mount {
+          type = "bind"
+          target = "/usr/local/apache2/htdocs/cc/app2/index.html"
+          source = "local/app2_index.html"
+          readonly = true
+          bind_options {
+            propagation = "rshared"
+          }
+        }
+		
 		# ACI 
 		  mount {
           type = "bind"
@@ -338,8 +378,9 @@ EOH
       
       service {
         name = "$\u007BNOMAD_JOB_NAME\u007D"
-        tags = ["urlprefix-damenligne.psc.pocs.esante.gouv.fr  proto=tcp"]
-#		         "urlprefix-application-1.pocs.gateway.esante.gouv.fr proto=tcp"]
+        tags = ["urlprefix-damenligne.psc.pocs.esante.gouv.fr  proto=tcp",
+		         "app1-copier-coller.psc.pocs.esante.gouv.fr proto=tcp",
+				 "app2-copier-coller.psc.pocs.esante.gouv.fr proto=tcp"]
         port = "https"
         check {
           name         = "alive"
