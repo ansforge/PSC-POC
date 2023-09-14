@@ -355,9 +355,10 @@ EOH
       
       service {
         name = "$\u007BNOMAD_JOB_NAME\u007D"
-        tags = ["urlprefix-damenligne.psc.pocs.esante.gouv.fr  proto=tcp",
-		         "app1-copier-coller.psc.pocs.esante.gouv.fr proto=tcp",
-				 "app2-copier-coller.psc.pocs.esante.gouv.fr proto=tcp"]
+        tags = [
+				 "urlprefix-damenligne.psc.pocs.esante.gouv.fr  proto=tcp",
+		         "urlprefix-app1-copier-coller.psc.pocs.esante.gouv.fr proto=tcp",
+				 "urlprefix-app2-copier-coller.psc.pocs.esante.gouv.fr proto=tcp"]
         port = "https"
         check {
           name         = "alive"
