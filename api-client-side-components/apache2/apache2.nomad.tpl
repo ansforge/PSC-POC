@@ -337,6 +337,16 @@ EOH
           }
         }
 		
+		 # vhost app1-copier-coller
+        mount {
+          type = "bind"
+          target = "/usr/local/apache2/conf/sites/app1-copiercoller.conf"
+          source = "local/app1-copiercoller.conf"
+          readonly = false
+          bind_options {
+            propagation = "rshared"
+          }
+		
 		#index.html app1
         mount {
           type = "bind"
