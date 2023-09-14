@@ -214,7 +214,7 @@ EOH
       
       
       #######################################################
-      # certificats server (Vhost)  and client (psc, keycloak)
+      # certificats server (Vhost) and client (psc, keycloak)
       #######################################################
 	  
 	  #####   certificat serveur du Vhost damenligne     #####
