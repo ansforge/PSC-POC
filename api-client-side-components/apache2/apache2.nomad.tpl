@@ -160,51 +160,6 @@ SSLProtocol all
    RewriteRule "^$" "/cc/app1/index.html" [L]
    RewriteRule "^/$" "/cc/app2/index.html" [L]
 
-   SSLEngine on
-   SSLCertificateFile /secrets/app1.cert.pub.pem
-   SSLCertificateKeyFile /secrets/app1.cert.key
-   OIDCHTTPTimeoutShort 10
-   OIDCProviderAuthorizationEndpoint https://wallet.bas.psc.esante.gouv.fr/auth
-   OIDCProviderMetadataURL https://auth.bas.psc.esante.gouv.fr/auth/realms/esante-wallet/.well-known/wallet-openid-configuration
-   OIDCPKCEMethod S256
-   OIDCOAuthAcceptTokenAs post
-   OIDCCookieHTTPOnly On
-{{ with secret "editeur/apache2/common" }}
-   OIDCClientID {{ .Data.data.psc_client_id}}
-   OIDCClientSecret {{ .Data.data.psc_client_secret}}
-{{ end }}
-   OIDCAuthRequestParams acr_values=eidas1
-{{ with secret "editeur/apache2/copiercoller" }}
-   OIDCRedirectURI https://{{ .Data.data.public_app1_hostname }}/secure/psc/redirect
-
-   OIDCCryptoPassphrase 0123456789
-   OIDCScope "openid scope_all"
-   OIDCSSLValidateServer On
-   OIDCCABundlePath /local/ssl/client.cert.chain.pem
-
-   OIDCStateTimeout 120
-   OIDCDefaultURL https://{{ .Data.data.public_app1_hostname }}/secure/psc
-{{ end }}
-   OIDCSessionInactivityTimeout 1200
-   OIDCAuthNHeader X-Remote-User
-   OIDCPassClaimsAs both
-   
-# mTLS avec PSC   
-   OIDCClientTokenEndpointCert /secrets/client.pocs.henix.asipsante.fr.pem
-   OIDCClientTokenEndpointKey /secrets/client.pocs.henix.asipsante.fr.key
-
-   <Location /secure/*>
-    AuthType openid-connect  
-    Require valid-user
-{{ with secret "editeur/apache2/common" }}
-    STSExchange otx https://auth.server.psc.pocs.esante.gouv.fr:19587/realms/{{ .Data.data.keycloak_realm }}/protocol/openid-connect/token auth=client_cert&cert=/secrets/client.pocs.henix.asipsante.fr.pem&key=/secrets/client.pocs.henix.asipsante.fr.key&ssl_verify=false&params=subject_issuer%3D{{ .Data.data.keycloak_otx_subjet_issuer }}%26client_id%3D{{ .Data.data.keycloak_otx_client_id }}{{ end }}%26scope%3Dopenid%26audience%3D{{ with secret "editeur/apache2/copiercoller" }}{{ .Data.data.keycloak_otx_audience }}{{ end }}
-
-    STSAcceptSourceTokenIn environment name=OIDC_access_token
-    STSPassTargetTokenIn header
-    ProxyPassMatch  http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}
-    ProxyPassReverse  http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}
-    ErrorDocument 401 /dam/401.html
-   </Location>
    
 # A partir de apache 2.2.24 ##########################
    SSLCompression off
