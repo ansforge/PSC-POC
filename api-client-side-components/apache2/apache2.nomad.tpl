@@ -143,7 +143,7 @@ EOH
       }
       
 	  #######################################################
-      # virtualhost application-1.pocs.gateway.esante.gouv.fr
+      # virtualhost app1-copier-coller.psc.pocs.esante.gouv.fr
       #######################################################
       template {
         data = <<EOH
@@ -156,9 +156,9 @@ SSLProtocol all
    TransferLog /dev/stdout
    LogLevel info
 
-#RewriteEngine on
+RewriteEngine on
    RewriteRule "^$" "/cc/app1/index.html" [L]
-   RewriteRule "^/$" "/cc/app2/index.html" [L]
+   RewriteRule "^/$" "/cc/app1/index.html" [L]
    
 SSLEngine on
    SSLCertificateFile /secrets/app1.cert.pub.pem
@@ -172,10 +172,46 @@ SSLEngine on
    SSLCipherSuite RSA:!EXP:!NULL:+HIGH:+MEDIUM:-LOW
 </VirtualHost>
 EOH
-        destination = "local/app1-copiercoller.conf"
+        destination = "local/app1-copier-coller.conf"
         change_mode = "restart"
         env = false
       }
+
+	  #######################################################
+      # virtualhost app2-copier-coller.psc.pocs.esante.gouv.fr
+      #######################################################
+      template {
+        data = <<EOH
+<VirtualHost *:443>
+ErrorLogFormat "[%t] [%l] [pid %P] %F: %E: [client %a] %M"
+SSLProtocol all
+   DocumentRoot /usr/local/apache2/htdocs
+   ServerName {{ with secret "editeur/apache2/copiercoller" }}{{ .Data.data.public_app1_hostname }}{{ end }}
+   ErrorLog /dev/stdout
+   TransferLog /dev/stdout
+   LogLevel info
+
+RewriteEngine on
+   RewriteRule "^$" "/cc/app2/index.html" [L]
+   RewriteRule "^/$" "/cc/app2/index.html" [L]
+   
+SSLEngine on
+   SSLCertificateFile /secrets/app2.cert.pub.pem
+   SSLCertificateKeyFile /secrets/app2.cert.key
+   
+# A partir de apache 2.2.24 ##########################
+   SSLCompression off
+
+   Header set X-Frame-Options SAMEORIGIN 
+
+   SSLCipherSuite RSA:!EXP:!NULL:+HIGH:+MEDIUM:-LOW
+</VirtualHost>
+EOH
+        destination = "local/app2-copier-coller.conf"
+        change_mode = "restart"
+        env = false
+      }
+      
       
       #######################################################
       # certificats server (Vhost)  and client (psc, keycloak)
@@ -200,7 +236,7 @@ EOH
         env = false
       }
 	  
-	  ##### certificat serveur du Vhost app-1 de copier-coller #####
+	  ##### certificat serveur du Vhost app1 de copier-coller #####
 	  
 	  template {
         data = <<EOH
@@ -219,6 +255,27 @@ EOH
         change_mode = "restart"
         env = false
       }
+
+	  ##### certificat serveur du Vhost app2 de copier-coller #####
+	  
+	  template {
+        data = <<EOH
+{{ with secret "editeur/apache2/copiercoller" }}{{ .Data.data.server_app2_cert_pub_value }}{{ end }}
+EOH
+        destination = "secrets/app2.cert.pub.pem"
+        change_mode = "restart"
+        env = false
+      }
+      
+      template {
+        data = <<EOH
+{{ with secret "editeur/apache2/copiercoller" }}{{ .Data.data.server_app2_cert_key_value }}{{ end }}
+EOH
+        destination = "secrets/app2.cert.key"
+        change_mode = "restart"
+        env = false
+      }
+
       
 	  ##### certificat client pour PSC et Keycloak - Chaine de confiance #####
       template {
@@ -303,11 +360,11 @@ EOH
           }
         }
 		
-		 # vhost app1-copier-coller
+		# vhost app1-copier-coller
         mount {
           type = "bind"
-          target = "/usr/local/apache2/conf/sites/app1-copiercoller.conf"
-          source = "local/app1-copiercoller.conf"
+          target = "/usr/local/apache2/conf/sites/app1-copier-coller.conf"
+          source = "local/app1-copier-coller.conf"
           readonly = false
           bind_options {
             propagation = "rshared"
@@ -324,6 +381,18 @@ EOH
             propagation = "rshared"
           }
         }
+
+		# vhost app2-copier-coller
+        mount {
+          type = "bind"
+          target = "/usr/local/apache2/conf/sites/app2-copier-coller.conf"
+          source = "local/app2-copier-coller.conf"
+          readonly = false
+          bind_options {
+            propagation = "rshared"
+          }
+		} 
+
 		
 		#index.html app2
         mount {
