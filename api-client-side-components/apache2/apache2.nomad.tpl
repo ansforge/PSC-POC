@@ -492,7 +492,7 @@ EOH
 				 "urlprefix-damenligne.psc.pocs.esante.gouv.fr  proto=tcp",
 		         "urlprefix-app1-copier-coller.psc.pocs.esante.gouv.fr proto=tcp",
 				 "urlprefix-app2-copier-coller.psc.pocs.esante.gouv.fr proto=tcp",
-				 "urlprefix-proxy.gateway.psc.pocs.esante.gouv.fr]
+				 "urlprefix-proxy.gateway.psc.pocs.esante.gouv.fr"]
         port = "https"
         check {
           name         = "alive"
