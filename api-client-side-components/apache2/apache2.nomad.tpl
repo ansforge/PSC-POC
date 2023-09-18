@@ -212,7 +212,48 @@ EOH
         env = false
       }
       
-      
+	  #######################################################
+      # virtualhost proxy.gateway.psc.pocs.esante.gouv.fr
+      #######################################################
+      template {
+        data = <<EOH
+<VirtualHost *:80>
+   ProxyRequests off
+   ServerName proxy.gateway.psc.pocs.esante.gouv.fr
+   DocumentRoot /usr/local/apache2/htdocs
+   ErrorLog /dev/stdout
+   TransferLog /dev/stdout
+   LogLevel info
+  
+# Proxy vers Gravitee (API)
+   SSLProxyEngine On
+# fichier au format pem avec la clé et les certificats à utiliser
+   SSLProxyMachineCertificateFile /secrets/client.pocs.key.and.chain.pem 
+   ProxyPreserveHost Off
+#	SSLProxyVerify require
+   SSLProxyVerify none
+#   SSLProxyCACertificateFile
+#   SSLProxyCACertificatePath
+#   SSLProxyCARevocationCheck
+#   SSLProxyCARevocationFile
+#   SSLProxyCARevocationPath
+#   SSLProxyCheckPeerCN
+#   SSLProxyCheckPeerExpire
+#   SSLProxyCheckPeerName
+#   SSLProxyMachineCertificateChainFile
+#   SSLProxyMachineCertificateFile
+#   SSLProxyMachineCertificatePath
+#   SSLProxyVerifyDepth
+ 
+   ProxyPass / https://gateway.psc.pocs.esante.gouv.fr:19587/
+   ProxyPassReverse / https://gateway.psc.pocs.esante.gouv.fr:19587/
+
+</VirtualHost>		
+EOH
+        destination = "local/proxy.gateway.api.conf"
+        change_mode = "restart"
+        env = false
+      }      
       #######################################################
       # certificats server (Vhost) and client (psc, keycloak)
       #######################################################
@@ -296,6 +337,15 @@ EOH
         change_mode = "restart"
         env = false
       }
+
+      template {
+        data = <<EOH
+{{ with secret "editeur/apache2/common" }}{{ .Data.data.client_cert_key_and_full_chain }}{{ end }}
+EOH
+        destination = "secrets/client.pocs.key.and.chain.pem"
+        change_mode = "restart"
+        env = false
+      }
 	  
 	  template {
         data = <<EOH
@@ -336,7 +386,10 @@ EOH
       # Conf, resources and service
       #######################################################
       config {
-      extra_hosts = ["auth.server.psc.pocs.esante.gouv.fr:$${NOMAD_IP_https}"]
+      extra_hosts = [
+	      "auth.server.psc.pocs.esante.gouv.fr:$${NOMAD_IP_https}",
+	      "gateway.psc.pocs.esante.gouv.fr:$${NOMAD_IP_https}"
+		  ]
         image = "${artifact.image}:${artifact.tag}"
         ports = ["https"]     
         # vhost dam
@@ -404,7 +457,18 @@ EOH
             propagation = "rshared"
           }
         }
-		
+
+		# vhost proxy.gateway.api.conf
+        mount {
+          type = "bind"
+          target = "/usr/local/apache2/conf/sites/proxy.gateway.api.conf"
+          source = "local/proxy.gateway.api.conf"
+          readonly = false
+          bind_options {
+            propagation = "rshared"
+          }
+		} 
+						
 		# ACI 
 		  mount {
           type = "bind"
@@ -427,7 +491,8 @@ EOH
         tags = [
 				 "urlprefix-damenligne.psc.pocs.esante.gouv.fr  proto=tcp",
 		         "urlprefix-app1-copier-coller.psc.pocs.esante.gouv.fr proto=tcp",
-				 "urlprefix-app2-copier-coller.psc.pocs.esante.gouv.fr proto=tcp"]
+				 "urlprefix-app2-copier-coller.psc.pocs.esante.gouv.fr proto=tcp",
+				 "urlprefix-proxy.gateway.psc.pocs.esante.gouv.fr]
         port = "https"
         check {
           name         = "alive"
