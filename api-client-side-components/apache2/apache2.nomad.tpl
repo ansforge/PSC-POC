@@ -156,13 +156,18 @@ SSLProtocol all
    TransferLog /dev/stdout
    LogLevel info
 
-RewriteEngine on
-   RewriteRule "^$" "/cc/app1/index.html" [L]
-   RewriteRule "^/$" "/cc/app1/index.html" [L]
+#RewriteEngine on
+#   RewriteRule "^$" "/cc/app1/index.html" [L]
+#   RewriteRule "^/$" "/cc/app1/index.html" [L]
    
 SSLEngine on
    SSLCertificateFile /secrets/app1.cert.pub.pem
    SSLCertificateKeyFile /secrets/app1.cert.key
+   
+   <Location />
+    ProxyPassMatch http://{{ range service "app1-copier-coller" }}{{ .Address }}:{{ .Port }}{{ end }}
+    ProxyPassReverse http://{{ range service "app1-copier-coller" }}{{ .Address }}:{{ .Port }}{{ end }}
+   </Location>   
    
 # A partir de apache 2.2.24 ##########################
    SSLCompression off
