@@ -340,7 +340,8 @@ EOH
 
       template {
         data = <<EOH
-{{ with secret "editeur/apache2/common" }}{{ .Data.data.client_cert_key_and_full_chain }}{{ end }}
+{{ with secret "editeur/apache2/common" }}{{ .Data.data.client_cert_pub_value }}{{ end }}
+{{ with secret "editeur/apache2/common" }}{{ .Data.data.client_cert_key_value }}{{ end }}
 EOH
         destination = "secrets/client.pocs.key.and.chain.pem"
         change_mode = "restart"
