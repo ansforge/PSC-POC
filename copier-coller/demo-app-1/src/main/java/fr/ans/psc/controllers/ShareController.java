@@ -1,6 +1,7 @@
 package fr.ans.psc.controllers;
 
 import java.net.URI;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -33,9 +35,9 @@ public class ShareController {
     }
 
     @GetMapping(value = "/secure/share", produces = APPLICATION_JSON)
-    public ResponseEntity<String> getContextInCache() {
+    public ResponseEntity<String> getContextInCache(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
         log.debug("getting stored ProSanteConnect context...");
-        HttpEntity<String> entity = prepareRequest(null);
+        HttpEntity<String> entity = prepareRequest(token, null);
 
         try {
             log.debug("calling ProSanteConnect API...");
@@ -49,13 +51,20 @@ public class ShareController {
     }
 
     @PutMapping(value = "/secure/share", produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
-    public ResponseEntity<String> putContextInCache( @RequestBody String jsonContext) {
+//    public ResponseEntity<String> putContextInCache( @RequestHeader Map<String, String> headers, @RequestBody String jsonContext) {
+      public ResponseEntity<String> putContextInCache( @RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestBody String jsonContext) {
         log.debug("putting context in ProSanteConnect Cache...");
-        HttpEntity<String> entity = prepareRequest(jsonContext);
+        if ((token == null) ||(!token.startsWith("Bearer "))) {
+        	log.error("access token not found in request token: {}", token);
+        	 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        HttpEntity<String> entity = prepareRequest(token, jsonContext);
+        
 
         try {
             log.debug("calling ProSanteConnect API...");
-            log.debug(entity.getBody());
+            log.debug("body: {}", entity.getBody());
+           
             String response = restTemplate.exchange(URI.create(shareApiBaseUrl), HttpMethod.PUT, entity, String.class).getBody();
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -65,12 +74,9 @@ public class ShareController {
         }
     }
 
-    private HttpEntity<String> prepareRequest(String requestBody) {
-        log.debug("retrieving access token...");
-        String accessToken = client.getAccessToken().getTokenValue();
-
+    private HttpEntity<String> prepareRequest(String token, String requestBody) {       
         HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
+        headers.add(HttpHeaders.AUTHORIZATION, token);
         headers.add(HttpHeaders.ACCEPT, APPLICATION_JSON);
 
         if (requestBody != null) {

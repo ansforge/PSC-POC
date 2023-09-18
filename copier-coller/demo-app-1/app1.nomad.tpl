@@ -52,34 +52,9 @@ EOH
         change_mode = "restart"
         data = <<EOF
 psc.context.sharing.api.url=http://{{ range service "copier-coller-api"}}{{ .Address }}:{{ .Port }}{{ end }}/cc-api/cache
-
-{{ with secret "copier-coller/app" }}
-spring.security.oauth2.client.registration.prosanteconnect.clientId={{ .Data.data.psc_client_id}}
-spring.security.oauth2.client.registration.prosanteconnect.clientSecret={{ .Data.data.psc_client_secret}}
-spring.security.oauth2.client.registration.prosanteconnect.provider=prosanteconnect
-spring.security.oauth2.client.registration.prosanteconnect.authorization-grant-type=authorization_code
-spring.security.oauth2.client.registration.prosanteconnect.client-name=prosanteconnect
-
-
-
 server.use-forward-headers=true
 server.forward-headers-strategy=NATIVE
 server.tomcat.protocol-header=X-Forwarded-Proto
-spring.security.oauth2.client.registration.prosanteconnect.redirect-uri=https://application-1.pocs.gateway.esante.gouv.fr/login/oauth2/code/prosanteconnect
-spring.security.oauth2.client.pre-established-redirect-uri=https://application-1.pocs.gateway.esante.gouv.fr/login/oauth2/code/prosanteconnect
-spring.security.oauth2.client.registered-redirect-uri=https://application-1.pocs.gateway.esante.gouv.fr/login/oauth2/code/prosanteconnect
-spring.security.oauth2.client.use-current-uri=false
-
-
-spring.security.oauth2.client.registration.prosanteconnect.scope=scope_all
-spring.security.oauth2.client.registration.prosanteconnect.client-authentication-method=client_secret_post
-
-spring.security.oauth2.client.provider.prosanteconnect.authorization-uri=https://wallet.bas.psc.esante.gouv.fr/auth
-spring.security.oauth2.client.provider.prosanteconnect.token-uri=https://auth.bas.psc.esante.gouv.fr/auth/realms/esante-wallet/protocol/openid-connect/token
-spring.security.oauth2.client.provider.prosanteconnect.user-info-uri=https://auth.bas.psc.esante.gouv.fr/auth/realms/esante-wallet/protocol/openid-connect/userinfo
-spring.security.oauth2.client.provider.prosanteconnect.user-name-attribute=preferred_username
-spring.security.oauth2.client.provider.prosanteconnect.jwk-set-uri=https://auth.bas.psc.esante.gouv.fr/auth/realms/esante-wallet/protocol/openid-connect/certs
-{{ end }}
 EOF
       }
 
