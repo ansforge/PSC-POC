@@ -165,8 +165,8 @@ SSLEngine on
    SSLCertificateKeyFile /secrets/app1.cert.key
    
    <Location />
-    ProxyPassMatch http://{{ range service "app1-copier-coller" }}{{ .Address }}:{{ .Port }}{{ end }}/
-    ProxyPassReverse http://{{ range service "app1-copier-coller" }}{{ .Address }}:{{ .Port }}{{ end }}/
+    ProxyPassMatch http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}/
+    ProxyPassReverse http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}/
    </Location>   
    
 # A partir de apache 2.2.24 ##########################
