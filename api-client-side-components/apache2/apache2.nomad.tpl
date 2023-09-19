@@ -177,7 +177,7 @@ SSLProtocol all
    OIDCCABundlePath /secrets/ssl/ca-certificates.crt
 
    OIDCStateTimeout 120
-   OIDCDefaultURL https://{{ .Data.data.public_dam_hostname }}/patient/new
+   OIDCDefaultURL https://{{ .Data.data.public_app1_hostname }}/patient/new
 {{ end }}
    OIDCSessionInactivityTimeout 1200
    OIDCAuthNHeader X-Remote-User
