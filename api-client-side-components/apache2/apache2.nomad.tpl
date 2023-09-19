@@ -110,7 +110,7 @@ RewriteEngine on
 
   <Location /secure>
     AuthType openid-connect
-    Require valid-user
+    Require valid-user	
     ProxyPassMatch http://{{ range service "demo-client-dam" }}{{ .Address }}:{{ .Port }}{{ end }}
     ProxyPassReverse http://{{ range service "demo-client-dam" }}{{ .Address }}:{{ .Port }}{{ end }}
    </Location>
@@ -156,9 +156,33 @@ SSLProtocol all
    TransferLog /dev/stdout
    LogLevel info
 
-RewriteEngine on
-#   RewriteRule "^$" "/cc/app1/index.html" [L]
-#   RewriteRule "^/$" "/cc/app1/index.html" [L]
+ OIDCHTTPTimeoutShort 10
+   OIDCProviderAuthorizationEndpoint https://wallet.bas.psc.esante.gouv.fr/auth
+   OIDCProviderMetadataURL https://auth.bas.psc.esante.gouv.fr/auth/realms/esante-wallet/.well-known/wallet-openid-configuration
+   OIDCPKCEMethod S256
+   OIDCOAuthAcceptTokenAs post
+   OIDCCookieHTTPOnly On
+{{ with secret "editeur/apache2/copiercoller" }}
+   OIDCClientID {{ .Data.data.psc_client_id}}
+   OIDCClientSecret {{ .Data.data.psc_client_secret}}
+{{ end }}
+   OIDCAuthRequestParams acr_values=eidas1
+{{ with secret "editeur/apache2/copiercoller" }}
+   OIDCRedirectURI https://{{ .Data.data.public_app1_hostname }}/patient/new/redirect
+
+   OIDCCryptoPassphrase 0123456789
+   OIDCScope "openid scope_all"
+   
+   OIDCSSLValidateServer On
+   OIDCCABundlePath /secrets/ssl/ca-certificates.crt
+
+   OIDCStateTimeout 120
+   OIDCDefaultURL https://{{ .Data.data.public_dam_hostname }}/patient/new
+{{ end }}
+   OIDCSessionInactivityTimeout 1200
+   OIDCAuthNHeader X-Remote-User
+   OIDCPassClaimsAs both
+
    
 SSLEngine on
    SSLCertificateFile /secrets/app1.cert.pub.pem
@@ -167,7 +191,20 @@ SSLEngine on
    <Location />
     ProxyPassMatch http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}/
     ProxyPassReverse http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}/
-   </Location>   
+   </Location>  
+
+   <Location /secure/patient/new>
+    AuthType openid-connect
+    Require valid-user
+{{ with secret "editeur/apache2/common" }}
+    STSExchange otx https://auth.server.psc.pocs.esante.gouv.fr:19587/realms/{{ .Data.data.keycloak_realm }}/protocol/openid-connect/token auth=client_cert&cert=/secrets/client.pocs.henix.asipsante.fr.pem&key=/secrets/client.pocs.henix.asipsante.fr.key&ssl_verify=true&params=client_id%3D{{ .Data.data.keycloak_otx_client_id }}%26subject_issuer%3D{{ .Data.data.keycloak_otx_subject_issuer }}{{ end }}%26scope%3Dopenid%26audience%3D{{ with secret "editeur/apache2/copiercoller" }}{{ .Data.data.keycloak_otx_audience }}{{ end }}
+    STSAcceptSourceTokenIn environment name=OIDC_access_token
+    STSPassTargetTokenIn header
+	STSPassTargetTokenIn environment api_token 
+ 
+    ProxyPassMatch http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}/
+    ProxyPassReverse http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}/    
+   </Location>     
    
 # A partir de apache 2.2.24 ##########################
    SSLCompression off
@@ -217,48 +254,7 @@ EOH
         env = false
       }
       
-	  #######################################################
-      # virtualhost proxy.gateway.psc.pocs.esante.gouv.fr
-      #######################################################
-      template {
-        data = <<EOH
-<VirtualHost *:80>
-   ProxyRequests off
-   ServerName proxy.gateway.psc.pocs.esante.gouv.fr
-   DocumentRoot /usr/local/apache2/htdocs
-   ErrorLog /dev/stdout
-   TransferLog /dev/stdout
-   LogLevel info
-  
-# Proxy vers Gravitee (API)
-   SSLProxyEngine On
-# fichier au format pem avec la clé et les certificats à utiliser
-   SSLProxyMachineCertificateFile /secrets/client.pocs.key.and.chain.pem 
-   ProxyPreserveHost Off
-#	SSLProxyVerify require
-   SSLProxyVerify none
-#   SSLProxyCACertificateFile
-#   SSLProxyCACertificatePath
-#   SSLProxyCARevocationCheck
-#   SSLProxyCARevocationFile
-#   SSLProxyCARevocationPath
-#   SSLProxyCheckPeerCN
-#   SSLProxyCheckPeerExpire
-#   SSLProxyCheckPeerName
-#   SSLProxyMachineCertificateChainFile
-#   SSLProxyMachineCertificateFile
-#   SSLProxyMachineCertificatePath
-#   SSLProxyVerifyDepth
- 
-   ProxyPass / https://gateway.psc.pocs.esante.gouv.fr:19587/
-   ProxyPassReverse / https://gateway.psc.pocs.esante.gouv.fr:19587/
 
-</VirtualHost>		
-EOH
-        destination = "local/proxy.gateway.api.conf"
-        change_mode = "restart"
-        env = false
-      }      
       #######################################################
       # certificats server (Vhost) and client (psc, keycloak)
       #######################################################
@@ -464,17 +460,7 @@ EOH
           }
         }
 
-		# vhost proxy.gateway.api.conf
-        mount {
-          type = "bind"
-          target = "/usr/local/apache2/conf/sites/proxy.gateway.api.conf"
-          source = "local/proxy.gateway.api.conf"
-          readonly = false
-          bind_options {
-            propagation = "rshared"
-          }
-		} 
-						
+					
 		# ACI 
 		  mount {
           type = "bind"
