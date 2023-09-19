@@ -204,7 +204,7 @@ SSLEngine on
     <Location /secure/patient>
     AuthType openid-connect
     Require valid-user
-    Header Set Authorization "exp=%\u007BMOD_STS_TARGET_TOKEN\u007D"
+#    Header Set Authorization "exp=%\u007BMOD_STS_TARGET_TOKEN\u007D"
  
     ProxyPassMatch http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}
     ProxyPassReverse http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}    
