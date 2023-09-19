@@ -219,7 +219,7 @@ SSLEngine on
     STSPassTargetTokenIn header
 	STSPassTargetTokenIn environment api_token 
 	
-#    Header Set Authorization %{api_token}e
+#    Header Set Authorization %\u007Bapi_token\u007De
  
     ProxyPassMatch http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}
     ProxyPassReverse http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}    
