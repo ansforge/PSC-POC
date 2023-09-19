@@ -35,8 +35,9 @@ function putInCache(schemaName, serverURL, viewURL, mappingFilePath) {
                 _.set(putPscContext, value, document.getElementById(key).value)
             }
         }
-        _.set(putPscContext, 'schemaId', schemaName)
-
+        _.set(putPscContext, 'schemaId', schemaName);
+        
+        
         $.ajax({
             url: serverURL,
             type: 'PUT',
@@ -47,6 +48,9 @@ function putInCache(schemaName, serverURL, viewURL, mappingFilePath) {
             .done(function(data) { window.location.href=viewURL })
             .fail(function(jqXHR, textStatus, errorThrown) { window.location.href=viewURL })
     })
+
+  
+  
 }
 
 

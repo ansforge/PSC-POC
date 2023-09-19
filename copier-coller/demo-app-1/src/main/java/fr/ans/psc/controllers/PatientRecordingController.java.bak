@@ -14,8 +14,8 @@ public class PatientRecordingController {
 //	public String navigate(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestBody String jsonSchema) {
 	public String navigate() {
 		log.debug("PatientRecordingController ..");
-//		log.debug("token: {}", token);
-//		log.debug("body: {}", jsonSchema);
+		log.debug("token: {}", token);
+		log.debug("body: {}", jsonSchema);
 		return "new-patient";
 	}
 }
