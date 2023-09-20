@@ -7,7 +7,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Webapp client DAM</title>
+<title>Demo-client-DAM</title>
 <script type="text/javascript" src="./script/jquery-3.5.1.min.js"></script>
 <script type="text/javascript" src="./script/vendor.js"></script>
 <script type="text/javascript" src="./script/app.js"></script>
@@ -48,7 +48,7 @@
                         </a>
                     </div>
                 </div>
-                <p class="header__title">Webapp métier de démonstration: client DAMs avec échange de jeton</p>
+                <p class="header__title">Application de démonstration: consultation de mes Données Assurance Maladie avec échange de token</p>
             </div>
             <div class="header-principal-right">
                 <div class="header-principal__nav">
@@ -276,13 +276,14 @@
     
      <main class="main" role="main" id="main" tabindex="-1">
         <div class="container">
-	<h1>PAGE d'accueil Utilisateur connecté avec PSC</h1>
+	<h1>Page d'accueil authentifiée avec Pro Santé Connect</h1>
 	<p>Application métier de démonstration ....</p>
 
-	<h3>Vous êtes authentifié avec un jeton PSC. </h3>
-	<p>Pour accéder à vos DAMs, le relaying party fera une demande d'échange de jeton (PSC-> jeton d'API) </p>
+	
+	<p>En cliquant sur le bouton ci-dessous, vous vous connecterez à une Api Pro Santé connectée. </br>
+	Cette Api vous permet de visualiser vos Données Assurance Maladie.</p>
 	<!--  <button class=" btn btn--plain btn--primary" onclick="window.location.href='./view'"></button>-->
-	<button class=" btn btn--plain btn--primary" style="display: inline;text-align:center" onclick="window.location.href='./view'">Affichage myDAMs</button>
+	<button class=" btn btn--plain btn--primary" style="display: inline;text-align:center" onclick="window.location.href='./view'"> Accéder à mes Données Assurance Maladie</button>
 	<hr />
 
 		
@@ -290,7 +291,7 @@
 	<!-- affichage jeton -->
 
 	     					
-	<button id=btnDetails class="btn btn--plain btn--primary" onclick="details()">Voir des détails techniques</button>
+	<button id=btnDetails class="btn btn--plain btn--primary" onclick="details()">Détails du jeton Pro Santé Connect</button>
        <div id=details style=visibility:visible> 
        <br/>
         <p id=warning  style="color: #ff6d91; background:#dbe0ef; border-top:2px solid #aeb8de; border-bottom:2px solid #aeb8de; padding:1em 1em 1em 5em">
@@ -298,13 +299,13 @@
 	       </p>
 	<div id=cd_token class=display-token th:if="${tokenBody != null}">
 	<br/>
-	<h3>Caractéristiques du jeton Prosante Connect</h3>
+	<h3>Caractéristiques du jeton Pro Santé Connect</h3>
 	<div class="date-friendly">
 			<p>
-							date d'émission:  <span	th:text="${#temporals.format(iatDate, 'dd-MM-yyyy HH:mm:ss')}" />
+							Date d'émission:  <span	th:text="${#temporals.format(iatDate, 'dd-MM-yyyy HH:mm:ss')}" />
 						</p>
 						<p>
-							date d'expiration: <span th:text="${#temporals.format(expDate, 'dd-MM-yyyy HH:mm:ss')}" />
+							Date d'expiration: <span th:text="${#temporals.format(expDate, 'dd-MM-yyyy HH:mm:ss')}" />
 						</p>
 		</div>
 		<input type="hidden" id="header" th:value="${tokenHeader}" />
