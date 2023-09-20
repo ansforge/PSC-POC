@@ -44,9 +44,9 @@ public class GetMyDamsController {
 		
 		//header: récupération du jeton d'api pour appel API et affichage dans la page page de démonstration
 		MultiValueMap<String,String> map = Helper.logRequestHeaders(request);
-//		MultiValueMap<String, String> filetredMap = Helper.filtredMap(map);
-//		model.addAttribute("mapHeaders",filetredMap);
+
 		String tokenBearer = request.getHeader(AUTHORIZATION);		
+
 		String token = tokenBearer.substring("Bearer ".length());
 		Triplet<String, String, String> tmp = Helper.splitAndDecodeToken(token);	
 		model.addAttribute("tokenHeader", tmp.getValue0());
@@ -66,6 +66,7 @@ public class GetMyDamsController {
 		model.addAttribute("user", fullName);
 
 		// appel à l'API avec le jeton d'API 
+
 
 		log.debug("Appel de l'api ... avec token Bearer: {} ", tokenBearer);
 		Pair<HttpStatus,String> damResponse = null;

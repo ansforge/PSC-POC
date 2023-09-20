@@ -3,11 +3,7 @@
  */
 $(document).ready(function() {                
                 const header=getData("#header");
-                const body=getData("#body");
-                const btnTxt = "Détails du jeton Pro Santé Connect";            
-                if ( $( "#pageDAM" ).length ) {	 
-    			btnTxt="Détails du jeton ";
-                 }           
+                const body=getData("#body");                           
                 let jsonViewerHeader = new JSONViewer();    
                 let jsonViewerBody = new JSONViewer();
                    document.querySelector("#json-header").appendChild(jsonViewerHeader.getContainer());                           
@@ -24,11 +20,15 @@ function getData(id){
 function details() {
   var btn = document.getElementById("btnDetails");
   var x = document.getElementById("details");
+  var btnTxt="Détails du jeton Pro Santé Connect";   
   if (x.style.visibility === "hidden") {
 	   btn.textContent="Masquer le jeton"
     x.style.visibility = "visible";   
   } else {
-    x.style.visibility = "hidden";
+    x.style.visibility = "hidden"; 
+    if ( $( "#pageDAM" ).length ) {	 
+    			btnTxt="Détails du jeton d'API";
+     } 
     btn.textContent=btnTxt;
   }
 }

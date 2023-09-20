@@ -30,11 +30,9 @@ public class ProsanteConnected {
 		 * Lecture des headers (données renvoyées par le serveur uniquement dans le cadre d'une démontsration). 
 		 */
 		MultiValueMap<String, String> map = Helper.logRequestHeaders(request);
-//		MultiValueMap<String, String> filetredMap = Helper.filtredMap(map);
-//		model.addAttribute("mapHeaders",filetredMap);
 
 		/*
-		 * Identité PRosante Connect
+		 * Identité Prosante Connect
 		 */
 	    String fullName = Helper.getFullName (map);
 		model.addAttribute("user", fullName);
@@ -53,7 +51,6 @@ public class ProsanteConnected {
 		model.addAttribute("rawIatDate", map.getFirst("oidc_claim_iat"));
 		
 		Triplet<String, String, String> tmp = Helper.splitAndDecodeToken(token);	
-		//log.debug("token psc reçu: {} ", token);
 		model.addAttribute("tokenHeader", tmp.getValue0());
 		model.addAttribute("tokenBody",tmp.getValue1());
 		}
