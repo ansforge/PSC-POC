@@ -57,6 +57,7 @@ EOH
 spring.application.name=demo-client-dam
 server.servlet.context-path=/secure
 server.use-forward-headers=true
+server.max-http-header-size=20KB
 server.forward-headers-strategy=NATIVE
 server.tomcat.protocol-header=X-Forwarded-Proto
 dam.api.key={{ with secret "editeur/demo-client-dam" }}{{ .Data.data.dam_api_key }}{{ end }}
