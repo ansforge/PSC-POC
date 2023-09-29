@@ -67,7 +67,7 @@ public class ShareController {
 //      public ResponseEntity<String> putContextInCache( @RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestBody String jsonContext) {
       public ResponseEntity<String> putContextInCache(  @RequestBody String jsonContext) {
         log.debug("putting context in ProSanteConnect Cache...");
-        log.debug("putting context ATTENTION BOUCHONNE ...");
+        log.error("putting context ATTENTION BOUCHONNE ...");
         
         /*
         if ((token == null) ||(!token.startsWith("Bearer "))) {
