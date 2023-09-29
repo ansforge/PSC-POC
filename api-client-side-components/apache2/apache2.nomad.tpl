@@ -224,7 +224,7 @@ SSLEngine on
 	</If> 
 
 	
-#    Header Set Authorization {{ "{" }}api_token{{ "}" }}e
+    Header Set Authorization {{ "\%{" }}api_token{{ "}" }}e
  
     ProxyPassMatch http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}
     ProxyPassReverse http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}    
@@ -383,31 +383,6 @@ EOH
         env = false
       }
 	  
-	  template {
-        data = <<EOH
-<html>
-<body>
-<h1>App 1. It's works</h1>
-</body>
-</html>
-EOH
-        destination = "local/app1_index.html"
-        change_mode = "restart"
-        env = false
-      }
-	  
-	  template {
-        data = <<EOH
-<html>
-<body>
-<h1>App 2. It's works</h1>
-</body>
-</html>
-EOH
-        destination = "local/app2_index.html"
-        change_mode = "restart"
-        env = false
-      }
 	  
       #######################################################
       # Conf, resources and service
@@ -463,17 +438,6 @@ EOH
           }
 		} 
 		
-		#index.html app1
-        mount {
-          type = "bind"
-          target = "/usr/local/apache2/htdocs/cc/app1/index.html"
-          source = "local/app1_index.html"
-          readonly = true
-          bind_options {
-            propagation = "rshared"
-          }
-        }
-
 		# vhost app2-copier-coller
         mount {
           type = "bind"
@@ -484,19 +448,6 @@ EOH
             propagation = "rshared"
           }
 		} 
-
-		
-		#index.html app2
-        mount {
-          type = "bind"
-          target = "/usr/local/apache2/htdocs/cc/app2/index.html"
-          source = "local/app2_index.html"
-          readonly = true
-          bind_options {
-            propagation = "rshared"
-          }
-        }
-
 					
 		# ACI 
 		  mount {
