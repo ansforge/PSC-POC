@@ -41,13 +41,14 @@ public class ShareController {
         HttpEntity<String> entity = prepareRequest(token, null);
 
         try {
-            log.debug("calling ProSanteConnect API...");
+            log.error("GET cache: calling ProSanteConnect API...{}", conf.getApiURL());
             
             String response = conf.restTemplate().exchange(conf.getApiURL(), HttpMethod.GET, entity, String.class).getBody();
           
             
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
+        	log.error("... GET cache: calling ProSanteConnect API");
             log.error("Error while requesting ProSanteConnect context sharing API with root cause : {}", e.getMessage());
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -61,19 +62,20 @@ public class ShareController {
 
         log.debug("putting context in ProSanteConnect Cache...");
         if ((token == null) ||(!token.startsWith("Bearer "))) {
-        	log.error("access token not found in request token: {}", token);
+        	log.error("share put: access token not found in request token: {}", token);
         	 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         HttpEntity<String> entity = prepareRequest(token, jsonContext);
         
 
         try {
-            log.info("calling ProSanteConnect API...");
+            log.info("PUT calling ProSanteConnect API...");
             log.info("body: {}", entity.getBody());
            
             String response = conf.restTemplate().exchange(conf.getApiURL(), HttpMethod.PUT, entity, String.class).getBody();
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
+        	log.info(".. PUT error in calling ProSanteConnect API");
             log.error("Error while requesting ProSanteConnect context sharing API with root cause : {}", e.getMessage());
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
