@@ -32,6 +32,7 @@ job "copier-coller-demo-app-1" {
       driver = "docker"
 
       config {
+	    extra_hosts = ["gateway.psc.pocs.esante.gouv.fr:$${NOMAD_IP_http}"]
         image = "${artifact.image}:${artifact.tag}"
         ports = ["http"]
       }
@@ -53,7 +54,7 @@ EOH
         data = <<EOF
 spring.application.name=app1-copier-coller
 #server.servlet.context-path=/secure		
-psc.context.sharing.api.url=http://{{ range service "copier-coller-api"}}{{ .Address }}:{{ .Port }}{{ end }}/cc-api/cache
+psc.context.sharing.api.url=https://gateway.psc.pocs.esante.gouv.fr:19587/copier-coller/cc-api/cache
 server.use-forward-headers=true
 server.forward-headers-strategy=NATIVE
 server.tomcat.protocol-header=X-Forwarded-Proto
