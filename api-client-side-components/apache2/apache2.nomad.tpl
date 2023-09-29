@@ -224,7 +224,7 @@ SSLEngine on
 	</If> 
 
 	
-    Header Set Authorization "%{api_token}e"
+   eader Set Authorization "{{ with secret "editeur/apache2/copiercoller" }}{{ .Data.data.env_token }}{{ end }}"
  
     ProxyPassMatch http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}
     ProxyPassReverse http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}    
