@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class PatientRecordingController {
 
-	@GetMapping("/secure/patient/recorded")
+	@GetMapping("/patient/recorded")
 //	public String navigate(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestBody String jsonSchema) {
 	public String navigate() {
 		log.debug("PatientRecordingController ..");

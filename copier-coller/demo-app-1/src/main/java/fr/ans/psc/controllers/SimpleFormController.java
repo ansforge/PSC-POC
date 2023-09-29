@@ -9,9 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class SimpleFormController {
 
-	@GetMapping("/secure/patient/form")
+	@GetMapping("/patient/form")
 	public String getSimpleFormPage() {
-		log.debug("SimpleFormController ..");
+		log.info("SimpleFormController ..");
 		return "form-page";
 	}
 }

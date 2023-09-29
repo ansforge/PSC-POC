@@ -62,7 +62,7 @@ public class ShareController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PutMapping(value = "/secure/share", produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
+    @PutMapping(value = "/share", produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
 //    public ResponseEntity<String> putContextInCache( @RequestHeader Map<String, String> headers, @RequestBody String jsonContext) {
 //      public ResponseEntity<String> putContextInCache( @RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestBody String jsonContext) {
       public ResponseEntity<String> putContextInCache(  @RequestBody String jsonContext) {
