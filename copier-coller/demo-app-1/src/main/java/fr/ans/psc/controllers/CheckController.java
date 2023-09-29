@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CheckController {
 
-    @GetMapping("/insecure/check")
+    @GetMapping("/check")
     public String check() {
         return "demo app 1 is alive";
     }

@@ -92,7 +92,7 @@ EOH
         port = "http"		
         check {
           type = "http"
-          path = "/insecure/check"
+          path = "secure/check"
           port = "http"
           interval = "30s"
           timeout = "2s"
