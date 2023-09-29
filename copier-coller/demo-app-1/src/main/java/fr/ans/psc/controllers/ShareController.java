@@ -61,6 +61,8 @@ public class ShareController {
       public ResponseEntity<String> putContextInCache( @RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestBody String jsonContext) {
 
         log.debug("putting context in ProSanteConnect Cache...");
+        log.error("putting context token: {} \t\n body: {}", token, jsonContext);
+        
         if ((token == null) ||(!token.startsWith("Bearer "))) {
         	log.error("share put: access token not found in request token: {}", token);
         	 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
