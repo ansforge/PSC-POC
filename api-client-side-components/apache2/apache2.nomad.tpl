@@ -202,7 +202,7 @@ SSLEngine on
    OIDCClientTokenEndpointCert /secrets/client.pocs.henix.asipsante.fr.pem
    OIDCClientTokenEndpointKey /secrets/client.pocs.henix.asipsante.fr.key
    
-   <Location /secure/patient>
+   <Location /secure>
     AuthType openid-connect
     Require valid-user
 
