@@ -2,6 +2,8 @@ let pscContext;
 
 function getFromCache(serverUrl) {
     $.get(serverUrl, function (data) {
+		console.log('getFromCache, serveurUrl: ' + serverURL)
+        console.log('etFromCache, data: ' + data)
         console.log(data)
         if (data !== null && data !== "") {
             pscContext = data;
@@ -28,7 +30,7 @@ function fillForm(mappingFilePath) {
 
 function putInCache(schemaName, serverUrl, viewURL, mappingFilePath) {
     let putPscContext = {};
-
+	console.log('putincache, serverURL ' + serverURL + ' mappingFilePath ' + mappingFilePath + ' viewURL ' + viewURL + ' schemaName ' + schemaName)
     $.getJSON(window.location.origin + mappingFilePath, function (data) {
         for (const [key, value] of Object.entries(data)) {
             if (document.getElementById(key)) {
@@ -37,6 +39,11 @@ function putInCache(schemaName, serverUrl, viewURL, mappingFilePath) {
         }
         _.set(putPscContext, "schemaId", schemaName)
 
+		console.log('putincache, putPscContext ..')
+        console.log(putPscContext)
+        
+        serverURL= '/copier-coller' + serverURL
+        console.log ('serverURL corrigée =>' + serverURL)
         $.ajax({
             url: serverUrl,
             type: 'PUT',
@@ -45,7 +52,9 @@ function putInCache(schemaName, serverUrl, viewURL, mappingFilePath) {
             data: JSON.stringify(putPscContext)
         })
             .done(function(data) { window.location.href=viewURL })
-            .fail(function(jqXHR, textStatus, errorThrown) { window.location.href=viewURL})
+            .fail(function(jqXHR, textStatus, errorThrown) {
+            	 	alert("L'enregistrement des données a échoué.\n\n Erreur: " + jqXHR.status +"\n\n Message: " + jqXHR.responseText)				
+            	 })
     })
 }
 

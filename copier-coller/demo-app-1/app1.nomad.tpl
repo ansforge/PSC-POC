@@ -51,11 +51,33 @@ EOH
         destination = "secrets/application.properties"
         change_mode = "restart"
         data = <<EOF
+spring.application.name=app1-copier-coller
+#server.servlet.context-path=/secure		
 psc.context.sharing.api.url=http://{{ range service "copier-coller-api"}}{{ .Address }}:{{ .Port }}{{ end }}/cc-api/cache
 server.use-forward-headers=true
 server.forward-headers-strategy=NATIVE
 server.tomcat.protocol-header=X-Forwarded-Proto
+server.max-http-header-size=20KB
+client.poc.keystore.location=/secrets/keystore.jks
+client.poc.keystore.password={{ with secret "copier-coller/app" }}{{ .Data.data.client_poc_keystore_password }}{{ end }}
+client.poc.truststore.location=/local/truststore.jks
 EOF
+      }
+
+     template {
+        destination = "secrets/keystore.jks"
+        change_mode = "restart"
+        data = <<EOH
+{{ with secret "copier-coller/app" }}{{base64Decode .Data.data.client_poc_keystore_base64 }}{{ end }}
+EOH
+      }
+	  
+      template {
+        destination = "local/truststore.jks"
+        change_mode = "restart"
+        data = <<EOH
+{{ with secret "copier-coller/app" }}{{base64Decode .Data.data.client_poc_truststore_base64 }}{{ end }}
+EOH
       }
 
       resources {

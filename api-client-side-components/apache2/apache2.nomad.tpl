@@ -37,9 +37,16 @@ job "apache2" {
       #Pages Données Améli (accueil utilisateur non connecté, erreurs )
       artifact {
         source = "https://github.com/prosanteconnect/proof-of-concept/raw/main/api-client-side-components/demo-client-dam/PagesApache/dam.zip"
-        destination = "local/tmp"
+        destination = "local/dam"
         mode = "any"
         }
+
+	  #Pages COPIER-COLLER (accueil app1 et app2, erreurs )
+      artifact {
+        source = "https://github.com/prosanteconnect/proof-of-concept/raw/main/copier-coller/PagesApache/PagesApache.zip"
+        destination = "local/cc"
+        mode = "any"
+        }		
       
       driver = "docker"      
       
@@ -156,7 +163,15 @@ SSLProtocol all
    TransferLog /dev/stdout
    LogLevel info
 
- OIDCHTTPTimeoutShort 10
+RewriteEngine on
+   RewriteRule "^$" "/cc/app1/index.html" [L]
+   RewriteRule "^/$" "/cc/app1/index.html" [L]
+
+SSLEngine on
+   SSLCertificateFile /secrets/app1.cert.pub.pem
+   SSLCertificateKeyFile /secrets/app1.cert.key
+
+   OIDCHTTPTimeoutShort 10
    OIDCProviderAuthorizationEndpoint https://wallet.bas.psc.esante.gouv.fr/auth
    OIDCProviderMetadataURL https://auth.bas.psc.esante.gouv.fr/auth/realms/esante-wallet/.well-known/wallet-openid-configuration
    OIDCPKCEMethod S256
@@ -168,7 +183,7 @@ SSLProtocol all
 {{ end }}
    OIDCAuthRequestParams acr_values=eidas1
 {{ with secret "editeur/apache2/copiercoller" }}
-   OIDCRedirectURI https://{{ .Data.data.public_app1_hostname }}/secure/patient/new/redirect
+   OIDCRedirectURI https://{{ .Data.data.public_app1_hostname }}/secure/patient/form/redirect
 
    OIDCCryptoPassphrase 0123456789
    OIDCScope "openid scope_all"
@@ -177,23 +192,17 @@ SSLProtocol all
    OIDCCABundlePath /secrets/ssl/ca-certificates.crt
 
    OIDCStateTimeout 120
-   OIDCDefaultURL https://{{ .Data.data.public_app1_hostname }}/secure/patient/new
+   OIDCDefaultURL https://{{ .Data.data.public_app1_hostname }}/secure/patient/form
 {{ end }}
-   OIDCSessionInactivityTimeout 1200
+   OIDCSessionInactivityTimeout 120
    OIDCAuthNHeader X-Remote-User
    OIDCPassClaimsAs both
 
+# mTLS avec PSC   
+   OIDCClientTokenEndpointCert /secrets/client.pocs.henix.asipsante.fr.pem
+   OIDCClientTokenEndpointKey /secrets/client.pocs.henix.asipsante.fr.key
    
-SSLEngine on
-   SSLCertificateFile /secrets/app1.cert.pub.pem
-   SSLCertificateKeyFile /secrets/app1.cert.key
-   
-   <Location />
-    ProxyPassMatch http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}
-    ProxyPassReverse http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}
-   </Location>  
-
-   <Location /secure/patient/form>
+   <Location /secure/patient>
     AuthType openid-connect
     Require valid-user
 
@@ -201,25 +210,21 @@ SSLEngine on
     ProxyPassReverse http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}    
    </Location>     
    
-    <Location /secure/patient>
-    AuthType openid-connect
-    Require valid-user
-#    Header Set Authorization "exp=%\u007BMOD_STS_TARGET_TOKEN\u007D"
- 
-    ProxyPassMatch http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}
-    ProxyPassReverse http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}    
-   </Location>   
-
    <Location /secure/share>
     AuthType openid-connect
     Require valid-user
-	{{ with secret "editeur/apache2/common" }}
-    STSExchange otx https://auth.server.psc.pocs.esante.gouv.fr:19587/realms/{{ .Data.data.keycloak_realm }}/protocol/openid-connect/token auth=client_cert&cert=/secrets/client.pocs.henix.asipsante.fr.pem&key=/secrets/client.pocs.henix.asipsante.fr.key&ssl_verify=true&params=client_id%3D{{ .Data.data.keycloak_otx_client_id }}%26subject_issuer%3D{{ .Data.data.keycloak_otx_subject_issuer }}{{ end }}%26scope%3Dopenid%26audience%3D{{ with secret "editeur/apache2/copiercoller" }}{{ .Data.data.keycloak_otx_audience }}{{ end }}
-    STSAcceptSourceTokenIn environment name=OIDC_access_token
-    STSPassTargetTokenIn header
-	STSPassTargetTokenIn environment 
 	
-#    Header Set Authorization %\u007BMOD_STS_TARGET_TOKEN\u007De
+	<If "true">
+	{{ with secret "editeur/apache2/common" }}
+     STSExchange otx https://auth.server.psc.pocs.esante.gouv.fr:19587/realms/{{ .Data.data.keycloak_realm }}/protocol/openid-connect/token auth=client_cert&cert=/secrets/client.pocs.henix.asipsante.fr.pem&key=/secrets/client.pocs.henix.asipsante.fr.key&ssl_verify=true&params=client_id%3D{{ .Data.data.keycloak_otx_client_id }}%26subject_issuer%3D{{ .Data.data.keycloak_otx_subject_issuer }}{{ end }}%26scope%3Dopenid%26audience%3D{{ with secret "editeur/apache2/copiercoller" }}{{ .Data.data.keycloak_otx_audience }}{{ end }}
+     STSAcceptSourceTokenIn environment name=OIDC_access_token
+#     STSPassTargetTokenIn header
+	 STSPassTargetTokenIn environment name=api_token
+	 ErrorDocument 401 /cc/app1/401.html
+	</If> 
+
+	
+#    Header Set Authorization {{"%{"}}api_token{{"}"}}e
  
     ProxyPassMatch http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}
     ProxyPassReverse http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}    
@@ -424,11 +429,23 @@ EOH
             propagation = "rshared"
           }
         }  
+		
         #pages DAM hébergées par Apache
         mount {
           type = "bind"
           target = "/usr/local/apache2/htdocs/dam"
-          source = "local/tmp"
+          source = "local/dam"
+          readonly = true
+          bind_options {
+            propagation = "rshared"
+          }
+        }
+		
+		#pages COPIER-COLLER (app1 et app2) hébergées par Apache
+        mount {
+          type = "bind"
+          target = "/usr/local/apache2/htdocs/cc"
+          source = "local/cc"
           readonly = true
           bind_options {
             propagation = "rshared"

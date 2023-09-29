@@ -1,7 +1,10 @@
 let pscContext;
 
 function getFromCache(serverURL) {
+	
     $.get(serverURL, function (data) {
+		console.log('getFromCache, serveurUrl: ' + serverURL)
+        console.log('etFromCache, data: ' + data)
         console.log(data)
         if (data !== null && data !== '') {
             pscContext = data;
@@ -17,8 +20,12 @@ function getFromCache(serverURL) {
 }
 
 function fillForm(mappingFilePath) {
+	console.log('fillForm, mappingFilePath: ' + mappingFilePath)
     $.getJSON(window.location.origin + mappingFilePath, function(data) {
+		
+		console.log('fillForm,$.getJSON, pscContext : ' + pscContext)
         for (const [key, value] of Object.entries(data)) {
+			console.log('fillForm key-value: ' + key + ' ' + value)
             if (document.getElementById(key)) {
                 $('#' + key).val(_.get(pscContext, value, ''))
             }
@@ -28,7 +35,7 @@ function fillForm(mappingFilePath) {
 
 function putInCache(schemaName, serverURL, viewURL, mappingFilePath) {
     let putPscContext = {};
-
+    console.log('putincache, serverURL ' + serverURL + ' mappingFilePath ' + mappingFilePath + ' viewURL ' + viewURL + ' schemaName ' + schemaName)
     $.getJSON(window.location.origin + mappingFilePath, function (data) {
         for (const [key, value] of Object.entries(data)) {
             if (document.getElementById(key)) {
@@ -36,7 +43,11 @@ function putInCache(schemaName, serverURL, viewURL, mappingFilePath) {
             }
         }
         _.set(putPscContext, 'schemaId', schemaName);
+        console.log('putincache, putPscContext ..')
+        console.log(putPscContext)
         
+        serverURL= '/copier-coller' + serverURL
+        console.log ('serverURL corrigée =>' + serverURL)
         
         $.ajax({
             url: serverURL,
@@ -46,7 +57,10 @@ function putInCache(schemaName, serverURL, viewURL, mappingFilePath) {
             data: JSON.stringify(putPscContext)
         })
             .done(function(data) { window.location.href=viewURL })
-            .fail(function(jqXHR, textStatus, errorThrown) { window.location.href=viewURL })
+            .fail(function(jqXHR, textStatus, errorThrown) {
+				alert("L'enregistrement des données a échoué.\n\n Erreur: " + jqXHR.status +"\n\n Message: " + jqXHR.responseText)				
+				 })
+            
     })
 
   
