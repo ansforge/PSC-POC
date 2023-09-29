@@ -1,6 +1,7 @@
 let pscContext;
 
 function getFromCache(serverURL) {
+	console.log("GEtfromCahe serveurURL: " + serverURL)
 	
     $.get(serverURL, function (data) {
 		console.log('getFromCache, serveurUrl: ' + serverURL)
@@ -46,11 +47,9 @@ function putInCache(schemaName, serverURL, viewURL, mappingFilePath) {
         console.log('putincache, putPscContext ..')
         console.log(putPscContext)
         
-        serverURL= '/copier-coller' + serverURL
-        console.log ('serverURL corrigée =>' + serverURL)
         
         $.ajax({
-            url: serverURL,
+            url: '../share',
             type: 'PUT',
             dataType: 'json',
             contentType: 'application/json',
