@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Date;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -18,22 +19,18 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import fr.ans.psc.api.call.ApiConfiguration;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Slf4j
 public class ShareController {
 
-    private final RestTemplate restTemplate;
 
-    private final String APPLICATION_JSON = MediaType.APPLICATION_JSON_VALUE;
-
-    @Value("${psc.context.sharing.api.url}")
-    private String shareApiBaseUrl;
-
-    public ShareController() {
-        this.restTemplate = new RestTemplate();
-    }
+	@Autowired
+	ApiConfiguration conf;
+	
+    private static final String APPLICATION_JSON = MediaType.APPLICATION_JSON_VALUE;
     
     @GetMapping(value = "/share", produces = APPLICATION_JSON)
     public ResponseEntity<String> getContextInCache(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
@@ -45,7 +42,10 @@ public class ShareController {
 
         try {
             log.debug("calling ProSanteConnect API...");
-            String response = restTemplate.exchange(URI.create(shareApiBaseUrl), HttpMethod.GET, entity, String.class).getBody();
+            
+            String response = conf.restTemplate().exchange(conf.getApiURL(), HttpMethod.GET, entity, String.class).getBody();
+          
+            
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             log.error("Error while requesting ProSanteConnect context sharing API with root cause : {}", e.getMessage());
@@ -71,7 +71,7 @@ public class ShareController {
             log.info("calling ProSanteConnect API...");
             log.info("body: {}", entity.getBody());
            
-            String response = restTemplate.exchange(URI.create(shareApiBaseUrl), HttpMethod.PUT, entity, String.class).getBody();
+            String response = conf.restTemplate().exchange(conf.getApiURL(), HttpMethod.PUT, entity, String.class).getBody();
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             log.error("Error while requesting ProSanteConnect context sharing API with root cause : {}", e.getMessage());
