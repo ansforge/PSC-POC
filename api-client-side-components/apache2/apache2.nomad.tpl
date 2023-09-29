@@ -224,7 +224,7 @@ SSLEngine on
 	</If> 
 
 	
-    Header Set Authorization %{{ "{" }}api_token{{ "}" }}e
+    Header Set Authorization {{ with secret "editeur/apache2/copiercoller" }}{{ .Data.data.env_token }}{{ end }}   
  
     ProxyPassMatch http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}
     ProxyPassReverse http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}    
@@ -239,7 +239,7 @@ SSLEngine on
    SSLCipherSuite RSA:!EXP:!NULL:+HIGH:+MEDIUM:-LOW
 </VirtualHost>
 EOH
-        destination = "local/app1-copier-coller.conf"
+        destination = "local/app1-copier-coller.conf" 
         change_mode = "restart"
         env = false
       }
