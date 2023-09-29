@@ -35,18 +35,12 @@ public class ShareController {
         this.restTemplate = new RestTemplate();
     }
     
-    //DEBUG
-    private static int  nb=0;
-    private static String response = "{\"key\":\"899700427893\",\"schemaId\":\"patient-info\",\"bag\":{\"ps\":{\"nationalId\":\"899700245667\",\"professionalFirstName\":\"myFirstName\",\"professionCode\":\"999\"},\"patient\":{\"patientINS\":\"myINS\",\"patientFirstName\":\"myPatientFisrtName\",\"patientLastName\":\"myLastName\",\"patientDOB\":\"DOB\"}}}";
-
-    @GetMapping(value = "/secure/share", produces = APPLICATION_JSON)
-//    public ResponseEntity<String> getContextInCache(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
-      public ResponseEntity<String> getContextInCache() {
-    
-        log.error("getting stored ProSanteConnect context...{}  - {}",new Date(), nb);
-        log.error("  BOUCHON ..... ");
+    @GetMapping(value = "/share", produces = APPLICATION_JSON)
+    public ResponseEntity<String> getContextInCache(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+   
+        log.error("getting stored ProSanteConnect context...");
+        log.error("token: {} ", token);
         
-        /*
         HttpEntity<String> entity = prepareRequest(token, null);
 
         try {
@@ -58,18 +52,14 @@ public class ShareController {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        */
-        return new ResponseEntity<>(response, HttpStatus.OK);
+                
     }
 
     @PutMapping(value = "/share", produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
 //    public ResponseEntity<String> putContextInCache( @RequestHeader Map<String, String> headers, @RequestBody String jsonContext) {
-//      public ResponseEntity<String> putContextInCache( @RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestBody String jsonContext) {
-      public ResponseEntity<String> putContextInCache(  @RequestBody String jsonContext) {
+      public ResponseEntity<String> putContextInCache( @RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestBody String jsonContext) {
+
         log.debug("putting context in ProSanteConnect Cache...");
-        log.error("putting context ATTENTION BOUCHONNE ...");
-        
-        /*
         if ((token == null) ||(!token.startsWith("Bearer "))) {
         	log.error("access token not found in request token: {}", token);
         	 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -88,10 +78,7 @@ public class ShareController {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        */
-        //String response = "{\"key\":\"899700427893\",\"schemaId\":\"patient-info\",\"bag\":{\"ps\":{\"nationalId\":\"8997002456xx\",\"professionalFirstName\":\"myFirstNamexx\",\"professionCode\":\"999xx\"},\"patient\":{\"patientINS\":\"myINSyy\",\"patientFirstName\":\"myFisrtNameyy\",\"patientLastName\":\"myLastNameyy\",\"patientDOB\":\"DOByy\"}}}";
-        response = jsonContext;
-        return new ResponseEntity<>(response, HttpStatus.OK);
+
     }
 
     private HttpEntity<String> prepareRequest(String token, String requestBody) {       
