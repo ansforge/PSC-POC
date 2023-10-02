@@ -22,7 +22,7 @@ function getFromCache(serverURL) {
 
 function fillForm(mappingFilePath) {
 	console.log('fillForm, mappingFilePath: ' + mappingFilePath)
-    $.getJSON(window.location.origin + mappingFilePath, function(data) {
+    $.getJSON(window.location.href.replace('patient/form',mappingFilePath) + mappingFilePath, function(data) {
 		
 		console.log('fillForm,$.getJSON, pscContext : ' + pscContext)
         for (const [key, value] of Object.entries(data)) {
