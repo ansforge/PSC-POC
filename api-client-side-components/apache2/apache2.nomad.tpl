@@ -233,8 +233,8 @@ SSLEngine on
     <Location /secure/share>
     AuthType openid-connect
     Require valid-user
-	
-	Header set Authorization "{{ with secret "editeur/apache2/copiercoller" }}{{ .Data.data.env_token }}{{ end }}"	
+	STSPassTargetTokenIn header
+#	Header set Authorization "{{ with secret "editeur/apache2/copiercoller" }}{{ .Data.data.env_token }}{{ end }}"	
     ProxyPassMatch http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}
     ProxyPassReverse http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}    
    </Location>   
