@@ -2,7 +2,14 @@ package fr.ans.psc.controllers;
 
 import java.net.URI;
 import java.util.Date;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +19,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import fr.ans.psc.api.call.ApiConfiguration;
+import lombok.experimental.Helper;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -33,9 +43,11 @@ public class ShareController {
     private static final String APPLICATION_JSON = MediaType.APPLICATION_JSON_VALUE;
     
     @GetMapping(value = "/share/**", produces = APPLICATION_JSON)
-    public ResponseEntity<String> getContextInCache(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
-   
+    public ResponseEntity<String> getContextInCache(@RequestHeader Map<String, String> headers) {
+    //public ResponseEntity<String> getContextInCache(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+    	logRequestHeaders(headers);
         log.error("getting stored ProSanteConnect context...");
+        String token = headers.get("Authorization");
         log.error("token: {} ", token);
         
         HttpEntity<String> entity = prepareRequest(token, null);
@@ -99,4 +111,13 @@ public class ShareController {
             return new HttpEntity<>(headers);
         }
     }
+    
+    private void logRequestHeaders( Map<String, String> headers) {
+    	Set<Entry<String, String>> it = headers.entrySet();
+    	log.info("lecture des headers");
+    	for (Entry<String, String> entry : it) {
+			log.info( "{}  :  {}", it, headers.get(it));
+		}
+    	log.info("fin de lecture des headers");
+	}
 }
