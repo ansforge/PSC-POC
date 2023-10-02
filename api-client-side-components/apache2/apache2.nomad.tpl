@@ -211,7 +211,7 @@ SSLEngine on
    </Location>     
    
    
-    <Location /secure/share/first>
+    <Location /secure/share>
     AuthType openid-connect
     Require valid-user
 	
@@ -219,28 +219,15 @@ SSLEngine on
 	{{ with secret "editeur/apache2/common" }}
      STSExchange otx https://auth.server.psc.pocs.esante.gouv.fr:19587/realms/{{ .Data.data.keycloak_realm }}/protocol/openid-connect/token auth=client_cert&cert=/secrets/client.pocs.henix.asipsante.fr.pem&key=/secrets/client.pocs.henix.asipsante.fr.key&ssl_verify=true&params=client_id%3D{{ .Data.data.keycloak_otx_client_id }}%26subject_issuer%3D{{ .Data.data.keycloak_otx_subject_issuer }}{{ end }}%26scope%3Dopenid%26audience%3D{{ with secret "editeur/apache2/copiercoller" }}{{ .Data.data.keycloak_otx_audience }}{{ end }}
      STSAcceptSourceTokenIn environment name=OIDC_access_token
-     STSPassTargetTokenIn header
+#     STSPassTargetTokenIn header
      STSPassTargetTokenIn environment name=api_token
 	 ErrorDocument 401 /cc/app1/401.html
 	</If> 
-	
-#   Header set Authorization "{{ with secret "editeur/apache2/copiercoller" }}{{ .Data.data.env_token }}{{ end }}"
- 
-    ProxyPassMatch http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}
-    ProxyPassReverse http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}    
-   </Location>   
 
-        
-   <Location /secure/share>
-    AuthType openid-connect
-    Require valid-user
-    STSPassTargetTokenIn header
+	Header set Authorization "{{ with secret "editeur/apache2/copiercoller" }}{{ .Data.data.env_token }}{{ end }}"	
     ProxyPassMatch http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}
     ProxyPassReverse http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}    
    </Location>   
-   
-   
-   
    
    
 # A partir de apache 2.2.24 ##########################

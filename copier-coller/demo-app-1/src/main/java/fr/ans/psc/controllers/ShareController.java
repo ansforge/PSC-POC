@@ -32,7 +32,7 @@ public class ShareController {
 	
     private static final String APPLICATION_JSON = MediaType.APPLICATION_JSON_VALUE;
     
-    @GetMapping(value = "/share", produces = APPLICATION_JSON)
+    @GetMapping(value = "/share/**", produces = APPLICATION_JSON)
     public ResponseEntity<String> getContextInCache(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
    
         log.error("getting stored ProSanteConnect context...");
