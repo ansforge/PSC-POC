@@ -47,7 +47,8 @@ public class ShareController {
     //public ResponseEntity<String> getContextInCache(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
     	logRequestHeaders(headers);
         log.error("getting stored ProSanteConnect context...");
-        String token = headers.get("Authorization");
+        String token = headers.get("authorization");
+        String psc = headers.get("oidc_access_token");
         log.error("token: {} ", token);
         
         HttpEntity<String> entity = prepareRequest(token, null);
