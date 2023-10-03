@@ -37,8 +37,6 @@ app "editeur/apache2" {
   deploy {
     use "nomad-jobspec" {
       jobspec = templatefile("${path.app}/apache2.nomad.tpl", {
-        image = var.image
-        tag = var.tag
         datacenter = var.datacenter
       })
     }
