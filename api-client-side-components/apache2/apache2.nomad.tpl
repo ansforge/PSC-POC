@@ -222,7 +222,7 @@ SSLEngine on
     
 	STSPassTargetTokenIn header
 #   STSPassTargetTokenIn environment name=api_token   
-    STSPassTargetTokenIn cookie 
+    STSPassTargetTokenIn cookie name=api_token   
   
 	 ErrorDocument 401 /cc/app1/401.html
 	</If> 
