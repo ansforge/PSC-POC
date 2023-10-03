@@ -18,7 +18,7 @@ public class SimpleFormController {
 		javax.servlet.http.Cookie[] cookies = request.getCookies();
 		log.info("lecture de tous les cookies..");
 		for (javax.servlet.http.Cookie cookie : cookies) {
-			log.info(" name {} : value {} : isHttpOnly ", cookie.getName(), cookie.getValue(),cookie.isHttpOnly() );	
+			log.info(" name {} : value {} : isHttpOnly {}", cookie.getName(), cookie.getValue(),cookie.isHttpOnly() );	
 		}
 		log.info("fin de lecture des cookies..");
 		javax.servlet.http.Cookie co = WebUtils.getCookie(request, "sts_token");
