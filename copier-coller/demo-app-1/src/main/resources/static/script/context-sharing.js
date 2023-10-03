@@ -76,9 +76,11 @@ function putInCache(schemaName, serverURL, viewURL, mappingFilePath) {
         console.log('putincache, putPscContext ..')
         console.log(putPscContext)
         
+        let bearer = getBearerFormCookie();
         
         $.ajax({
             url: '../share',
+            headers: {"Authorization": bearer},
             type: 'PUT',
             dataType: 'json',
             contentType: 'application/json',
