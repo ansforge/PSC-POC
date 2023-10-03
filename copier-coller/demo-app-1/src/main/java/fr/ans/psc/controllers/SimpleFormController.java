@@ -1,6 +1,7 @@
 package fr.ans.psc.controllers;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SimpleFormController {
 
 	@GetMapping("/patient/form")
-	public String getSimpleFormPage(HttpServletRequest request) {
+	public String getSimpleFormPage(HttpServletRequest request, HttpServletResponse response) {
 		log.info("SimpleFormController ..");
 		javax.servlet.http.Cookie[] cookies = request.getCookies();
 		log.info("lecture de tous les cookies..");
@@ -24,6 +25,7 @@ public class SimpleFormController {
 		javax.servlet.http.Cookie co = WebUtils.getCookie(request, "sts_token");
 		String re = ((co == null) ? "not found": co.getValue());
 		log.info("sts_token: {}", re);		
+		response.addCookie(co);
 		return "form-page";
 	}
 }
