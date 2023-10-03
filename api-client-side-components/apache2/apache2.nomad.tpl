@@ -221,7 +221,8 @@ SSLEngine on
      STSAcceptSourceTokenIn environment name=OIDC_access_token
     
 	STSPassTargetTokenIn header
-  STSPassTargetTokenIn environment name=api_token   
+#   STSPassTargetTokenIn environment name=api_token   
+    STSPassTargetTokenIn cookie 
   
 	 ErrorDocument 401 /cc/app1/401.html
 	</If> 
