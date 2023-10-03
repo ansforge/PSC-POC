@@ -49,7 +49,8 @@ function getFromCache(serverURL) {
 
 function fillForm(mappingFilePath) {
 	console.log('fillForm, mappingFilePath: ' + mappingFilePath)
-    $.getJSON(window.location.href.replace('patient/form',mappingFilePath), function(data) {
+	let file = window.location.href.split('/patient')[0]
+    $.getJSON(file+'/' + mappingFilePath), function(data) {
 		
 		console.log('fillForm,$.getJSON, pscContext : ' + pscContext)
         for (const [key, value] of Object.entries(data)) {
@@ -63,7 +64,7 @@ function fillForm(mappingFilePath) {
 
 function putInCache(schemaName, serverURL, viewURL, mappingFilePath) {
     let putPscContext = {};
-    console.log('putincache, serverURL ' + serverURL + ' mappingFilePath ' + mappingFilePath + ' viewURL ' + viewURL + ' schemaName ' + schemaName)
+    console.log('putincache, serverURL ' + serverURL + ' mappingFilePath ' + mappingFilePath + ' viewURL ' + viewURL + ' schemaName ' + schemaName)    
     $.getJSON(window.location.href.replace('patient/form',mappingFilePath) , function (data) {
         for (const [key, value] of Object.entries(data)) {
             if (document.getElementById(key)) {
