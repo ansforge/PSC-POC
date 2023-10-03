@@ -48,22 +48,21 @@ public class ShareController {
     public ResponseEntity<String> getContextInCache(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
 //    public ResponseEntity<String> getContextInCache( @CookieValue(value = "sts_token") String token) {
     //	logRequestHeaders(headers);
-        log.error("getting stored ProSanteConnect context...");
+        log.error("ShareController: getting stored ProSanteConnect context...");
         //String token = headers.get("authorization");
       //  String psc = headers.get("oidc_access_token");
-        log.error("token: {} ", token);
+        log.error("ShareController: token: {} ", token);
         HttpEntity<String> entity = prepareRequest(token, null);
 
         try {
-            log.error("GET cache: calling ProSanteConnect API...{}", conf.getApiURL());
+            log.error("ShareController: GET cache: calling ProSanteConnect API...{}", conf.getApiURL());
             
             String response = conf.restTemplate().exchange(conf.getApiURL(), HttpMethod.GET, entity, String.class).getBody();
-          
+            log.error("ShareController: GET cache. Found data : {}", response);
             
             return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (Exception e) {
-        	log.error("... GET cache: calling ProSanteConnect API");
-            log.error("Error while requesting ProSanteConnect context sharing API with root cause : {}", e.getMessage());
+        } catch (Exception e) {        	
+            log.error("ShareController: Error while requesting ProSanteConnect context sharing API with root cause : {}", e.getMessage());
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -74,8 +73,8 @@ public class ShareController {
 //    public ResponseEntity<String> putContextInCache( @RequestHeader Map<String, String> headers, @RequestBody String jsonContext) {
       public ResponseEntity<String> putContextInCache( @RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestBody String jsonContext) {
 
-        log.debug("putting context in ProSanteConnect Cache...");
-        log.error("putting context token: {} \t\n body: {}", token, jsonContext);
+        log.debug("ShareController: putting context in ProSanteConnect Cache...");
+        log.error("ShareController: putting context token: {} \t\n body: {}", token, jsonContext);
         
 //        if ((token == null) ||(!token.startsWith("Bearer "))) {
 //        	log.error("share put: access token not found in request token: {}", token);
@@ -85,14 +84,15 @@ public class ShareController {
         
 
         try {
-            log.info("PUT calling ProSanteConnect API...");
-            log.info("body: {}", entity.getBody());
+            log.info("ShareController:PUT calling ProSanteConnect API...");
+            log.info("ShareController: body: {}", entity.getBody());
            
             String response = conf.restTemplate().exchange(conf.getApiURL(), HttpMethod.PUT, entity, String.class).getBody();
+            log.info("ShareController: PUT succes");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
-        	log.info(".. PUT error in calling ProSanteConnect API");
-            log.error("Error while requesting ProSanteConnect context sharing API with root cause : {}", e.getMessage());
+        	
+            log.error("hareController: PUT Error while requesting ProSanteConnect context sharing API with root cause : {}", e.getMessage());
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
