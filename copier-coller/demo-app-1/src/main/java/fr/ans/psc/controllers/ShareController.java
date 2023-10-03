@@ -21,6 +21,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,16 +43,17 @@ public class ShareController {
 	
     private static final String APPLICATION_JSON = MediaType.APPLICATION_JSON_VALUE;
     
-    @GetMapping(value = "/share/**", produces = APPLICATION_JSON)
+    @GetMapping(value = "/share", produces = APPLICATION_JSON)
  //   public ResponseEntity<String> getContextInCache(@RequestHeader Map<String, String> headers) {
-    public ResponseEntity<String> getContextInCache(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+    //public ResponseEntity<String> getContextInCache(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+    public ResponseEntity<String> getContextInCache( @CookieValue(value = "sts_token") String token) {
     //	logRequestHeaders(headers);
         log.error("getting stored ProSanteConnect context...");
         //String token = headers.get("authorization");
       //  String psc = headers.get("oidc_access_token");
         log.error("token: {} ", token);
-        
-        HttpEntity<String> entity = prepareRequest(token, null);
+        String bearer = "Bearer " + token;
+        HttpEntity<String> entity = prepareRequest(bearer, null);
 
         try {
             log.error("GET cache: calling ProSanteConnect API...{}", conf.getApiURL());
@@ -98,11 +100,11 @@ public class ShareController {
 
     }
 
-    private HttpEntity<String> prepareRequest(String token, String requestBody) {       
+    private HttpEntity<String> prepareRequest(String bearer, String requestBody) {       
         HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.AUTHORIZATION, token);
+        headers.add(HttpHeaders.AUTHORIZATION, bearer);
         headers.add(HttpHeaders.ACCEPT, APPLICATION_JSON);
-
+        log.error("Bearer add to header for api call: {}", bearer);
         if (requestBody != null) {
             headers.add(HttpHeaders.CONTENT_TYPE, APPLICATION_JSON);
             log.debug("request successfully prepared");
