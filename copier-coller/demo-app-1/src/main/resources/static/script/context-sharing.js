@@ -65,8 +65,10 @@ function fillForm(mappingFilePath) {
 
 function putInCache(schemaName, serverURL, viewURL, mappingFilePath) {
     let putPscContext = {};
-    console.log('putincache, serverURL ' + serverURL + ' mappingFilePath ' + mappingFilePath + ' viewURL ' + viewURL + ' schemaName ' + schemaName)    
-    $.getJSON(window.location.href.replace('patient/form',mappingFilePath) , function (data) {
+    console.log('putincache, serverURL ' + serverURL + ' mappingFilePath ' + mappingFilePath + ' viewURL ' + viewURL + ' schemaName ' + schemaName)
+    let file = window.location.href.split('/patient')[0]
+    file = = file +'/' + mappingFilePath
+    $.getJSON(file , function (data) {
         for (const [key, value] of Object.entries(data)) {
             if (document.getElementById(key)) {
                 _.set(putPscContext, value, document.getElementById(key).value)
