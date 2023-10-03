@@ -50,7 +50,8 @@ function getFromCache(serverURL) {
 function fillForm(mappingFilePath) {
 	console.log('fillForm, mappingFilePath: ' + mappingFilePath)
 	let file = window.location.href.split('/patient')[0]
-    $.getJSON(file+'/' + mappingFilePath), function(data) {
+	file = file +'/' + mappingFilePath
+    $.getJSON(file, function(data) {
 		
 		console.log('fillForm,$.getJSON, pscContext : ' + pscContext)
         for (const [key, value] of Object.entries(data)) {
