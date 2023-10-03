@@ -211,7 +211,7 @@ SSLEngine on
     
 #	STSPassTargetTokenIn header
 #   STSPassTargetTokenIn environment name=api_token   
-    STSPassTargetTokenIn cookie
+#    STSPassTargetTokenIn cookie
   
 	 ErrorDocument 401 /cc/app1/401.html
     ProxyPassMatch http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}
@@ -230,7 +230,7 @@ SSLEngine on
     
 #	STSPassTargetTokenIn header
 #   STSPassTargetTokenIn environment name=api_token   
-    STSPassTargetTokenIn cookie
+#    STSPassTargetTokenIn cookie
   
 	 ErrorDocument 401 /cc/app1/401.html
 #	</If> 
