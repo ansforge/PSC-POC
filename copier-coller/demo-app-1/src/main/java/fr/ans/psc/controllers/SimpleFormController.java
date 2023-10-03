@@ -21,7 +21,7 @@ public class SimpleFormController {
 			log.info(" name {} : value {}", cookie.getName(), cookie.getValue());	
 		}
 		log.info("fin de lecture des cookies..");
-		javax.servlet.http.Cookie co = WebUtils.getCookie(request, "sts-token");
+		javax.servlet.http.Cookie co = WebUtils.getCookie(request, "sts_token");
 		String re = ((co == null) ? "not found": co.getValue());
 		log.info("sts_token: {}", re);		
 		return "form-page";
