@@ -45,15 +45,14 @@ public class ShareController {
     
     @GetMapping(value = "/share", produces = APPLICATION_JSON)
  //   public ResponseEntity<String> getContextInCache(@RequestHeader Map<String, String> headers) {
-    //public ResponseEntity<String> getContextInCache(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
-    public ResponseEntity<String> getContextInCache( @CookieValue(value = "sts_token") String token) {
+    public ResponseEntity<String> getContextInCache(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+//    public ResponseEntity<String> getContextInCache( @CookieValue(value = "sts_token") String token) {
     //	logRequestHeaders(headers);
         log.error("getting stored ProSanteConnect context...");
         //String token = headers.get("authorization");
       //  String psc = headers.get("oidc_access_token");
         log.error("token: {} ", token);
-        String bearer = "Bearer " + token;
-        HttpEntity<String> entity = prepareRequest(bearer, null);
+        HttpEntity<String> entity = prepareRequest(token, null);
 
         try {
             log.error("GET cache: calling ProSanteConnect API...{}", conf.getApiURL());
@@ -78,10 +77,10 @@ public class ShareController {
         log.debug("putting context in ProSanteConnect Cache...");
         log.error("putting context token: {} \t\n body: {}", token, jsonContext);
         
-        if ((token == null) ||(!token.startsWith("Bearer "))) {
-        	log.error("share put: access token not found in request token: {}", token);
-        	 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
+//        if ((token == null) ||(!token.startsWith("Bearer "))) {
+//        	log.error("share put: access token not found in request token: {}", token);
+//        	 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+//        }
         HttpEntity<String> entity = prepareRequest(token, jsonContext);
         
 
