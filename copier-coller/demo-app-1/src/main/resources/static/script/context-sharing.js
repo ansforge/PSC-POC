@@ -1,3 +1,6 @@
+/*
+ * (c) Copyright 2023, ANS. All rights reserved.
+ */
 let pscContext;
 
 function getFromCache(serverURL) {
