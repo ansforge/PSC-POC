@@ -191,7 +191,7 @@ SSLEngine on
    OIDCSSLValidateServer On
    OIDCCABundlePath /secrets/ssl/ca-certificates.crt
 
-   OIDCStateTimeout 120
+   OIDCStateTimeout 900
    OIDCDefaultURL https://{{ .Data.data.public_app1_hostname }}/secure/patient/first
 {{ end }}
    OIDCSessionInactivityTimeout 120
@@ -255,6 +255,56 @@ RewriteEngine on
 SSLEngine on
    SSLCertificateFile /secrets/app2.cert.pub.pem
    SSLCertificateKeyFile /secrets/app2.cert.key
+
+  OIDCHTTPTimeoutShort 10
+   OIDCProviderAuthorizationEndpoint https://wallet.bas.psc.esante.gouv.fr/auth
+   OIDCProviderMetadataURL https://auth.bas.psc.esante.gouv.fr/auth/realms/esante-wallet/.well-known/wallet-openid-configuration
+   OIDCPKCEMethod S256
+   OIDCOAuthAcceptTokenAs post
+   OIDCCookieHTTPOnly On
+{{ with secret "editeur/apache2/copiercoller" }}
+   OIDCClientID {{ .Data.data.psc_client_id}}
+   OIDCClientSecret {{ .Data.data.psc_client_secret}}
+{{ end }}
+   OIDCAuthRequestParams acr_values=eidas1
+{{ with secret "editeur/apache2/copiercoller" }}
+   OIDCRedirectURI https://{{ .Data.data.public_app1_hostname }}/secure/patient/first/redirect
+
+   OIDCCryptoPassphrase 0123456789
+   OIDCScope "openid scope_all"
+   
+   OIDCSSLValidateServer On
+   OIDCCABundlePath /secrets/ssl/ca-certificates.crt
+
+   OIDCStateTimeout 120
+   OIDCDefaultURL https://{{ .Data.data.public_app1_hostname }}/secure/patient/first
+{{ end }}
+   OIDCSessionInactivityTimeout 900
+   OIDCAuthNHeader X-Remote-User
+   OIDCPassClaimsAs environment
+
+# mTLS avec PSC   
+   OIDCClientTokenEndpointCert /secrets/client.pocs.henix.asipsante.fr.pem
+   OIDCClientTokenEndpointKey /secrets/client.pocs.henix.asipsante.fr.key
+
+   <Location /secure/consultation/first>
+    AuthType openid-connect
+    Require valid-user
+{{ with secret "editeur/apache2/common" }}
+     STSExchange otx https://auth.server.psc.pocs.esante.gouv.fr:19587/realms/{{ .Data.data.keycloak_realm }}/protocol/openid-connect/token auth=client_cert&cert=/secrets/client.pocs.henix.asipsante.fr.pem&key=/secrets/client.pocs.henix.asipsante.fr.key&ssl_verify=true&params=client_id%3D{{ .Data.data.keycloak_otx_client_id }}%26subject_issuer%3D{{ .Data.data.keycloak_otx_subject_issuer }}{{ end }}%26scope%3Dopenid%26audience%3D{{ with secret "editeur/apache2/copiercoller" }}{{ .Data.data.keycloak_otx_audience }}{{ end }}
+     STSAcceptSourceTokenIn environment name=OIDC_access_token     
+    STSPassTargetTokenIn cookie
+  	 ErrorDocument 401 /cc/app1/401.html
+    ProxyPassMatch http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}
+    ProxyPassReverse http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}    
+   </Location>     
+   
+    <Location /secure>
+    AuthType openid-connect
+    Require valid-user
+    ProxyPassMatch http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}
+    ProxyPassReverse http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}    
+   </Location>     
    
 # A partir de apache 2.2.24 ##########################
    SSLCompression off

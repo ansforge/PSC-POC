@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Application 1</title>
+    <title>Application 2</title>
     <link rel="stylesheet" type="text/css" href="/cc/common/style/style.css"/>
     <link rel="stylesheet" href="/cc/common/style/style-ans.css" type="text/css">
     <link rel="stylesheet" href="/cc/common/style/print.css" type="text/css" media="print">
@@ -28,7 +28,7 @@
                         </a>
                     </div>
                 </div>
-                <p class="header__title">Application 1</p>
+                <p class="header__title">Application 2</p>
             </div>
         </div>
     </header>
@@ -37,7 +37,7 @@
         <div class="container">
             <h3>Pour accéder au formulaire, veuillez-vous authentifier</h3>
             <hr>
-            <button class="psc_button" onclick="window.location.href='/secure/patient/first'"></button>
+            <button class="psc_button" onclick="window.location.href='/secure/consultation/form'"></button>
         </div>
     </main>
 </div>
