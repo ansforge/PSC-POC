@@ -57,7 +57,7 @@ EOH
         change_mode = "restart"
         data = <<EOF
 spring.application.name=app1-copier-coller
-server.servlet.context-path=/secure		
+server.servlet.context-path=/secure
 psc.context.sharing.api.url=https://gateway.psc.pocs.esante.gouv.fr:19587/copier-coller/cc-api/cache
 server.use-forward-headers=true
 server.forward-headers-strategy=NATIVE
