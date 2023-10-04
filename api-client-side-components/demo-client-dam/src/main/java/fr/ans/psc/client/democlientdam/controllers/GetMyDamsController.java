@@ -30,7 +30,6 @@ import org.springframework.util.MultiValueMap;
 @Slf4j
 public class GetMyDamsController {
 
-
 	@Autowired
 	private ApiCalls api;
 
@@ -38,53 +37,51 @@ public class GetMyDamsController {
 	private final static String OIDC_CLAIM_IDNAT = "oidc_claim_preferred_username";
 
 	@GetMapping("/view")
-	public String getMyDam(Model model, HttpServletRequest request) throws JsonMappingException, JsonProcessingException, ApiCallException {
+	public String getMyDam(Model model, HttpServletRequest request)
+			throws JsonMappingException, JsonProcessingException, ApiCallException {
 
-		
-		
-		//header: récupération du jeton d'api pour appel API et affichage dans la page page de démonstration
-		MultiValueMap<String,String> map = Helper.logRequestHeaders(request);
+		// header: récupération du jeton d'api pour appel API et affichage dans la page
+		// page de démonstration
+		MultiValueMap<String, String> map = Helper.logRequestHeaders(request);
 
-		String tokenBearer = request.getHeader(AUTHORIZATION);		
+		String tokenBearer = request.getHeader(AUTHORIZATION);
 
 		String token = tokenBearer.substring("Bearer ".length());
-		Triplet<String, String, String> tmp = Helper.splitAndDecodeToken(token);	
+		Triplet<String, String, String> tmp = Helper.splitAndDecodeToken(token);
 		model.addAttribute("tokenHeader", tmp.getValue0());
 		String bodyToken = tmp.getValue1();
-		model.addAttribute("tokenBody",bodyToken);
-		String exp = Helper.valueOfIntFieldLocalDateTime("exp",bodyToken);
-		String iat = Helper.valueOfIntFieldLocalDateTime("iat",bodyToken);
-		model.addAttribute("rawExpDate",exp);
-		model.addAttribute("rawIatDate", iat);		
-		model.addAttribute("expDate",Helper.convertTimeStampToLocalDateTime(exp));
-		model.addAttribute("iatDate",Helper.convertTimeStampToLocalDateTime(iat));	
-		
+		model.addAttribute("tokenBody", bodyToken);
+		String exp = Helper.valueOfIntFieldLocalDateTime("exp", bodyToken);
+		String iat = Helper.valueOfIntFieldLocalDateTime("iat", bodyToken);
+		model.addAttribute("rawExpDate", exp);
+		model.addAttribute("rawIatDate", iat);
+		model.addAttribute("expDate", Helper.convertTimeStampToLocalDateTime(exp));
+		model.addAttribute("iatDate", Helper.convertTimeStampToLocalDateTime(iat));
+
 		/*
 		 * Identité PRosante Connect
 		 */
-	    String fullName = Helper.getFullName (map);
+		String fullName = Helper.getFullName(map);
 		model.addAttribute("user", fullName);
 
-		// appel à l'API avec le jeton d'API 
+		// appel à l'API avec le jeton d'API
 
-
-		log.debug("Appel de l'api ... avec token Bearer: {} ", tokenBearer);
-		Pair<HttpStatus,String> damResponse = null;
-		try {		
+		log.debug("Appel de l'api ... avec token de body: {} ",
+				tokenBearer.substring(tokenBearer.indexOf(".") + 1, tokenBearer.lastIndexOf(".")));
+		Pair<HttpStatus, String> damResponse = null;
+		try {
 			damResponse = api.getMyDams(tokenBearer);
-			
+
 		} catch (IOException | GeneralSecurityException e) {
 			return "tech-error";
 		}
 		log.debug("réponse getMyDams: " + damResponse.getValue0() + " , " + damResponse.getValue1());
-		if (damResponse.getValue0()==HttpStatus.OK) {
-			model.addAttribute("dams",damResponse.getValue1());		
-		}
-		else if (damResponse.getValue0()==HttpStatus.GONE) {
-			log.debug("réponse getMyDams code 410: pas de données Améli trouvées pour le PS" );
+		if (damResponse.getValue0() == HttpStatus.OK) {
+			model.addAttribute("dams", damResponse.getValue1());
+		} else if (damResponse.getValue0() == HttpStatus.GONE) {
+			log.debug("réponse getMyDams code 410: pas de données Améli trouvées pour le PS");
 			model.addAttribute("status410", HttpStatus.GONE.name());
-		}
-		else {
+		} else {
 			return "tech-error";
 		}
 

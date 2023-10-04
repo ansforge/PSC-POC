@@ -27,7 +27,7 @@ public class ProsanteConnected {
 		log.debug("Demande de page d'accueil d'un utilisateur prosanté connecté");
 		
 		/*
-		 * Lecture des headers (données renvoyées par le serveur uniquement dans le cadre d'une démontsration). 
+		 * Lecture des headers (données renvoyées par le serveur uniquement dans le cadre d'une démonstration).  
 		 */
 		MultiValueMap<String, String> map = Helper.logRequestHeaders(request);
 

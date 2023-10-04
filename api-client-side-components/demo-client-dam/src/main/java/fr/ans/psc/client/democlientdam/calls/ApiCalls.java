@@ -9,8 +9,6 @@ import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.javatuples.Pair;
 import org.springframework.beans.factory.annotation.Autowired;

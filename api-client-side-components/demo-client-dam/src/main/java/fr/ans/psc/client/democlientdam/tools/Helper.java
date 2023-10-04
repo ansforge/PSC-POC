@@ -92,7 +92,7 @@ public class Helper {
 			String value = request.getHeader(tmp);
 			map.add(tmp, value);
 			if (!tmp.equalsIgnoreCase("oidc_access_token")) {
-				log.info("\t" + tmp + ": " + value);
+				log.debug("\t" + tmp + ": " + value);
 			}
 		}
 		return map;
