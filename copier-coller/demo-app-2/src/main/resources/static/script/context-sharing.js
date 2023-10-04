@@ -1,6 +1,3 @@
-/*
- * (c) Copyright 2023, ANS. All rights reserved.
- */
 let pscContext;
 
 function getFromCache(serverURL) {
@@ -24,7 +21,7 @@ function getFromCache(serverURL) {
 			}
 		})
 		.fail(function(jqXHR, textStatus, errorThrown) {
-			//alert("La lecture du cache a achoué .\n\n Erreur: " + jqXHR.status +"\n\n Message: " + jqXHR.responseText)				
+			//alert("La lecture du cache a achouï¿½ .\n\n Erreur: " + jqXHR.status +"\n\n Message: " + jqXHR.responseText)				
 		})
 }
 
@@ -64,16 +61,16 @@ function putInCache(schemaName, serverURL, viewURL, mappingFilePath) {
 		})
 			.done(function(data) { window.location.href = viewURL })
 			.fail(function(jqXHR, textStatus, errorThrown) {
-				alert("L'enregistrement des données a échoué.\n\n Erreur: " + jqXHR.status + "\n\n Message: " + jqXHR.responseText)
+				alert("L'enregistrement des donnï¿½es a ï¿½chouï¿½.\n\n Erreur: " + jqXHR.status + "\n\n Message: " + jqXHR.responseText)
 			})
 	})
 }
 
 function getBearerFormCookie() {
 	let token = getCookie("sts_token");
-//	console.log("getBearerFormCookie token: " + token.split('.')[1]);
+	//	console.log("getBearerFormCookie token: " + token.split('.')[1]);
 	if (token == null || token.length < 5) {
-		alert("token non trouvé");
+		alert("token non trouvï¿½");
 	}
 	return "Bearer " + token;
 }

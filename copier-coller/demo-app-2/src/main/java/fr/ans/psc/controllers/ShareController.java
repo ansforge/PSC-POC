@@ -72,7 +72,7 @@ public class ShareController {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(HttpHeaders.AUTHORIZATION, bearer);
 		headers.add(HttpHeaders.ACCEPT, APPLICATION_JSON);
-		log.debug("Bearer add to header for api call: {}",
+		log.debug("Body Bearer add to header for api call: {}",
 				bearer.substring(bearer.indexOf(".") + 1, bearer.lastIndexOf(".")));
 		if (requestBody != null) {
 			headers.add(HttpHeaders.CONTENT_TYPE, APPLICATION_JSON);
