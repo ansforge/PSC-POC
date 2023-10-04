@@ -294,7 +294,7 @@ SSLEngine on
      STSExchange otx https://auth.server.psc.pocs.esante.gouv.fr:19587/realms/{{ .Data.data.keycloak_realm }}/protocol/openid-connect/token auth=client_cert&cert=/secrets/client.pocs.henix.asipsante.fr.pem&key=/secrets/client.pocs.henix.asipsante.fr.key&ssl_verify=true&params=client_id%3D{{ .Data.data.keycloak_otx_client_id }}%26subject_issuer%3D{{ .Data.data.keycloak_otx_subject_issuer }}{{ end }}%26scope%3Dopenid%26audience%3D{{ with secret "editeur/apache2/copiercoller" }}{{ .Data.data.keycloak_otx_audience }}{{ end }}
      STSAcceptSourceTokenIn environment name=OIDC_access_token     
     STSPassTargetTokenIn cookie
-  	 ErrorDocument 401 /cc/app1/401.html
+  	 ErrorDocument 401 /cc/app2/401.html
     ProxyPassMatch http://{{ range service "copier-coller-demo-app-2" }}{{ .Address }}:{{ .Port }}{{ end }}
     ProxyPassReverse http://{{ range service "copier-coller-demo-app-2" }}{{ .Address }}:{{ .Port }}{{ end }}    
    </Location>     
