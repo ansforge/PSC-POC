@@ -29,7 +29,7 @@ function getFromCache(serverURL) {
 }
 
 function fillForm(mappingFilePath) {
-	let file = window.location.href.split('/consultation')[0]
+	let file = window.location.href.split('/patient')[0]
 	file = file + '/' + mappingFilePath
 	$.getJSON(file, function(data) {
 		for (const [key, value] of Object.entries(data)) {
@@ -42,7 +42,7 @@ function fillForm(mappingFilePath) {
 
 function putInCache(schemaName, serverURL, viewURL, mappingFilePath) {
 	let putPscContext = {};
-	let file = window.location.href.split('/consultation')[0]
+	let file = window.location.href.split('/patient')[0]
 	file = file + '/' + mappingFilePath
 	$.getJSON(file, function(data) {
 		for (const [key, value] of Object.entries(data)) {

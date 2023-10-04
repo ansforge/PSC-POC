@@ -71,7 +71,7 @@ function putInCache(schemaName, serverURL, viewURL, mappingFilePath) {
 
 function getBearerFormCookie() {
 	let token = getCookie("sts_token");
-	console.log("getBearerFormCookie token: " + token);
+//	console.log("getBearerFormCookie token: " + token.split('.')[1]);
 	if (token == null || token.length < 5) {
 		alert("token non trouvé");
 	}
