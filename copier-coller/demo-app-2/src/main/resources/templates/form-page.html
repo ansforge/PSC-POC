@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Enregistrement d'un nouvau patient</title>
+    <title>Enregistrement d'une consultation</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css"
 	href="./../style/bootstrap.min.css" />
@@ -45,6 +45,102 @@
             <div class="header-principal-right">
                 <div class="header-principal__nav">
                     <div class="navbar navbar-expand-xl navbar-light" tabindex="-1" id="menuPrincipalTarget">
+					<button type="button"
+								class="navbar-toggler btn btn--icon-only btn-icon--header"
+								data-toggle="collapse" data-target="#menuPrincipal"
+								aria-controls="menuPrincipal" aria-expanded="false">
+								<svg class="svg-icon svg-menu" aria-hidden="true"
+									focusable="false">
+                                <use
+										xlink:href="./../svg-icons/icon-sprite.svg#menu"></use>
+                            </svg>
+								<span class="sr-only">Menu</span>
+							</button>
+
+							<div class="collapse navbar-collapse" id="menuPrincipal">
+								<button type="button"
+									class="navbar-toggler-close d-xl-none btn btn--icon-only btn-icon--header"
+									data-toggle="collapse" data-target="#menuPrincipal"
+									aria-controls="menuPrincipal" aria-expanded="false">
+									<svg class="svg-icon svg-close" aria-hidden="true"
+										focusable="false">
+                                    <use
+											xlink:href="./../svg-icons/icon-sprite.svg#close"></use>
+                                </svg>
+									<span class="sr-only">Fermer le menu</span>
+								</button>
+
+								<nav role="navigation" aria-label="Menu principal">
+
+									<ul class="navbar-nav nav-lvl--1">
+										<li class="nav-item is-active common-nav-item"><a
+											class="nav-link" href="./form">Nouveau patient <span
+												class="sr-only">(page courante)</span></a></li>
+									</ul>
+								</nav>
+
+								<ul class="nav-right">
+									<li class="nav-right-item collapse-wrapper common-nav-item">
+										<button type="button"
+											class="btn btn--icon-only btn-icon--header"
+											aria-label="Accessibilité" data-toggle="collapse"
+											data-target="#collapseAccess" aria-controls="collapseAccess"
+											aria-expanded="false">
+											<svg class="svg-icon svg-access" aria-hidden="true"
+												focusable="false">
+                                            <use
+													xlink:href="./../svg-icons/icon-sprite.svg#access"></use>
+                                        </svg>
+											<span class="title-responsive">Accessibilité</span>
+										</button>
+										<div class="collapse nav-collapse nav-collapse--right"
+											id="collapseAccess">
+											<section aria-labelledby="widget-access-title">
+												<h2 class="o-widget-access__intro" id="widget-access-title">Options
+													d'accessibilité</h2>
+
+												<div class="o-widget-access">
+													<div class="form-group form-group-custom-control">
+														<fieldset id="contrast-id">
+															<legend>Contrastes :</legend>
+
+															<div class="o-widget-access__option">
+																<input id="default-c" value="default-c" name="contrast"
+																	checked="checked" type="radio" class="sr-only">
+																<label
+																	class="o-widget-access__label btn btn--ghost btn--primary btn-sm"
+																	for="default-c"><span class="sr-only">Contrastes</span>
+																	Standards</label>
+															</div>
+															<div class="o-widget-access__option">
+																<input id="high-c" value="high-c" name="contrast"
+																	type="radio" class="sr-only"> <label
+																	class="o-widget-access__label btn btn--ghost btn--primary btn-sm"
+																	for="high-c"><span class="sr-only">Contrastes</span>
+																	Renforcés</label>
+															</div>
+														</fieldset>
+													</div>
+												</div>
+											</section>
+										</div>
+									</li>
+									<li class="nav-right-item collapse-wrapper common-nav-item">
+										<button type="button"
+											class="btn btn--icon-only btn-icon--header"
+											aria-label="Mes messages (3)">
+											<svg class="svg-icon svg-mail" aria-hidden="true"
+												focusable="false">
+                                            <use
+													xlink:href="./../svg-icons/icon-sprite.svg#mail"></use>
+                                        </svg>
+											<span class="title-responsive">Mes messages</span>
+										</button>
+									</li>
+								</ul>
+							</div>
+
+					
                         <div class="collapse-wrapper common-nav-item">
                             <button type="button" class="btn btn--icon-only btn-icon--header"
                                     aria-label="Menu utilisateur" data-toggle="collapse" data-target="#collapseUser"
@@ -92,7 +188,7 @@
                 </button>
                 <button type="button" data-toggle="tooltip" data-placement="top" data-html="true"
                         hidden id="contextTooltip">
-                    <svg class="svg-icon svg-question-circle" aria-hidden="true" focusable="false"><use xlink:href="./../../svg-icons/icon-sprite.svg#question-circle"></use></svg>
+                    <svg class="svg-icon svg-question-circle" aria-hidden="true" focusable="false"><use xlink:href="./../svg-icons/icon-sprite.svg#question-circle"></use></svg>
                     <span class="sr-only">Aide</span>
                 </button>
                 <!-- END add prefill button -->
