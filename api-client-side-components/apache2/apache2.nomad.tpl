@@ -295,15 +295,15 @@ SSLEngine on
      STSAcceptSourceTokenIn environment name=OIDC_access_token     
     STSPassTargetTokenIn cookie
   	 ErrorDocument 401 /cc/app1/401.html
-    ProxyPassMatch http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}
-    ProxyPassReverse http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}    
+    ProxyPassMatch http://{{ range service "copier-coller-demo-app-2" }}{{ .Address }}:{{ .Port }}{{ end }}
+    ProxyPassReverse http://{{ range service "copier-coller-demo-app-2" }}{{ .Address }}:{{ .Port }}{{ end }}    
    </Location>     
    
     <Location /secure>
     AuthType openid-connect
     Require valid-user
-    ProxyPassMatch http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}
-    ProxyPassReverse http://{{ range service "copier-coller-demo-app-1" }}{{ .Address }}:{{ .Port }}{{ end }}    
+    ProxyPassMatch http://{{ range service "copier-coller-demo-app-2" }}{{ .Address }}:{{ .Port }}{{ end }}
+    ProxyPassReverse http://{{ range service "copier-coller-demo-app-2" }}{{ .Address }}:{{ .Port }}{{ end }}    
    </Location>     
    
 # A partir de apache 2.2.24 ##########################
