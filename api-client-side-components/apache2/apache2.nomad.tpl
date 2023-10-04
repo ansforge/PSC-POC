@@ -268,7 +268,7 @@ SSLEngine on
 {{ end }}
    OIDCAuthRequestParams acr_values=eidas1
 {{ with secret "editeur/apache2/copiercoller" }}
-   OIDCRedirectURI https://{{ .Data.data.public_app1_hostname }}/secure/patient/first/redirect
+   OIDCRedirectURI https://{{ .Data.data.public_app1_hostname }}/secure/consultation/first/redirect
 
    OIDCCryptoPassphrase 0123456789
    OIDCScope "openid scope_all"
@@ -277,7 +277,7 @@ SSLEngine on
    OIDCCABundlePath /secrets/ssl/ca-certificates.crt
 
    OIDCStateTimeout 120
-   OIDCDefaultURL https://{{ .Data.data.public_app1_hostname }}/secure/patient/first
+   OIDCDefaultURL https://{{ .Data.data.public_app1_hostname }}/secure/consultation/first
 {{ end }}
    OIDCSessionInactivityTimeout 900
    OIDCAuthNHeader X-Remote-User
