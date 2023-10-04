@@ -74,7 +74,7 @@
 
 									<ul class="navbar-nav nav-lvl--1">
 										<li class="nav-item is-active common-nav-item"><a
-											class="nav-link" href="./form">Nouvelle Consultation<span
+											class="nav-link" href="./form">Nouveau patient <span
 												class="sr-only">(page courante)</span></a></li>
 									</ul>
 								</nav>

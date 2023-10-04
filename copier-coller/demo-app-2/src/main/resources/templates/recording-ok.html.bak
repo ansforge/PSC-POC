@@ -178,8 +178,6 @@
     <main class="main" role="main" id="main" tabindex="-1">
         <div class="container">
             <h4>L'enregistrement de la consultation s'est bien déroulé.</h4>
-            <p>Cliquer sur le menu 'consultation' en haut à droite pour accéder à
-					un nouveau formulaire</p>
         </div>
     </main>
 </div>
