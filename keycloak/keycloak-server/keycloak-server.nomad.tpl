@@ -9,6 +9,11 @@ job "keycloak-server" {
 
     datacenters = ["${datacenter}"]
 
+    affinity {
+      attribute = "${node.class}"
+      value     = "standard"
+    }
+
     update {
         stagger = "30s"
         max_parallel = 1
@@ -22,10 +27,6 @@ job "keycloak-server" {
     group "keycloak-server" {
         count = 1
 		
-        affinity {
-          attribute = "${node.class}"
-          value     = "standard"
-        }
         network {
             mode = "host"
             port "http-port" { to = 8080 }

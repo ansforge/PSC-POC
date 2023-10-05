@@ -8,6 +8,11 @@ job "keycloak-db" {
     type = "service"
 
     datacenters = ["${datacenter}"]
+    
+    constraint {
+      attribute = "${node.class}"
+      value     = "data"
+    }
 
     update {
         stagger = "30s"
@@ -21,10 +26,6 @@ job "keycloak-db" {
 	
     group "keycloak-db" {
         count = 1
-        constraint {
-          attribute = "${node.class}"
-          value     = "data"
-        }
         network {
             mode = "host"
             port "psql-port" { to = 5432 }
