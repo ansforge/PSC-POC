@@ -10,7 +10,7 @@ job "keycloak-db" {
     datacenters = ["${datacenter}"]
     
     constraint {
-      attribute = "${node.class}"
+      attribute = "$\u007Bnode.class$\u007D"
       value     = "data"
     }
 

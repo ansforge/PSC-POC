@@ -10,7 +10,7 @@ job "keycloak-server" {
     datacenters = ["${datacenter}"]
 
     affinity {
-      attribute = "${node.class}"
+      attribute = "$$\u007Bnode.class$\u007D"
       value     = "standard"
     }
 
