@@ -9,6 +9,11 @@ job "apache2" {
     change_mode = "restart"
   }
 
+  affinity {
+    attribute = "$\u007Bnode.class\u007D"
+    value     = "standard"
+  }
+
   group "apache2" {
     count = 1
 

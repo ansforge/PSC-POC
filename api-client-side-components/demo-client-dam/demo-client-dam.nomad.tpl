@@ -6,6 +6,10 @@ job "demo-client-dam" {
   namespace = "editeur"
   datacenters = ["${datacenter}"]
   type = "service"
+  affinity {
+   attribute = "$\u007Bnode.class\u007D"
+   value     = "standard"
+  }
 
   vault {
     policies = ["editeur"]
