@@ -14,7 +14,7 @@ job "rass-mongodb" {
     count = 1
 	
     volume "rass-mongo" {
-      type      = "host
+      type      = "host"
       read_only = false
       source    = "rass-mongo"
     }
