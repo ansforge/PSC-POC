@@ -14,7 +14,7 @@ job "rass-mongodb" {
     count = 1
 
     constraint {
-      attribute = "${node.class}"
+      attribute = "$\u007Bnode.class\u007D"
       value     = "data"
    }
 

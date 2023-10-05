@@ -43,7 +43,7 @@ job "cg-mongodb" {
       driver = "docker"
   
       constraint {
-        attribute = "${node.class}"
+        attribute = "$\u007Bnode.class\u007D"
         value     = "data"
       }
       volume_mount {
