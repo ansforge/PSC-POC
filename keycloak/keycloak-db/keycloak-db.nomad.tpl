@@ -21,17 +21,19 @@ job "keycloak-db" {
 	
     group "keycloak-db" {
         count = 1
+        constraint {
+          attribute = "${node.class}"
+          value     = "data"
+        }
         network {
             mode = "host"
             port "psql-port" { to = 5432 }
         }
 		
 		volume "keycloak-db" {
-			type      = "csi"
+			type      = "host"
 			read_only = false
 			source    = "keycloak-db"
-			attachment_mode = "file-system"
-			access_mode     = "single-node-writer"
 		}
 		
         task "keycloak-db" {

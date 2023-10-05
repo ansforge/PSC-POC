@@ -41,6 +41,11 @@ job "cg-mongodb" {
 
     task "cg-mongodb" {
       driver = "docker"
+  
+      constraint {
+        attribute = "${node.class}"
+        value     = "data"
+      }
       volume_mount {
         volume      = "cg-mongo"
         destination = "/data/db"

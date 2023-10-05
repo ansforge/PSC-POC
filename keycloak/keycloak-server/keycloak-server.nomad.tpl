@@ -21,6 +21,11 @@ job "keycloak-server" {
 	
     group "keycloak-server" {
         count = 1
+		
+        affinity {
+          attribute = "${node.class}"
+          value     = "standard"
+        }
         network {
             mode = "host"
             port "http-port" { to = 8080 }

@@ -12,7 +12,12 @@ job "rass-mongodb" {
 
   group "rass-mongodb" {
     count = 1
-	
+
+    constraint {
+      attribute = "${node.class}"
+      value     = "data"
+   }
+
     volume "rass-mongo" {
       type      = "host"
       read_only = false
