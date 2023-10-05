@@ -14,11 +14,9 @@ job "rass-mongodb" {
     count = 1
 	
     volume "rass-mongo" {
-      type      = "csi"
+      type      = "host
       read_only = false
       source    = "rass-mongo"
-	  attachment_mode = "file-system"
-      access_mode     = "single-node-writer"
     }
 
     restart {
