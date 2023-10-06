@@ -11,6 +11,11 @@ job "gravitee-apim-management-ui" {
         max_parallel = 1
     }
 	
+	affinity {
+      attribute = "$\u007Bnode.class\u007D"
+      value     = "standard"
+    } 
+  
 	group "gravitee-logs-ui" {
 		count = "1"
 	   	  

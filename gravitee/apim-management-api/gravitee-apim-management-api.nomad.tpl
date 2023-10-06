@@ -10,6 +10,11 @@ job "gravitee-apim-management-api" {
         stagger = "30s"
         max_parallel = 1
     }
+	
+	affinity {
+      attribute = "$\u007Bnode.class\u007D"
+      value     = "standard"
+    } 
 
     vault {
         policies = ["gravitee"]

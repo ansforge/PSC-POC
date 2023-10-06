@@ -8,15 +8,18 @@ job "gravitee-mongodb" {
     change_mode = "restart"
   }
 
+  constraint {
+    attribute = "$\u007Bnode.class\u007D"
+    value     = "data"
+   }
+
   group "gravitee-mongodb" {
     count = 1
     
-    volume "gravitee-mongo" {
-      type      = "csi"
+    volume "gravitee-mongodb" {
+      type      = "host"
       read_only = false
       source    = "gravitee-mongodb"
-      attachment_mode = "file-system"
-      access_mode     = "single-node-writer"
     }
 
     restart {
@@ -45,7 +48,7 @@ job "gravitee-mongodb" {
     task "gravitee-mongodb" {
       driver = "docker"
       volume_mount {
-        volume      = "gravitee-mongo"
+        volume      = "gravitee-mongodb"
         destination = "/data/db"
         read_only   = false
       }

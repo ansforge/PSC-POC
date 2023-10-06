@@ -5,6 +5,11 @@ job "gravitee-apim-gateway" {
     type = "service"
 
     datacenters = ["${datacenter}"]
+	
+	affinity {
+      attribute = "$\u007Bnode.class\u007D"
+      value     = "standard"
+    } 
 
     update {
         stagger = "30s"
