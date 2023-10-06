@@ -17,7 +17,7 @@ job "gravitee-apim-management-api" {
     } 
 
     vault {
-        policies = ["gravitee"]
+        policies = ["gravitee", "mailing"]
         change_mode = "restart"
     }
 	
