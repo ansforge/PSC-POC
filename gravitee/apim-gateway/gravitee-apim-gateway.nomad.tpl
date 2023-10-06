@@ -175,6 +175,15 @@ gravitee_services_metrics_enabled=true
 _JAVA_OPTIONS="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=0.0.0.0:5005"
 # Le heartbeat est en doublon avec Nomad et se marie mal avec l'allocation dynamique
 gravitee_services_heartbeat_enabled=false
+# mailing
+{{ with secret "mailing/config" }}
+gravitee.email.host={{ .Data.data.smtp }}
+gravitee.email.port={{ .Data.data.port }}
+gravitee.email.from=noreply@esante.gouv.fr
+gravitee.email.subject="POCs ANS Scaleway: Gravitee.io"
+gravitee.email.username={{ .Data.data.user }}
+gravitee.email.password={{ .Data.data.password }}
+{{ end }}  
 EOD
                 destination = "secrets/.env"
                 env = true
