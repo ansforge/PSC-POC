@@ -6,7 +6,10 @@ job "esignsante-psc" {
 		policies = ["esignsante"]
 		change_mode = "restart"
 	}
-
+    affinity {
+      attribute = "$\u007Bnode.class\u007D"
+      value     = "standard"
+    }  
 	group "esignsante-psc" {
 		count = "1"
 		restart {

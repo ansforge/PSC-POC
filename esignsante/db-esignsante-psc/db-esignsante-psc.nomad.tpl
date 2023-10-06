@@ -7,14 +7,14 @@ job "db-esignsante-psc" {
 		policies = ["esignsante"]
 		change_mode = "restart"
 	}
+	
+	constraint {
+      attribute = "$\u007Bnode.class\u007D"
+      value     = "data"
+    }
 
 	group "esignsante-mongodb" {
 		count = "1"
-		# install only on "data" nodes
-#		constraint {
-#			attribute = "$\u007Bnode.class\u007D"
-#			value     = "data"
-#		}
 		restart {
 			attempts = 3
 			delay = "60s"
@@ -24,14 +24,11 @@ job "db-esignsante-psc" {
 		network {
 			port "db" { to = 27017 }
 		}
-	
-		
+			
         volume "esignsante" {
-          type      = "csi"
+          type      = "host"
           read_only = false
           source    = "esignsante"
-	      attachment_mode = "file-system"
-          access_mode     = "single-node-writer"
         }
 		
 		task "db-esignsante-psc" {
