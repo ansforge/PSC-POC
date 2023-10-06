@@ -16,7 +16,7 @@ job "gravitee-mongodb" {
   group "gravitee-mongodb" {
     count = 1
     
-    volume "gravitee-mongodb" {
+    volume "gravitee-mongo" {
       type      = "host"
       read_only = false
       source    = "gravitee-mongodb"
@@ -27,11 +27,6 @@ job "gravitee-mongodb" {
       delay = "60s"
       interval = "1h"
       mode = "fail"
-    }
-
-    constraint {
-      attribute = "$\u007Bnode.class\u007D"
-      value     = "data"
     }
 
     update {
@@ -48,7 +43,7 @@ job "gravitee-mongodb" {
     task "gravitee-mongodb" {
       driver = "docker"
       volume_mount {
-        volume      = "gravitee-mongodb"
+        volume      = "gravitee-mongo"
         destination = "/data/db"
         read_only   = false
       }
