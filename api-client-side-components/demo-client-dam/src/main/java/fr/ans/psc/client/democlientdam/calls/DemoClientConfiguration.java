@@ -33,9 +33,6 @@ public class DemoClientConfiguration {
 	@Value("${dam.api.path}")
 	private String damReaderPath;
 
-	@Value("${dam.api.key}")
-	private String damApiKey;
-
 	@Value("${client.poc.keystore.location}")
 	private String keystoreLocation;
 

@@ -6,6 +6,10 @@ job "demo-client-dam" {
   namespace = "editeur"
   datacenters = ["${datacenter}"]
   type = "service"
+  affinity {
+   attribute = "$\u007Bnode.class\u007D"
+   value     = "standard"
+  }
 
   vault {
     policies = ["editeur"]
@@ -37,7 +41,7 @@ job "demo-client-dam" {
     task "demo-client-dam" {
       driver = "docker"
       config {
-	    extra_hosts = ["gateway.pocs.psc.esante.gouv.fr:$${NOMAD_IP_http}"]
+	    extra_hosts = ["gateway.psc.pocs.esante.gouv.fr:$${NOMAD_IP_http}"]
         image = "${artifact.image}:${artifact.tag}"
         ports = ["http"]
       }
@@ -57,6 +61,7 @@ EOH
 spring.application.name=demo-client-dam
 server.servlet.context-path=/secure
 server.use-forward-headers=true
+server.max-http-header-size=20KB
 server.forward-headers-strategy=NATIVE
 server.tomcat.protocol-header=X-Forwarded-Proto
 dam.api.key={{ with secret "editeur/demo-client-dam" }}{{ .Data.data.dam_api_key }}{{ end }}

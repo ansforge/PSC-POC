@@ -1,3 +1,7 @@
+#
+# (c) Copyright 2023, ANS. All rights reserved.
+#
+
 job "copier-coller-demo-app-1" {
   datacenters = ["${datacenter}"]
   type = "service"
@@ -32,6 +36,7 @@ job "copier-coller-demo-app-1" {
       driver = "docker"
 
       config {
+	    extra_hosts = ["gateway.psc.pocs.esante.gouv.fr:$${NOMAD_IP_http}"]
         image = "${artifact.image}:${artifact.tag}"
         ports = ["http"]
       }
@@ -51,36 +56,33 @@ EOH
         destination = "secrets/application.properties"
         change_mode = "restart"
         data = <<EOF
-psc.context.sharing.api.url=http://{{ range service "copier-coller-api"}}{{ .Address }}:{{ .Port }}{{ end }}/cc-api/cache
-
-{{ with secret "copier-coller/app" }}
-spring.security.oauth2.client.registration.prosanteconnect.clientId={{ .Data.data.psc_client_id}}
-spring.security.oauth2.client.registration.prosanteconnect.clientSecret={{ .Data.data.psc_client_secret}}
-spring.security.oauth2.client.registration.prosanteconnect.provider=prosanteconnect
-spring.security.oauth2.client.registration.prosanteconnect.authorization-grant-type=authorization_code
-spring.security.oauth2.client.registration.prosanteconnect.client-name=prosanteconnect
-
-
-
+spring.application.name=app1-copier-coller
+server.servlet.context-path=/secure
+psc.context.sharing.api.url=https://gateway.psc.pocs.esante.gouv.fr:19587/copier-coller/cc-api/cache
 server.use-forward-headers=true
 server.forward-headers-strategy=NATIVE
 server.tomcat.protocol-header=X-Forwarded-Proto
-spring.security.oauth2.client.registration.prosanteconnect.redirect-uri=https://application-1.pocs.gateway.esante.gouv.fr/login/oauth2/code/prosanteconnect
-spring.security.oauth2.client.pre-established-redirect-uri=https://application-1.pocs.gateway.esante.gouv.fr/login/oauth2/code/prosanteconnect
-spring.security.oauth2.client.registered-redirect-uri=https://application-1.pocs.gateway.esante.gouv.fr/login/oauth2/code/prosanteconnect
-spring.security.oauth2.client.use-current-uri=false
-
-
-spring.security.oauth2.client.registration.prosanteconnect.scope=scope_all
-spring.security.oauth2.client.registration.prosanteconnect.client-authentication-method=client_secret_post
-
-spring.security.oauth2.client.provider.prosanteconnect.authorization-uri=https://wallet.bas.psc.esante.gouv.fr/auth
-spring.security.oauth2.client.provider.prosanteconnect.token-uri=https://auth.bas.psc.esante.gouv.fr/auth/realms/esante-wallet/protocol/openid-connect/token
-spring.security.oauth2.client.provider.prosanteconnect.user-info-uri=https://auth.bas.psc.esante.gouv.fr/auth/realms/esante-wallet/protocol/openid-connect/userinfo
-spring.security.oauth2.client.provider.prosanteconnect.user-name-attribute=preferred_username
-spring.security.oauth2.client.provider.prosanteconnect.jwk-set-uri=https://auth.bas.psc.esante.gouv.fr/auth/realms/esante-wallet/protocol/openid-connect/certs
-{{ end }}
+server.max-http-header-size=20KB
+client.poc.keystore.location=/secrets/keystore.jks
+client.poc.keystore.password={{ with secret "copier-coller/app" }}{{ .Data.data.client_poc_keystore_password }}{{ end }}
+client.poc.truststore.location=/local/truststore.jks
 EOF
+      }
+
+     template {
+        destination = "secrets/keystore.jks"
+        change_mode = "restart"
+        data = <<EOH
+{{ with secret "copier-coller/app" }}{{base64Decode .Data.data.client_poc_keystore_base64 }}{{ end }}
+EOH
+      }
+	  
+      template {
+        destination = "local/truststore.jks"
+        change_mode = "restart"
+        data = <<EOH
+{{ with secret "copier-coller/app" }}{{base64Decode .Data.data.client_poc_truststore_base64 }}{{ end }}
+EOH
       }
 
       resources {
@@ -90,11 +92,11 @@ EOF
 
       service {
         name = "$\u007BNOMAD_JOB_NAME\u007D"
-        tags = ["urlprefix-$\u007BPUBLIC_HOSTNAME\u007D"]
+        tags = ["urlprefix-/app1-copier-coller"]
         port = "http"		
         check {
           type = "http"
-          path = "/insecure/check"
+          path = "secure/check"
           port = "http"
           interval = "30s"
           timeout = "2s"

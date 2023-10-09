@@ -1,52 +1,86 @@
+/*
+ * (c) Copyright 2023, ANS. All rights reserved.
+ */
 let pscContext;
 
-function getFromCache(serverUrl) {
-    $.get(serverUrl, function (data) {
-        console.log(data)
-        if (data !== null && data !== "") {
-            pscContext = data;
-            const btnPreFill = $("#btnPreFill");
-            const contextTooltip = $('#contextTooltip')
+function getFromCache(serverURL) {
+	let bearer = getBearerFormCookie();
 
-            btnPreFill.removeAttr("hidden");
-            contextTooltip.removeAttr('hidden')
-            document.getElementById('contextTooltip').setAttribute(
-                'title', JSON.stringify(pscContext, null, 2))
-        }
-    });
+	$.ajax({
+		url: '../share',
+		headers: { "Authorization": bearer },
+		type: 'GET'
+	})
+		.done(function(data) {
+			if (data !== null && data !== '') {
+				pscContext = data;
+				const btnPreFill = $('#btnPreFill');
+				const contextTooltip = $('#contextTooltip')
+
+				btnPreFill.removeAttr('hidden');
+				contextTooltip.removeAttr('hidden')
+				document.getElementById('contextTooltip').setAttribute(
+					'title', JSON.stringify(pscContext, null, 2))
+			}
+		})
+		.fail(function(jqXHR, textStatus, errorThrown) {
+			//alert("La lecture du cache a achou� .\n\n Erreur: " + jqXHR.status +"\n\n Message: " + jqXHR.responseText)				
+		})
 }
 
 function fillForm(mappingFilePath) {
-    $.getJSON(window.location.origin + mappingFilePath, function(data) {
-        for (const [key, value] of Object.entries(data)) {
-            if (document.getElementById(key)) {
-                $('#' + key).val(_.get(pscContext, value, ''))
-            }
-        }
-    })
+	let file = window.location.href.split('/consultation')[0]
+	file = file + '/' + mappingFilePath
+	$.getJSON(file, function(data) {
+		for (const [key, value] of Object.entries(data)) {
+			if (document.getElementById(key)) {
+				$('#' + key).val(_.get(pscContext, value, ''))
+			}
+		}
+	})
 }
 
-function putInCache(schemaName, serverUrl, viewURL, mappingFilePath) {
-    let putPscContext = {};
+function putInCache(schemaName, serverURL, viewURL, mappingFilePath) {
+	let putPscContext = {};
+	let file = window.location.href.split('/consultation')[0]
+	file = file + '/' + mappingFilePath
+	$.getJSON(file, function(data) {
+		for (const [key, value] of Object.entries(data)) {
+			if (document.getElementById(key)) {
+				_.set(putPscContext, value, document.getElementById(key).value)
+			}
+		}
+		_.set(putPscContext, 'schemaId', schemaName);
 
-    $.getJSON(window.location.origin + mappingFilePath, function (data) {
-        for (const [key, value] of Object.entries(data)) {
-            if (document.getElementById(key)) {
-                _.set(putPscContext, value, document.getElementById(key).value)
-            }
-        }
-        _.set(putPscContext, "schemaId", schemaName)
+		let bearer = getBearerFormCookie();
 
-        $.ajax({
-            url: serverUrl,
-            type: 'PUT',
-            dataType: 'json',
-            contentType: 'application/json',
-            data: JSON.stringify(putPscContext)
-        })
-            .done(function(data) { window.location.href=viewURL })
-            .fail(function(jqXHR, textStatus, errorThrown) { window.location.href=viewURL})
-    })
+		$.ajax({
+			url: '../share',
+			headers: { "Authorization": bearer },
+			type: 'PUT',
+			dataType: 'json',
+			contentType: 'application/json',
+			data: JSON.stringify(putPscContext)
+		})
+			.done(function(data) { window.location.href = viewURL })
+			.fail(function(jqXHR, textStatus, errorThrown) {
+				alert("L'enregistrement des donn�es a �chou�.\n\n Erreur: " + jqXHR.status + "\n\n Message: " + jqXHR.responseText)
+			})
+	})
 }
 
+function getBearerFormCookie() {
+	let token = getCookie("sts_token");
+	//	console.log("getBearerFormCookie token: " + token.split('.')[1]);
+	if (token == null || token.length < 5) {
+		alert("token non trouv�");
+	}
+	return "Bearer " + token;
+}
+
+function getCookie(name) {
+	const value = `; ${document.cookie}`;
+	const parts = value.split(`; ${name}=`);
+	if (parts.length === 2) return parts.pop().split(';').shift();
+}
 

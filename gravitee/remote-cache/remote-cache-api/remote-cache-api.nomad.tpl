@@ -12,6 +12,7 @@ job "remote-cache-api" {
     attribute = "$\u007Bnode.class\u007D"
     value = "standard"
   }
+  
 
   group "remote-cache" {
     count = "1"

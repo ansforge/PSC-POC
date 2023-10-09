@@ -41,9 +41,7 @@ public class CacheController {
     private ObjectMapper mapper = new ObjectMapper();
 
     private static String CACHE_KEY_HEADER= "X-CACHE-KEY";
-    private static Long SHORT_TIME_TO_LIVE = 900L; // en second (900s = 15 mn)
-    private static Long LONG_TIME_TO_LIVE = 14400L; //(14400s = 4h)
-    private static String SCHEMA_PSC_DATA = "psc-data"; 
+    private static Long TIME_TO_LIVE = 900L; // en second (900s = 15 mn)
     
     @GetMapping()
     public ResponseEntity<DataWrapper> getDataCached() throws JsonMappingException, JsonProcessingException {
@@ -63,15 +61,12 @@ public class CacheController {
         try {
             log.debug("Put cache requested");
             String key = getKeyOfCache();
-            Long timeToLIve = SHORT_TIME_TO_LIVE;
+            log.debug("PS key is {}", key);
             String schemaId = wrapper.getSchemaId();
-            if (schemaId.startsWith(SCHEMA_PSC_DATA)) {
-            	timeToLIve = LONG_TIME_TO_LIVE;
-            }
           
             String jsonBag = mapper.writeValueAsString(wrapper.getBag());
-            log.debug("PUT request for TTL : {}, schemaID: {}, key: {}; jsonBag {}", timeToLIve, schemaId, key, jsonBag);            
-            RedisDataWrapper toStore = new RedisDataWrapper(key, wrapper.getSchemaId(), jsonBag,timeToLIve );
+            log.debug("PUT request for TTL : {}, schemaID: {}, key: {}; jsonBag {}", TIME_TO_LIVE, schemaId, key, jsonBag);            
+            RedisDataWrapper toStore = new RedisDataWrapper(key, wrapper.getSchemaId(), jsonBag,TIME_TO_LIVE );
             DataWrapper savedContext = cacheService.putInCache(toStore);
             return new ResponseEntity<>(savedContext, HttpStatus.OK);
         } catch (PscContextSharingException e) {

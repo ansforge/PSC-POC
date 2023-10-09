@@ -8,6 +8,11 @@ job "keycloak-db" {
     type = "service"
 
     datacenters = ["${datacenter}"]
+    
+    constraint {
+      attribute = "$\u007Bnode.class\u007D"
+      value     = "data"
+    }
 
     update {
         stagger = "30s"
@@ -26,12 +31,10 @@ job "keycloak-db" {
             port "psql-port" { to = 5432 }
         }
 		
-		volume "keycloak-db-volume" {
-			type      = "csi"
+		volume "keycloak-db" {
+			type      = "host"
 			read_only = false
 			source    = "keycloak-db"
-			attachment_mode = "file-system"
-			access_mode     = "single-node-writer"
 		}
 		
         task "keycloak-db" {
@@ -39,7 +42,7 @@ job "keycloak-db" {
             driver = "docker"
 			
 			volume_mount {
-				volume      = "keycloak-db-volume"
+				volume      = "keycloak-db"
 				destination = "/var/lib/postgresql/data"
 				read_only   = false
 			}

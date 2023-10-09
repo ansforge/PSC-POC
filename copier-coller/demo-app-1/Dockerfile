@@ -1,3 +1,7 @@
+#
+# (c) Copyright 2023, ANS. All rights reserved.
+#
+
 FROM maven:3-jdk-11 AS build
 COPY demo-app-1/src /usr/src/app/src
 COPY demo-app-1/pom.xml /usr/src/app

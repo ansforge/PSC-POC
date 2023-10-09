@@ -14,11 +14,9 @@ job "cg-mongodb" {
     count = 1
 
      volume "cg-mongo" {
-        type      = "csi"
+        type      = "host"
         read_only = false
         source    = "cg-mongo"
-        attachment_mode = "file-system"
-        access_mode     = "single-node-writer"
     }
 
     restart {
@@ -43,6 +41,11 @@ job "cg-mongodb" {
 
     task "cg-mongodb" {
       driver = "docker"
+  
+      constraint {
+        attribute = "$\u007Bnode.class\u007D"
+        value     = "data"
+      }
       volume_mount {
         volume      = "cg-mongo"
         destination = "/data/db"

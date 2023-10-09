@@ -27,12 +27,16 @@ public class ProsanteConnected {
 		log.debug("Demande de page d'accueil d'un utilisateur prosanté connecté");
 		
 		/*
-		 * Lecture des headers (données renvoyées par le serveur uniquement dans le cadre d'une démontsration). 
+		 * Lecture des headers (données renvoyées par le serveur uniquement dans le cadre d'une démonstration).  
 		 */
 		MultiValueMap<String, String> map = Helper.logRequestHeaders(request);
-		MultiValueMap<String, String> filetredMap = Helper.filtredMap(map);
-		model.addAttribute("mapHeaders",filetredMap);
 
+		/*
+		 * Identité Prosante Connect
+		 */
+	    String fullName = Helper.getFullName (map);
+		model.addAttribute("user", fullName);
+		
 		/*
 		 * Récupération du token et de ses caractéristiques ...
 		 */

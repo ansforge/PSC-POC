@@ -68,7 +68,6 @@ public class Helper {
 		return splitedDecodedToken;
 	}
 
-	
 	public static Token extractTokenObjectFromDecodedSplitedToken(Triplet<String, String, String> splitedDecodedToken)
 			throws JsonMappingException, JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
@@ -84,7 +83,7 @@ public class Helper {
 		return date;
 	}
 
-	public static MultiValueMap<String,String> logRequestHeaders(HttpServletRequest request) {
+	public static MultiValueMap<String, String> logRequestHeaders(HttpServletRequest request) {
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
 		Enumeration<String> headersName = request.getHeaderNames();
 		Iterator<String> iHeaderNames = headersName.asIterator();
@@ -93,32 +92,38 @@ public class Helper {
 			String value = request.getHeader(tmp);
 			map.add(tmp, value);
 			if (!tmp.equalsIgnoreCase("oidc_access_token")) {
-			log.debug("\t" + tmp + ": " + value);
+				log.debug("\t" + tmp + ": " + value);
 			}
 		}
 		return map;
 	}
-	
+
 	/*
 	 * EXtrait la valeur d'un champ IN d'un json
 	 */
-	public static String valueOfIntFieldLocalDateTime (String fieldName, String json) {
-		 JSONObject jsonObj = new JSONObject(json);
-	      return Integer.toString(jsonObj.getInt(fieldName));
-	      }
-	
-  public static MultiValueMap<String, String> filtredMap (MultiValueMap<String,String> map) {
-	  MultiValueMap<String, String> filteredMap = new LinkedMultiValueMap<String, String>();
-	  
-	  for (Entry<String, List<String>> data : map.entrySet()) {
-	      if(data.getKey().startsWith("oidc_claim") 
-	    		  || data.getKey().startsWith("x-") 
-	    		//  || data.getKey().startsWith("oidc_access")
-	    		  || data.getKey().startsWith("authorization")
-	    		  ){
-	    	  filteredMap.put(data.getKey(), data.getValue());
-	      }
-	  }
-	  return filteredMap;
-  }
+	public static String valueOfIntFieldLocalDateTime(String fieldName, String json) {
+		JSONObject jsonObj = new JSONObject(json);
+		return Integer.toString(jsonObj.getInt(fieldName));
+	}
+
+	public static MultiValueMap<String, String> filtredMap(MultiValueMap<String, String> map) {
+		MultiValueMap<String, String> filteredMap = new LinkedMultiValueMap<String, String>();
+
+		for (Entry<String, List<String>> data : map.entrySet()) {
+			if (data.getKey().startsWith("oidc_claim") || data.getKey().startsWith("x-")
+			// || data.getKey().startsWith("oidc_access")
+					|| data.getKey().startsWith("authorization")) {
+				filteredMap.put(data.getKey(), data.getValue());
+			}
+		}
+		return filteredMap;
+	}
+
+	public static String getFullName(MultiValueMap<String, String> map) {
+		String firstName = map.getFirst("oidc_claim_given_name");
+		firstName = (firstName != null) ? firstName : "-";
+		String lastName = map.getFirst("oidc_claim_family_name");
+		lastName = (lastName != null) ? lastName : "X";
+		return firstName.concat(lastName);
+	}
 }

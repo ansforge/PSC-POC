@@ -11,6 +11,11 @@ job "gravitee-apim-portal-ui" {
         max_parallel = 1
     }
 	
+	affinity {
+      attribute = "$\u007Bnode.class\u007D"
+      value     = "standard"
+    } 
+	
 	group "gravitee-apim-portal-ui" {
 		count = "1"
 		restart {

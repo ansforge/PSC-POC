@@ -6,6 +6,11 @@ job "gravitee-elasticsearch" {
 
     datacenters = ["${datacenter}"]
 
+    constraint {
+      attribute = "$\u007Bnode.class\u007D"
+      value     = "data"
+    }
+	
     update {
         stagger = "30s"
         max_parallel = 1
@@ -20,11 +25,9 @@ job "gravitee-elasticsearch" {
         count = 1       
     
         volume "gravitee-elasticsearch" {
-          type      = "csi"
+          type      = "host"
 		  read_only = false
           source    = "gravitee-elasticsearch"
-		  attachment_mode = "file-system"
-          access_mode     = "single-node-writer"
         }
     
         network {

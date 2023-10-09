@@ -10,9 +10,14 @@ job "gravitee-apim-management-api" {
         stagger = "30s"
         max_parallel = 1
     }
+	
+	affinity {
+      attribute = "$\u007Bnode.class\u007D"
+      value     = "standard"
+    } 
 
     vault {
-        policies = ["gravitee"]
+        policies = ["gravitee", "mailing"]
         change_mode = "restart"
     }
 	
@@ -95,6 +100,16 @@ gravitee_newsletter_enabled=false
 gravitee.gateway.unknown.expire.after=1
 # Fermeture de l'API interne APIM qui n'est pas utilisée.
 gravitee_service_core_http_enabled=false
+
+# mailing
+{{ with secret "mailing/config" }}
+gravitee.email.host={{ .Data.data.smtp }}
+gravitee.email.port={{ .Data.data.port }}
+gravitee.email.from=noreply@esante.gouv.fr
+gravitee.email.subject="POCs ANS Scaleway: Gravitee.io"
+gravitee.email.username={{ .Data.data.user }}
+gravitee.email.password={{ .Data.data.password }}
+{{ end }}  
 EOD
                 destination = "secrets/.env"
                 env = true

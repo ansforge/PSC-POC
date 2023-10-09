@@ -58,8 +58,10 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>			
-		</dependency>		
+			<artifactId>httpclient</artifactId>
+		</dependency>
+		<!-- UI -->
+	
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -100,13 +102,13 @@
 				<configuration>
 					<header>licence-header.txt</header>
 					<excludes>
-					<exclude>**/vendor.js</exclude>
-					<exclude>**/jquery*</exclude>
-					<exclude>**/*.map</exclude>
-					<exclude>**/print.css</exclude>
-					<exclude>**/json-viewer.js</exclude>
-					<exclude>**/json-viewer.css</exclude>
-					<exclude>**/sprite.symbol.html</exclude>
+						<exclude>**/vendor.js</exclude>
+						<exclude>**/jquery*</exclude>
+						<exclude>**/*.map</exclude>
+						<exclude>**/print.css</exclude>
+						<exclude>**/json-viewer.js</exclude>
+						<exclude>**/json-viewer.css</exclude>
+						<exclude>**/sprite.symbol.html</exclude>
 					</excludes>
 					<mapping>
 						<hcl>SCRIPT_STYLE</hcl>

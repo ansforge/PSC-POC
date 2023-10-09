@@ -2,6 +2,10 @@ job "esignsante-webservices" {
         namespace = "esignsante"	    
         datacenters = ["${datacenter}"]
         type = "service"
+	    affinity {
+          attribute = "$\u007Bnode.class\u007D"
+          value     = "standard"
+        }  
         vault {
                 policies = ["esignsante"]
                 change_mode = "noop"

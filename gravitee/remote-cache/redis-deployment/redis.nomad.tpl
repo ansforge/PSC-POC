@@ -10,6 +10,11 @@ job "redis-remote-cache" {
       "remote-cache"]
     change_mode = "restart"
   }
+  
+  affinity {
+    attribute = "$\u007Bnode.class\u007D"
+    value     = "standard"
+  } 
 
   group "remote-cache" {
     count = "1"

@@ -12,13 +12,16 @@ job "rass-mongodb" {
 
   group "rass-mongodb" {
     count = 1
-	
+
+    constraint {
+      attribute = "$\u007Bnode.class\u007D"
+      value     = "data"
+   }
+
     volume "rass-mongo" {
-      type      = "csi"
+      type      = "host"
       read_only = false
       source    = "rass-mongo"
-	  attachment_mode = "file-system"
-      access_mode     = "single-node-writer"
     }
 
     restart {

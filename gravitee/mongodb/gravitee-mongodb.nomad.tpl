@@ -8,15 +8,18 @@ job "gravitee-mongodb" {
     change_mode = "restart"
   }
 
+  constraint {
+    attribute = "$\u007Bnode.class\u007D"
+    value     = "data"
+   }
+
   group "gravitee-mongodb" {
     count = 1
     
     volume "gravitee-mongo" {
-      type      = "csi"
+      type      = "host"
       read_only = false
       source    = "gravitee-mongodb"
-      attachment_mode = "file-system"
-      access_mode     = "single-node-writer"
     }
 
     restart {
@@ -24,11 +27,6 @@ job "gravitee-mongodb" {
       delay = "60s"
       interval = "1h"
       mode = "fail"
-    }
-
-    constraint {
-      attribute = "$\u007Bnode.class\u007D"
-      value     = "data"
     }
 
     update {
