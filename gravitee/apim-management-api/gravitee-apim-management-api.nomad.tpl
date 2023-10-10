@@ -108,12 +108,13 @@ gravitee.email.host={{ .Data.data.smtp }}
 gravitee.email.port={{ .Data.data.port }}
 gravitee.email.from={{ .Data.data.from }}
 gravitee.email.username={{ .Data.data.user }}
-gravitee.email.password={{ .Data.data.password }}
+gravitee.email.password={{ .Data.data.password }}{{ end }}  
+gravitee.email.subject={{ with secret "gravitee/apim" }}{{ .Data.data.mail_subject }}{{ end }}  
+{{ with secret "mailing/config" }}
 gravitee.email.properties.auth=true
-gravitee.email.properties.starttls={{ .Data.data.starttls }}
+gravitee.email.properties.starttls.enable={{ .Data.data.starttls }}
 gravitee.email.properties.ssl.trust={{ .Data.data.smtp }}
 {{ end }}  
-gravitee.email.subject={{ with secret "gravitee/apim" }}{{ .Data.data.mail_subject }}{{ end }}  
 EOD
                 destination = "secrets/.env"
                 env = true
