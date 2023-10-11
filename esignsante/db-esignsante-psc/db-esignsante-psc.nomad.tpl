@@ -69,13 +69,14 @@ EOH
                   port         = "db"
                }
 				check {
-				  type = "script"
-				  command = "sh"
-                  args = [
-                  "-c",
-                  "if [ \"$(mongosh --quiet --eval 'db.isMaster().ismaster')\" = \"true\" ]; then exit 0; else exit 2; fi"
-                 ]
-                  interval = "30s"
+				  name         = "db request"   
+				  type         = "script"
+				  command      = "/bin/bash"
+                  args         = [
+                    "-c",
+                    "if [ \"$(mongosh --quiet --eval 'db.isMaster().ismaster')\" = \"true\" ]; then exit 0; else exit 2; fi"
+                  ]
+                  interval     = "30s"
                   timeout      = "5s"
                   failures_before_critical = 5                 
                }	
