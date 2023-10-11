@@ -102,8 +102,8 @@ gravitee.gateway.unknown.expire.after=1
 gravitee_service_core_http_enabled=false
 
 # mailing
+gravitee.email.enabled={{ with secret "gravitee/apim" }}{{ .Data.data.email_enabled }}{{ end }}  
 {{ with secret "mailing/config" }}
-gravitee.email.enabled=true
 gravitee.email.host={{ .Data.data.smtp }}
 gravitee.email.port={{ .Data.data.port }}
 gravitee.email.from={{ .Data.data.from }}
