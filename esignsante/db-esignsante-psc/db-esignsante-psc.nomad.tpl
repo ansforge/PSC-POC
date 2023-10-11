@@ -76,7 +76,8 @@ EOH
                     "-c",
                     "if [ \"$(mongosh --quiet --eval 'db.isMaster().ismaster')\" = \"true\" ]; then exit 0; else exit 2; fi"
                   ]
-                  interval     = "30s"             
+                  interval     = "30s"          
+                  timeout      = "5s"				  
                }	
 			}
 		}
