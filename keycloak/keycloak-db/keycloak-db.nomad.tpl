@@ -78,6 +78,17 @@ job "keycloak-db" {
                     timeout      = "5s"
                     port         = "psql-port"
                 }
+			    check {
+	              name         = "db request"   
+		          type         = "script"
+		          command      = "/bin/bash"
+                  args         = [
+                    "-c",
+                    "if [ \"$(psql -dkeycloak-db -Uroot -X -A -w -t -q -c "SELECT datname FROM pg_database WHERE datname='keycloak-db';")\" = \"keycloak-db\" ]; then exit 0; else exit 2; fi"
+                   ]
+                  interval     = "30s"          
+                  timeout      = "5s"				  
+                }	
             }
         }
     }
