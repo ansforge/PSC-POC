@@ -90,7 +90,7 @@ EOF
 				memory = ${esignsantefsepsc_appserver_mem_size}
 			}
 			service {
-				name = "$\u007BNOMAD_NAMESPACE\u007D-$\u007BNOMAD_JOB_NAME\u007D"
+				name = "$\u007BNOMAD_JOB_NAME\u007D"
 				meta {
 				       gravitee_path = "/esignsante-psc"
 				       gravitee_ssl = false
@@ -114,7 +114,7 @@ EOF
 				name = "metrics-exporter"
 				port = "http"
 				tags = ["_endpoint=/esignsante-psc/actuator/prometheus",
-								"_app=esignsante-esignsante-psc",]
+								"_app=esignsante-psc",]
 			}
 		}
 	}
