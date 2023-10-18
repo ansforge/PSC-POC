@@ -114,7 +114,7 @@ EOF
 				name = "metrics-exporter"
 				port = "http"
 				tags = ["_endpoint=/esignsante-psc/actuator/prometheus",
-								"_app=esignsante-psc",]
+								"_app=esignsante-esignsante-psc",]
 			}
 		}
 	}
