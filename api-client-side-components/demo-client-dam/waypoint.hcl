@@ -12,7 +12,7 @@ runner {
   enabled = true
   profile = "psc-pocs"
   data_source "git" {
-    url = "https://github.com/prosanteconnect/proof-of-concept.git"
+    url = "https://github.com/PSC-POC/proof-of-concept.git"
 	path = "api-client-side-components/demo-client-dam"
 	ignore_changes_outside_path = true
     ref = "main"
