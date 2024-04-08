@@ -32,7 +32,7 @@ job "copier-coller-api" {
     task "api" {
       driver = "docker"
       artifact {
-        source = "https://github.com/prosanteconnect/proof-of-concept/raw/main/copier-coller/resources/json-schemas.zip"
+        source = "https://github.com/ansforge/PSC-POC/raw/main/copier-coller/resources/json-schemas.zip"
       }
 
       config {

@@ -303,7 +303,7 @@
    <repository>
      <id>github</id>
      <name>GitHub prosanteconnect</name>
-     <url>https://maven.pkg.github.com/prosanteconnect/proof-of-concept/</url>
+     <url>https://maven.pkg.github.com/ansforge/PSC-POC/</url>
    </repository>
 </distributionManagement> 
 

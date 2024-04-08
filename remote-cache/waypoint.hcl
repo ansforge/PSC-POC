@@ -4,7 +4,7 @@ runner {
   enabled = true
   profile = "psc-pocs"
   data_source "git" {
-    url = "https://github.com/prosanteconnect/proof-of-concept.git"
+    url = "https://github.com/ansforge/PSC-POC.git"
     ref = "main"
     path = "remote-cache/"
 	ignore_changes_outside_path = true

@@ -38,7 +38,7 @@ job "keycloak-server" {
             driver = "docker"
 			
 			artifact {
-				source = "https://github.com/prosanteconnect/proof-of-concept/raw/main/keycloak/keycloak-server/truststore.bcfks"
+				source = "https://github.com/ansforge/PSC-POC/raw/main/keycloak/keycloak-server/truststore.bcfks"
 			}
 			
 			artifact {

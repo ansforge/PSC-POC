@@ -7,7 +7,7 @@ runner {
     enabled = true   
     profile = "gravitee"
     data_source "git" {
-        url  = "https://github.com/prosanteconnect/proof-of-concept.git"
+        url  = "https://github.com/ansforge/PSC-POC.git"
         ref  = "main"
         path = "gravitee/apim-portal-ui"
         ignore_changes_outside_path = true

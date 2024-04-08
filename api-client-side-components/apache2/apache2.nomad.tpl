@@ -41,14 +41,14 @@ job "apache2" {
       
       #Pages Données Améli (accueil utilisateur non connecté, erreurs )
       artifact {
-        source = "https://github.com/prosanteconnect/proof-of-concept/raw/main/api-client-side-components/demo-client-dam/PagesApache/dam.zip"
+        source = "https://github.com/ansforge/PSC-POC/raw/main/api-client-side-components/demo-client-dam/PagesApache/dam.zip"
         destination = "local/dam"
         mode = "any"
         }
 
 	  #Pages COPIER-COLLER (accueil app1 et app2, erreurs )
       artifact {
-        source = "https://github.com/prosanteconnect/proof-of-concept/raw/main/copier-coller/PagesApache/PagesApache.zip"
+        source = "https://github.com/ansforge/PSC-POC/raw/main/copier-coller/PagesApache/PagesApache.zip"
         destination = "local/cc"
         mode = "any"
         }		

@@ -62,7 +62,7 @@ job "gravitee-apim-gateway" {
         task "apim-gateway" {
 		    
 	    artifact {
-	    	source	= "https://github.com/prosanteconnect/proof-of-concept/releases/download/v1.0.0/api-proxy-1.0.1.zip"
+	    	source	= "https://github.com/ansforge/PSC-POC/releases/download/v1.0.0/api-proxy-1.0.1.zip"
 		    options {
 			  archive = false
 	    	}

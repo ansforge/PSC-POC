@@ -38,7 +38,7 @@ job "remote-cache-api" {
           read_only   = false
       }	
       artifact {
-        source = "https://github.com/prosanteconnect/proof-of-concept/raw/main/remote-cache/resources/json-schemas.zip"
+        source = "https://github.com/ansforge/PSC-POC/raw/main/remote-cache/resources/json-schemas.zip"
       }
 
       config {

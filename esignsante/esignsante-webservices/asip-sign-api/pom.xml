@@ -13,7 +13,7 @@
 		<java.version>1.8</java.version>
 	</properties>
 	<scm>
-		<developerConnection>scm:git:https://github.com/prosanteconnect/proof-of-concept</developerConnection>
+		<developerConnection>scm:git:https://github.com/ansforge/PSC-POC</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
 
